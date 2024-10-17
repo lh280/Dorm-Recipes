@@ -1,7 +1,7 @@
 {
   "name": "project-lincoln",
   "description": "An application to help connect students who want to cook around campus through recipes.",
-  "respository": "https://github.com/csci312-f24/project-lincoln/",
+  "repository": "https://github.com/csci312-f24/project-lincoln/",
   "version": "0.1.0",
   "private": true,
   "contributors": [
