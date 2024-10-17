@@ -1,16 +1,18 @@
 {
-  "name": "project-skeleton",
+  "name": "project-lincoln",
+  "description": "An application to help connect students who want to cook around campus through recipes.",
+  "respository":"https://github.com/csci312-f24/project-lincoln/",
   "version": "0.1.0",
   "private": true,
   "contributors": [
     "Col McDermott <cmcdermott@middlebury.edu>",
-    "Lauren Clarke <lclarke@middlebury.edu",
-    "Elise Scott <escott@middlbebury.edu",
-    "Grayson Wade <gwade@middlbebury.edu",
-    "Yahya Rahhawi <yrahhawi@middlbebury.edu",
-    "Noah Price <nprice@middlbebury.edu",
-    "Hannah Mendbayar <hmendbayar@middlbebury.edu",
-    "Julian Grijalva <jgrijalva@middlbebury.edu"
+    "Lauren Clarke <lclarke@middlebury.edu>",
+    "Elise Scott <escott@middlbebury.edu>",
+    "Grayson Wade <gwade@middlbebury.edu>",
+    "Yahya Rahhawi <yrahhawi@middlbebury.edu>",
+    "Noah Price <nprice@middlbebury.edu>",
+    "Hannah Mendbayar <hmendbayar@middlbebury.edu>",
+    "Julian Grijalva <jgrijalva@middlbebury.edu>"
   ],
   "scripts": {
     "dev": "next dev",
