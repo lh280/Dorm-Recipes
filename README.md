@@ -15,6 +15,8 @@ This is an application to help connect students who want to cook around campus t
 - login
 - home page
   - search bar
+  - recommendations
+  - things to make now (time of day)
 - profile
 - recipe view
 - add recipe page
@@ -27,7 +29,7 @@ This is an application to help connect students who want to cook around campus t
   - view the ratings others have given them
 * see the reviews they have left on other recipes
 * keep a personal pantry of their own ingredients
-* see other users' public recipes and rate them
+* see other users' public recipes (title, author, other ratings, etc.) and rate them
 * search for recipes by name, ingredients, time, rating, or price
 
 ## Creation
