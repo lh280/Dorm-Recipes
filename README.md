@@ -2,15 +2,15 @@
 
 ![workflow status](https://github.com/csci312-f24/project-lincoln/actions/workflows/node.js.yml/badge.svg)
 
-#### Deployed application
+### Deployed application
 
 https://lincoln.csci312.dev
 
-#### Description
+### Description
 
 This is an application to help connect students who want to cook around campus through recipes.
 
-The application will include:
+#### The application will include:
 
 - login
 - home page
@@ -18,7 +18,8 @@ The application will include:
 - profile
 - recipe view
 - add recipe page
-  Users will be able to:
+
+#### Users will be able to:
 
 * upload their own recipes with photo, description, price range, difficulty, prep & cook time, ingredients & tools, and steps
 * view and edit their own recipes
