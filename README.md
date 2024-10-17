@@ -1,6 +1,33 @@
-# Project Skeleton
+# Project Lincoln
 
-TODO: Implement CI badges, provide a link to the deployed version of your application, and provide a brief description of the application functionality.
+![workflow status](https://github.com/csci312-f24/project-lincoln/actions/workflows/node.js.yml/badge.svg)
+
+#### Deployed application
+
+https://lincoln.csci312.dev
+
+#### Description
+
+This is an application to help connect students who want to cook around campus through recipes.
+
+The application will include:
+
+- login
+- home page
+  - search bar
+- profile
+- recipe view
+- add recipe page
+  Users will be able to:
+
+* upload their own recipes with photo, description, price range, difficulty, prep & cook time, ingredients & tools, and steps
+* view and edit their own recipes
+  - make them public or private
+  - view the ratings others have given them
+* see the reviews they have left on other recipes
+* keep a personal pantry of their own ingredients
+* see other users' public recipes and rate them
+* search for recipes by name, ingredients, time, rating, or price
 
 ## Creation
 
