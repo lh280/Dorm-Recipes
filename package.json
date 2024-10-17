@@ -3,8 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "contributors": [
-    "Team Member 1 <member1@middlebury.edu>",
-    "Team Member 2 <member2@middlebury.edu>"
+    "Col McDermott <cmcdermott@middlebury.edu>",
+    "Lauren Clarke <lclarke@middlebury.edu",
+    "Elise Scott <escott@middlbebury.edu",
+    "Grayson Wade <gwade@middlbebury.edu",
+    "Yahya Rahhawi <yrahhawi@middlbebury.edu",
+    "Noah Price <nprice@middlbebury.edu",
+    "Hannah Mendbayar <hmendbayar@middlbebury.edu",
+    "Julian Grijalva <jgrijalva@middlbebury.edu"
   ],
   "scripts": {
     "dev": "next dev",
