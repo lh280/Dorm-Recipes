@@ -1,18 +1,45 @@
 {
   "name": "project-lincoln",
   "description": "An application to help connect students who want to cook around campus through recipes.",
-  "repository": "https://github.com/csci312-f24/project-lincoln/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csci312-f24/project-lincoln.git"
+  },
   "version": "0.1.0",
   "private": true,
   "contributors": [
-    "Col McDermott <cmcdermott@middlebury.edu>",
-    "Lauren Clarke <lclarke@middlebury.edu>",
-    "Elise Scott <escott@middlbebury.edu>",
-    "Grayson Wade <gwade@middlbebury.edu>",
-    "Yahya Rahhawi <yrahhawi@middlbebury.edu>",
-    "Noah Price <nprice@middlbebury.edu>",
-    "Hannah Mendbayar <hmendbayar@middlbebury.edu>",
-    "Julian Grijalva <jgrijalva@middlbebury.edu>"
+    {
+      "name": "Col McDermott",
+      "email": "cmcdermott@middlebury.edu"
+    },
+    {
+      "name": "Lauren Clarke",
+      "email": "lclarke@middlebury.edu"
+    },
+    {
+      "name": "Elise Scott",
+      "email": "escott@middlbebury.edu"
+    },
+    {
+      "name": "Grayson Wade",
+      "email": "gwade@middlbebury.edu"
+    },
+    {
+      "name": "Yahya Rahhawi",
+      "email": "yrahhawi@middlbebury.edu"
+    },
+    {
+      "name": "Noah Price",
+      "email": "nprice@middlbebury.edu"
+    },
+    {
+      "name": "Hannah Mendbayar",
+      "email": "hmendbayar@middlbebury.edu"
+    },
+    {
+      "name": "Julian Grijalva",
+      "email": "jgrijalva@middlbebury.edu"
+    }
   ],
   "scripts": {
     "dev": "next dev",
@@ -23,7 +50,14 @@
     "prepare": "node .husky/install.mjs"
   },
   "dependencies": {
+<<<<<<< HEAD
     "next": "^15.0.2",
+=======
+    "dotenv": "^16.4.5",
+    "knex": "^3.1.0",
+    "next": "^13.5.7",
+    "pg": "^8.13.1",
+>>>>>>> 18d60c2 (initial db files)
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -51,5 +85,13 @@
     "jest-extended": "^4.0.2",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3"
-  }
+  },
+  "main": "jest.config.js",
+  "keywords": [],
+  "author": "JulianGrijalva <jgrijalva@middlebury.edu>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/csci312-f24/project-lincoln/issues"
+  },
+  "homepage": "https://github.com/csci312-f24/project-lincoln#readme"
 }
