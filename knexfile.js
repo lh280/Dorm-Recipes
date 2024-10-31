@@ -1,25 +1,14 @@
 // knexfile.js
 require('dotenv').config();
 
-const defaultSettings = {
-    migrations: {
-      directory: "./db/migrations",
-    },
-    seeds: {
-      directory: "./db/seeds",
-    },
-  };
 
 
 module.exports = {
+    
   development: {
     client: 'pg',
     connection: {
-      host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT || 5432,
-      database: process.env.DB_NAME || 'postgres',
-      user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres'
+        connectionString: DATABASE_URL,
     },
     migrations: {
       directory: './db/migrations'
@@ -31,17 +20,16 @@ module.exports = {
   
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: {
+        connectionString: DATABASE_URL,
+        ssl: true,
+      },
     migrations: {
       directory: './db/migrations'
     },
     seeds: {
       directory: './db/seeds'
     },
-    pool: {
-      min: 2,
-      max: 10
-    }
   }
 };
 
