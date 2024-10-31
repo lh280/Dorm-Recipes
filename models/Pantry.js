@@ -40,7 +40,6 @@ export default class Pantry extends BaseModel {
     return {
       type: "object",
       required: ["user_id", "ingredient_id", "quantity", "unit"],
-
       properties: {
         user_id: { type: "integer" },
         ingredient_id: { type: "integer" },
