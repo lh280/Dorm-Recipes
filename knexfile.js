@@ -3,21 +3,21 @@ require('dotenv').config();
 
 const defaultSettings = {
     migrations: {
-      directory: "./knex/migrations",
+      directory: "./db/migrations",
     },
     seeds: {
-      directory: "./knex/seeds",
+      directory: "./db/seeds",
     },
   };
 
 
 module.exports = {
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       host: process.env.DB_HOST || 'localhost',
       port: process.env.DB_PORT || 5432,
-      database: process.env.DB_NAME || 'recipe_app_dev',
+      database: process.env.DB_NAME || 'postgres',
       user: process.env.DB_USER || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres'
     },
@@ -30,7 +30,7 @@ module.exports = {
   },
   
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
       directory: './db/migrations'
