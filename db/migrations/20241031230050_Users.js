@@ -3,7 +3,12 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  
+    return knex.schema
+    .createTable('User', table => {
+      table.increments('id').primary();
+      table.string('username').notNullable().unique();
+      table.timestamps(true, true);
+    })
 };
 
 /**
@@ -11,5 +16,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists("User");
 };
