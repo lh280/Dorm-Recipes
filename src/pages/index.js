@@ -6,9 +6,12 @@ import Section from "../components/Section";
 import RecipeShape from "../components/RecipeShape";
 
 export default function Home({ setCurrentRecipe, currentRecipe }) {
+<<<<<<< HEAD
   if (!currentRecipe) {
     return <div>Loading</div>; // Temporary fix: will be removed once DB is integrated
   }
+=======
+>>>>>>> 7ca1b94 (RecipeView: can view a basic tempRecipe without styling)
   // tempSections does not represent the actual composition of a section object
   const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
   const openRecipe = () => {
@@ -53,5 +56,9 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
 
 Home.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
+<<<<<<< HEAD
   currentRecipe: RecipeShape,
+=======
+  currentRecipe: RecipeShape.isRequired,
+>>>>>>> 7ca1b94 (RecipeView: can view a basic tempRecipe without styling)
 };
