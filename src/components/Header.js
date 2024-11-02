@@ -1,13 +1,18 @@
-export default function Header() {
-  const goToAcount = () => {
+import PropTypes from "prop-types";
+
+export default function Header({ setCurrentRecipe }) {
+  const goToAccount = () => {
     // send user to acount view
+  };
+  const goHome = () => {
+    setCurrentRecipe();
   };
   return (
     <div>
-      <h1>
+      <h1 onClick={goHome}>
         Dorm Recipes
         <span>
-          <button type="button" onClick={goToAcount}>
+          <button type="button" onClick={goToAccount}>
             account
           </button>
         </span>
@@ -15,3 +20,7 @@ export default function Header() {
     </div>
   );
 }
+
+Header.propTypes = {
+  setCurrentRecipe: PropTypes.func.isRequired,
+};

@@ -1,21 +1,23 @@
-import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import RecipeShape from "../../components/RecipeShape";
 import Recipe from "../../components/Recipe";
+import Header from "../../components/Header";
 
-export default function RecipeView({ currentRecipe }) {
-    return (
+export default function RecipeView({ currentRecipe, setCurrentRecipe }) {
+  return (
     <>
-      <Head>
+      <div>
+        <Header setCurrentRecipe={setCurrentRecipe} />
         <title>Create Next App</title>
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <Recipe currentRecipe = {currentRecipe} />
+      </div>
+      <Recipe currentRecipe={currentRecipe} />
     </>
-    );
+  );
 }
 
 RecipeView.propTypes = {
-    currentRecipe: RecipeShape.isRequired,
+  currentRecipe: RecipeShape.isRequired,
+  setCurrentRecipe: PropTypes.func.isRequired,
 };

@@ -8,12 +8,15 @@
 import PropTypes from "prop-types";
 
 const RecipeShape = PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    ingredients: PropTypes.string.isRequired,
-    steps: PropTypes.string.isRequired,
-    edited: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  img: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  rating: PropTypes.string.isRequired,
+  ingredients: PropTypes.string.isRequired,
+  steps: PropTypes.string.isRequired,
+  edited: PropTypes.string.isRequired,
 });
 
 export default RecipeShape;

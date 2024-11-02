@@ -5,7 +5,7 @@ export default function Section(title, openRecipe) {
     <li
       key={id}
       onClick={() => {
-        openRecipe(id);
+        openRecipe();
       }}
     >
       <img src="REPLACE ME" width="200" height="200" />

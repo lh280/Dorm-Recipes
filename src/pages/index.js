@@ -1,15 +1,17 @@
+import Image from "next/image";
+import PropTypes from "prop-types";
 import Head from "next/head";
 import Header from "../components/Header";
 import Section from "../components/Section";
+import RecipeShape from "../components/RecipeShape";
 
-export default function Home() {
+export default function Home({ setCurrentRecipe, currentRecipe }) {
   // tempSections does not represent the actual composition of a section object
   const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
-  const openRecipe = (id) => {
-    // TODO handle pass to recipe page
-    console.log(id); // left in for verification
+  const openRecipe = () => {
+    const recipe = currentRecipe; // TODO: Replace with database recipe
+    setCurrentRecipe(recipe);
   };
-
   const sections = tempSections.map(({ title }) => Section(title, openRecipe));
   return (
     <>
@@ -19,19 +21,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <Header />
+        <Header setCurrentRecipe={setCurrentRecipe} />
         <form>
           <input type="text" placeholder="Search Recipes" name="search" />
         </form>
         <button type="button">Add Recipe</button>
         <div
           onClick={() => {
-            openRecipe("no id yet");
+            openRecipe();
           }}
         >
           <h2>Featured Recipe:</h2>
-          <img src="REPLACE ME" height="350" width="350" />
-          <h4>Recipe title</h4>
+          <Image src={currentRecipe.img} height="350" width="350" />
+          <h4>{currentRecipe.title}</h4>
           <p>
             This is the recipe description This is the recipe description This
             is the recipe description This is the recipe description This is the
@@ -45,3 +47,8 @@ export default function Home() {
     </>
   );
 }
+
+Home.propTypes = {
+  setCurrentRecipe: PropTypes.func.isRequired,
+  currentRecipe: RecipeShape.isRequired,
+};
