@@ -41,5 +41,5 @@ export default function Recipe({ currentRecipe }) {
 }
 
 Recipe.propTypes = {
-  currentRecipe: RecipeShape.isRequired,
+  currentRecipe: RecipeShape,
 };
