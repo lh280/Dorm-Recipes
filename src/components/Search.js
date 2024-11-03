@@ -14,7 +14,7 @@ export default function Search({ search }) {
     if (!search) return [];
     try {
       const response = await fetch(
-        `/search?q=${encodeURIComponent(search)}`, // TODO: change to database & confirm routing for recipe retrieval
+        `/search?q=${encodeURIComponent(search)}`, // TODO: set API routes - connect to database & confirm routing for recipe retrieval
       );
       if (!response.ok) {
         throw new Error(`Failed to fetch recipes: ${response.status}`);

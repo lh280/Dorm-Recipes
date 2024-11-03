@@ -27,26 +27,10 @@ export default function SearchBar({ setCurrentRecipe /* currentRecipe */ }) {
   };
 
   useEffect(() => {
-    // retrieve recipes
-    const fetchRecipes = async () => {
-      try {
-        const response = await fetch(
-          // TODO: change so only search retrieves recipes, NOT here
-          `/api/search?q=${search}`, // TODO: set API routes - connect to database & confirm routing for recipe retrieval
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch recipes: ${response.status}`);
-        }
-        const json = await response.json();
-        setRecipes(json);
-      } catch (error) {
-        console.error(`Failed to fetch recipes:`, error.message); // eslint-disable-line
-      }
-    };
     if (search) {
-      fetchRecipes();
+      handleSearch();
     }
-  }, [search]);
+  }, [search]); // eslint-disable-line
 
   return (
     <div>
