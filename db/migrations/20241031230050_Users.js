@@ -7,7 +7,7 @@ exports.up = function(knex) {
     .createTable('User', table => {
       table.increments('id').primary();
       table.string('username').notNullable().unique();
-      table.timestamps(true, true);
+      table.string('created_at').notNullable();
     })
 };
 
