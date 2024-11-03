@@ -7,11 +7,11 @@ const { DATABASE_URL } = loadEnvConfig("./", dev).combinedEnv;
 
 
 module.exports = {
-    
+
   development: {
     client: 'pg',
     connection: {
-        connectionString: DATABASE_URL,
+      connectionString: DATABASE_URL,
     },
     migrations: {
       directory: './db/migrations'
@@ -20,13 +20,13 @@ module.exports = {
       directory: './db/seeds'
     }
   },
-  
+
   production: {
     client: 'pg',
     connection: {
-        connectionString: DATABASE_URL,
-        ssl: true,
-      },
+      connectionString: DATABASE_URL,
+      ssl: true,
+    },
     migrations: {
       directory: './db/migrations'
     },
