@@ -3,14 +3,14 @@
  * @returns { Promise<void> }
  */
 exports.up = function Create(knex) {
-    return knex.schema.createTable('Recipe', table => {
-        table.increments('id').primary();
-        table.string('title').notNullable();
-        table.text('description');
-        table.text('instructions');
-        table.integer('user_id').references('id').inTable('users');
-        table.timestamps(true, true);
-      });
+  return knex.schema.createTable("Recipe", (table) => {
+    table.increments("recipe_id").primary();
+    table.string("title").notNullable();
+    table.text("description");
+    table.text("instructions");
+    table.integer("user_id").references("user_id").inTable("users");
+    table.timestamps(true, true);
+  });
 };
 
 /**
