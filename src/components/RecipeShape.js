@@ -13,9 +13,8 @@ const RecipeShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
-  rating: PropTypes.string.isRequired,
-  ingredients: PropTypes.string.isRequired,
-  steps: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  steps: PropTypes.arrayOf(PropTypes.string).isRequired,
   edited: PropTypes.string.isRequired,
 });
 

@@ -23,11 +23,33 @@ const tempRecipe = {
   edited: "2024-11-02",
 };
 
+const tempRatings = [
+  {
+    id: 0,
+    recId: 0,
+    userId: 0,
+    value: 2,
+  },
+  {
+    id: 0,
+    recId: 0,
+    userId: 1,
+    value: 3,
+  },
+  {
+    id: 0,
+    recId: 0,
+    userId: 2,
+    value: 4,
+  },
+];
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   // TODO: route to different recipes (once using DB)
   // const { id } = router.query;
   const currentRecipe = tempRecipe;
+  const ratings = tempRatings;
   function setCurrentRecipe(recipe) {
     const addr =
       recipe !== undefined ? `/recipes/${recipe.id.toString()}` : "/";
@@ -37,6 +59,7 @@ export default function App({ Component, pageProps }) {
     ...pageProps,
     currentRecipe,
     setCurrentRecipe,
+    ratings,
   };
   return <Component {...props} />;
 }

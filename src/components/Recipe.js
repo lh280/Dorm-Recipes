@@ -1,15 +1,18 @@
 /* 
   Recipe.js
 
-  The Recipe displays the contents of a recipe.
+  Displays the contents of a recipe.
 
   props:
     currentRecipe - The recipe to render
 */
+import PropTypes from "prop-types";
 import Image from "next/image";
 import RecipeShape from "./RecipeShape";
+import RatingShape from "./RatingShape";
+import Rating from "./Rating";
 
-export default function Recipe({ currentRecipe }) {
+export default function Recipe({ currentRecipe, ratings }) {
   const editDate = new Date(currentRecipe.edited).toLocaleString();
   const ings = currentRecipe.ingredients.map((ing) => (
     <li key={ing} data-test-id="ingredient">
@@ -26,7 +29,7 @@ export default function Recipe({ currentRecipe }) {
       <h2>{currentRecipe.title}</h2>
       <Image src={currentRecipe.img} width="400" height="400" />
       <p>Duration: {currentRecipe.time}</p>
-      <p>Rating: {currentRecipe.rating}</p>
+      <Rating ratings={ratings} currentRecipe={currentRecipe} />
       <div>
         <h3>Ingredients</h3>
         <ul>{ings}</ul>
@@ -42,4 +45,5 @@ export default function Recipe({ currentRecipe }) {
 
 Recipe.propTypes = {
   currentRecipe: RecipeShape,
+  ratings: PropTypes.arrayOf(RatingShape).isRequired,
 };
