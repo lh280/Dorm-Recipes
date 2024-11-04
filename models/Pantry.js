@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable */
 import { Model } from "objection";
 import BaseModel from "./BaseModel";
 import User from "./User";
@@ -45,10 +46,6 @@ export default class Pantry extends BaseModel {
         ingredient_id: { type: "integer" },
         quantity: { type: "number", minimum: 0 },
         unit: { type: "string", maxLength: 20 },
-        last_updated: {
-          type: "string",
-          format: "date-time",
-        },
       },
     };
   }
@@ -56,15 +53,21 @@ export default class Pantry extends BaseModel {
   static get modifiers() {
     return {
       defaultSelects(builder) {
-        builder.select(
-          "user_pantry.*",
-          "ingredients.name as ingredient_name"
-        )
-        .join("ingredients", "user_pantry.ingredient_id", "ingredients.ingredient_id");
+        builder
+          .select("user_pantry.*", "ingredients.name as ingredient_name")
+          .join(
+            "ingredients",
+            "user_pantry.ingredient_id",
+            "ingredients.ingredient_id",
+          );
       },
       orderByIngredientName(builder) {
         builder
-          .join("ingredients", "user_pantry.ingredient_id", "ingredients.ingredient_id")
+          .join(
+            "ingredients",
+            "user_pantry.ingredient_id",
+            "ingredients.ingredient_id",
+          )
           .orderBy("ingredients.name");
       },
       lowQuantity(builder) {

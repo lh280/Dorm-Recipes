@@ -3,18 +3,18 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("Pantry", (table) => {
+  return knex.schema.createTable("pantry", (table) => {
     table
       .integer("user_id")
       .references("user_id")
-      .inTable("User")
+      .inTable("user")
       .onDelete("CASCADE");
     table
       .integer("ingredient_id")
       .references("ingredient_id")
-      .inTable("Ingredients")
+      .inTable("ingredient")
       .onDelete("CASCADE");
-    table.timestamps(true, true);
+    table.number("quantity").string("unit");
   });
 };
 
@@ -23,5 +23,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("Pantry");
+  return knex.schema.dropTableIfExists("pantry");
 };
