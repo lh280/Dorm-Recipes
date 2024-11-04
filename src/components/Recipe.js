@@ -41,9 +41,5 @@ export default function Recipe({ currentRecipe }) {
 }
 
 Recipe.propTypes = {
-<<<<<<< HEAD
   currentRecipe: RecipeShape,
-=======
-  currentRecipe: RecipeShape.isRequired,
->>>>>>> 7ca1b94 (RecipeView: can view a basic tempRecipe without styling)
 };
