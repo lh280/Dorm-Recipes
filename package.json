@@ -47,7 +47,7 @@
     "start": "next start",
     "test": "jest",
     "lint": "eslint src",
-    "prepare": "node .husky/install.mjs && husky install"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
