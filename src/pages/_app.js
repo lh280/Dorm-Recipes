@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import "@/styles/globals.css";
+import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
 
 const tempRecipe = {
   id: 0,
@@ -44,7 +45,8 @@ const tempRatings = [
   },
 ];
 
-export default function App({ Component, pageProps }) {
+export default function App(appProps) {
+  const { Component, pageProps } = appProps;
   const router = useRouter();
   // TODO: route to different recipes (once using DB)
   // const { id } = router.query;
@@ -61,7 +63,7 @@ export default function App({ Component, pageProps }) {
     setCurrentRecipe,
     ratings,
   };
-  return <Component {...props} />;
+  return (<AppCacheProvider {...appProps}><Component {...props} /></AppCacheProvider>);
 }
 
 App.propTypes = {
