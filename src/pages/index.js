@@ -1,16 +1,18 @@
+import { useRouter } from "next/router"; 
 import Head from "next/head";
 import Header from "../components/Header";
 import Section from "../components/Section";
 
 export default function Home() {
-  // tempSections does not represent the actual composition of a section object
+  const router = useRouter();
+
   const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
   const openRecipe = (id) => {
-    // TODO handle pass to recipe page
     console.log(id); // left in for verification
   };
 
   const sections = tempSections.map(({ title }) => Section(title, openRecipe));
+
   return (
     <>
       <Head>
@@ -23,7 +25,9 @@ export default function Home() {
         <form>
           <input type="text" placeholder="Search Recipes" name="search" />
         </form>
-        <button type="button">Add Recipe</button>
+        <button type="button" onClick={() => router.push("/add-recipe")}>
+          Add Recipe
+        </button>
         <div
           onClick={() => {
             openRecipe("no id yet");
@@ -33,11 +37,7 @@ export default function Home() {
           <img src="REPLACE ME" height="350" width="350" />
           <h4>Recipe title</h4>
           <p>
-            This is the recipe description This is the recipe description This
-            is the recipe description This is the recipe description This is the
-            recipe description This is the recipe description This is the recipe
-            description This is the recipe description This is the recipe
-            description This is the recipe description
+            This is the recipe description. Replace with actual content as needed.
           </p>
         </div>
         {sections}
