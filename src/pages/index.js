@@ -1,11 +1,14 @@
 import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import RecipeShape from "../components/RecipeShape";
 
+
 export default function Home({ setCurrentRecipe, currentRecipe }) {
+  const router = useRouter();
   if (!currentRecipe) {
     return <div>Loading</div>; // Temporary fix: will be removed once DB is integrated
   }
@@ -16,6 +19,7 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
     setCurrentRecipe(recipe);
   };
   const sections = tempSections.map(({ title }) => Section(title, openRecipe));
+
   return (
     <>
       <Head>
@@ -28,7 +32,9 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
         <form>
           <input type="text" placeholder="Search Recipes" name="search" />
         </form>
-        <button type="button">Add Recipe</button>
+        <button type="button" onClick={() => router.push("/add-recipe")}>
+          Add Recipe
+        </button>
         <div
           onClick={() => {
             openRecipe();
@@ -38,11 +44,7 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
           <Image src={currentRecipe.img} height="350" width="350" />
           <h4>{currentRecipe.title}</h4>
           <p>
-            This is the recipe description This is the recipe description This
-            is the recipe description This is the recipe description This is the
-            recipe description This is the recipe description This is the recipe
-            description This is the recipe description This is the recipe
-            description This is the recipe description
+            This is the recipe description. Replace with actual content as needed.
           </p>
         </div>
         {sections}
