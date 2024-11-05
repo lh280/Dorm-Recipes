@@ -8,6 +8,8 @@ import RecipeShape from "../components/RecipeShape";
 import Header from "../components/Header";
 import Section from "../components/Section";
 
+// TODO: delete - comment for commit sprint1
+
 import theme from "../material/theme";
 
 export default function Home({ setCurrentRecipe, currentRecipe }) {
