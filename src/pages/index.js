@@ -2,10 +2,14 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { ThemeProvider } from "@mui/material/styles";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import RecipeShape from "../components/RecipeShape";
-
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import theme from "../material/theme";
 
 export default function Home({ setCurrentRecipe, currentRecipe }) {
   const router = useRouter();
@@ -21,35 +25,39 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
   const sections = tempSections.map(({ title }) => Section(title, openRecipe));
 
   return (
-    <>
+    <div>
       <Head>
         <title>Create Next App</title>
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main>
-        <Header setCurrentRecipe={setCurrentRecipe} />
-        <form>
-          <input type="text" placeholder="Search Recipes" name="search" />
-        </form>
-        <button type="button" onClick={() => router.push("/add-recipe")}>
-          Add Recipe
-        </button>
-        <div
-          onClick={() => {
-            openRecipe();
-          }}
-        >
-          <h2>Featured Recipe:</h2>
-          <Image src={currentRecipe.img} height="350" width="350" />
-          <h4>{currentRecipe.title}</h4>
-          <p>
-            This is the recipe description. Replace with actual content as needed.
-          </p>
-        </div>
-        {sections}
-      </main>
-    </>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+            <main>
+                <Header setCurrentRecipe={setCurrentRecipe} />
+              <form>
+                <input type="text" placeholder="Search Recipes" name="search" />
+              </form>
+              <button type="button" onClick={() => router.push("/add-recipe")}>
+                Add Recipe
+              </button>
+              <div
+                onClick={() => {
+                  openRecipe();
+                }}
+              >
+                <h2>Featured Recipe:</h2>
+                <Image src={currentRecipe.img} height="350" width="350" />
+                <h4>{currentRecipe.title}</h4>
+                <p>
+                  This is the recipe description. Replace with actual content as needed.
+                </p>
+              </div>
+              {sections}
+            </main>
+        </ThemeProvider>
+        
+    </div>
   );
 }
 
