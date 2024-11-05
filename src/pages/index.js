@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import RecipeShape from "../components/RecipeShape";
 import Header from "../components/Header";
 import Section from "../components/Section";
-import RecipeShape from "../components/RecipeShape";
-import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+
 import theme from "../material/theme";
 
 export default function Home({ setCurrentRecipe, currentRecipe }) {
