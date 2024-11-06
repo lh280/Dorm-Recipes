@@ -4,13 +4,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { Typography, Box, Button, Container } from "@mui/material";
+import Grid from '@mui/material/Grid2';
+import SearchBar from "@/components/SearchBar";
 import RecipeShape from "../components/RecipeShape";
 import Header from "../components/Header";
 import Section from "../components/Section";
-
 // TODO: delete - comment for commit sprint1
-
 import theme from "../material/theme";
+
 
 export default function Home({ setCurrentRecipe, currentRecipe }) {
   const router = useRouter();
@@ -28,33 +30,38 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Dorm Recipes</title>
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
             <main>
-                <Header setCurrentRecipe={setCurrentRecipe} />
-              <form>
-                <input type="text" placeholder="Search Recipes" name="search" />
-              </form>
-              <button type="button" onClick={() => router.push("/add-recipe")}>
-                Add Recipe
-              </button>
-              <div
-                onClick={() => {
-                  openRecipe();
-                }}
-              >
-                <h2>Featured Recipe:</h2>
-                <Image src={currentRecipe.img} height="350" width="350" />
-                <h4>{currentRecipe.title}</h4>
-                <p>
-                  This is the recipe description. Replace with actual content as needed.
-                </p>
-              </div>
-              {sections}
+              <Header setCurrentRecipe={setCurrentRecipe} />
+              <Container>
+                <SearchBar/>
+                <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
+              </Container>
+              <Container>
+                <Typography variant="h2">Featured Recipe:</Typography>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Grid onClick={() => {openRecipe()}} container spacing={2}>
+                    <Grid>
+                      <Image src={currentRecipe.img} height="325" width="325" />
+                    </Grid>
+                    <Grid size = {4}>
+                      <Typography variant="h5">{currentRecipe.title}</Typography>
+                      <Typography variant="body1">This is the recipe description. Replace with actual content as needed.</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Container>
+              <Container>
+                {sections}
+              </Container>
+              
+
+              
             </main>
         </ThemeProvider>
         
