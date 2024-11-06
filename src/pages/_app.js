@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import "@/styles/globals.css";
 import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
 
@@ -66,7 +65,7 @@ export default function App(appProps) {
   return (<AppCacheProvider {...appProps}><Component {...props} /></AppCacheProvider>);
 }
 
-App.propTypes = {
+/* App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.shape({}),
-};
+}; */
