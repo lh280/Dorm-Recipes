@@ -39,7 +39,7 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
             <main>
               <Header setCurrentRecipe={setCurrentRecipe} />
               <Container>
-                <SearchBar/>
+                <SearchBar setCurrentRecipe={()=>{}}/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
               </Container>
               <Container>
