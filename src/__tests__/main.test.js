@@ -20,7 +20,7 @@ describe("End-to-end testing", () => {
   });
 
   test("Render index.js component", () => {
-    render(<Home />);
+    render(<Home setCurrentRecipe={()=>{}}/>);
   });
 });
 
