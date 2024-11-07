@@ -22,7 +22,7 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
       key={rec.id}
       onClick={() => setCurrentRecipe(rec)}
     >
-      <Image src={rec.img} />
+      <Image src={rec.img} width="50" height="50" />
       <div class="container__text">
         <div class="container__text__rating">
           <p>{rec.rating}</p>

@@ -19,13 +19,56 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
   if (!currentRecipe) {
     return <div>Loading</div>; // Temporary fix: will be removed once DB is integrated
   }
+
+  const testRecipes = [{
+            id: 0,
+            img: "/pbj.jpg",
+            title: "PB & J Sandwich",
+            author: "Noah Price",
+            time: "< 15 minutes",
+            rating: "3.5 out of 5",
+            ingredients: [
+              "2 slices of bread",
+              "1 jar of peanut butter",
+              "1 jar of jelly",
+            ],
+            steps: [
+              "Apply the peanut butter to one of the slices of bread.",
+              "Apply the jelly to the other slice.",
+              "Close the sandwich.",
+            ],
+            edited: "2024-11-02",
+        },{
+            id: 1,
+            img: "/pbj.jpg",
+            title: "PB & J Sandwich 2",
+            author: "Grayson",
+            time: "< 15 minutes",
+            rating: "3.5 out of 5",
+            ingredients: [
+              "4 slices of bread",
+              "1 jar of peanut butter",
+              "1 jar of jelly",
+            ],
+            steps: [
+              "Apply the peanut butter to one of the slices of bread.",
+              "Apply the jelly to the other slice.",
+              "Close the sandwich.",
+            ],
+            edited: "2024-11-02",
+        }]
+
+
+  // tempCurrentUser is not finalized, should be replaced later
+  const tempCurrentUser = "Z"
+
   // tempSections does not represent the actual composition of a section object
   const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
   const openRecipe = () => {
     const recipe = currentRecipe; // TODO: Replace with database recipe
     setCurrentRecipe(recipe);
   };
-  const sections = tempSections.map(({ title }) => Section(title, openRecipe));
+  const sections = tempSections.map(({ title }) => (<Section key = {title} title={title} recipes={testRecipes} openRecipe={openRecipe} />)); // Using current Recipe as a place holder
 
   return (
     <div>
@@ -37,7 +80,7 @@ export default function Home({ setCurrentRecipe, currentRecipe }) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
             <main>
-              <Header setCurrentRecipe={setCurrentRecipe} />
+              <Header setCurrentRecipe={setCurrentRecipe} currentUser={tempCurrentUser} />
               <Container>
                 <SearchBar setCurrentRecipe={()=>{}}/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
