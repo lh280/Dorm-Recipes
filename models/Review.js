@@ -20,21 +20,4 @@ export default class Review extends BaseModel {
       },
     };
   }
-
-  static get idColumn() {
-    return "review_id"; // Changed from rating_id
-  }
-
-  // Method to format review data
-  reviewDetails() {
-    return {
-      review_id: this.review_id,
-      recipe_id: this.recipe_id,
-      user_id: this.user_id,
-      rating: this.rating,
-      content: this.content,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
-    };
-  }
 }

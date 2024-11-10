@@ -23,42 +23,4 @@ export default class Recipe extends BaseModel {
       },
     };
   }
-
-  static get idColumn() {
-    return "recipe_id";
-  }
-
-  recipeDetails() {
-    return {
-      recipe_id: this.recipe_id,
-      title: this.title,
-      description: this.description,
-      instructions: this.instructions,
-      prep_time: this.prep_time,
-      servings: this.servings,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
-      user_id: this.user_id,
-    };
-  }
-
-  static get modifiers() {
-    return {
-      defaultSelects(builder) {
-        builder.select(
-          "recipe_id",
-          "user_id",
-          "title",
-          "description",
-          "prep_time",
-          "servings",
-          "created_at",
-          "updated_at",
-        );
-      },
-      orderByRecent(builder) {
-        builder.orderBy("created_at", "desc");
-      },
-    };
-  }
 }

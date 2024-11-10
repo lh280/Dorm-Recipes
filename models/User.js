@@ -6,27 +6,15 @@ export default class User extends BaseModel {
     return "Users";
   }
 
-  static get idColumn() {
-    return "user_id";
-  }
-
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["username"],
+      required: ["username", "user_id"],
       properties: {
         user_id: { type: "integer" },
         username: { type: "string", minLength: 1, maxLength: 50 },
         created_at: { type: "string", format: "date-time" },
       },
-    };
-  }
-
-  userDetails() {
-    return {
-      user_id: this.user_id,
-      username: this.username,
-      created_at: this.created_at,
     };
   }
 }
