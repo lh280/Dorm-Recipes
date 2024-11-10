@@ -8,11 +8,16 @@ export default class Ingredient extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["name"],
+      required: ["ingredient_name"],
       properties: {
-        id: { type: "integer" },
-        name: { type: "string" },
+        ingredient_id: { type: "integer" },
+        ingredient_name: { type: "string" },
       },
     };
+  }
+
+  // to use this model as a relation in other models, idColumn getter
+  static get idColumn() {
+    return "ingredient_id";
   }
 }

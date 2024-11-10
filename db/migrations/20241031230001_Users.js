@@ -2,18 +2,16 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
+// Migration File
 exports.up = function (knex) {
-  return knex.schema.createTable("User", (table) => {
+  return knex.schema.createTable("Users", (table) => {
     table.increments("user_id").primary();
     table.string("username").notNullable().unique();
-    table.string("created_at").notNullable();
+    // Changed from string to timestamp, and let it auto-generate
+    table.timestamp("created_at");
   });
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("User");
+  return knex.schema.dropTableIfExists("Users");
 };
