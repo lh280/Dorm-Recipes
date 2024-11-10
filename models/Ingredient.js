@@ -4,6 +4,7 @@ export default class Ingredient extends BaseModel {
   static get tableName() {
     return "Ingredients";
   }
+  
 
   static get jsonSchema() {
     return {

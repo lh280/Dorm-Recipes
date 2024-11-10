@@ -5,6 +5,21 @@ export default class User extends BaseModel {
   static get tableName() {
     return "Users";
   }
+  static relationMappings = {
+    related: {
+      relation: Model.OneToManyRelation,
+      modelClass: User, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        through: {
+          // Pantry is the join table. These names must match the schema
+          from: "Pantry.user_id",
+          to: "Pantry.ingredient_id",
+        },
+        to: "Users.user_id",
+      },
+    },
+  };
 
   static get jsonSchema() {
     return {

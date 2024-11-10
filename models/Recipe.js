@@ -6,6 +6,22 @@ export default class Recipe extends BaseModel {
     return "Recipes";
   }
 
+  static relationMappings = {
+    related: {
+      relation: Model.OneToManyRelation,
+      modelClass: User, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Recipes.recipe_id",
+        through: {
+          // RelatedArticle is the join table. These names must match the schema
+          from: "Recipe_Ingredients.recipe_id",
+          to: "Recipe_Ingredients.ingredient_id",
+        },
+        to: "Recipes.recipe_id",
+      },
+    },
+  };
+
   static get jsonSchema() {
     return {
       type: "object",
