@@ -50,6 +50,7 @@
     "prepare": "node .husky/install.mjs && husky install"
   },
   "dependencies": {
+    "ajv-formats": "^2.1.1",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/server": "^11.11.0",
@@ -60,6 +61,8 @@
     "dotenv": "^16.4.5",
     "husky": "^8.0.0",
     "knex": "^3.1.0",
+    "next-connect": "^1.0.0",
+    "objection": "^3.1.5",
     "next": "^15.0.2",
     "pg": "^8.13.1",
     "prop-types": "^15.8.1",
