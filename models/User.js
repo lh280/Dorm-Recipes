@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
+import Model from "objection";
 import BaseModel from "./BaseModel";
 
 export default class User extends BaseModel {
   static get tableName() {
     return "Users";
   }
+
   static relationMappings = {
     related: {
       relation: Model.OneToManyRelation,
