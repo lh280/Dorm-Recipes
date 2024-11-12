@@ -1,4 +1,5 @@
 // Model File
+import { Model } from "objection";
 import BaseModel from "./BaseModel";
 
 export default class Recipe extends BaseModel {
@@ -9,7 +10,7 @@ export default class Recipe extends BaseModel {
   static relationMappings = {
     related: {
       relation: Model.OneToManyRelation,
-      modelClass: User, // eslint-disable-line no-use-before-define
+      modelClass: Recipe, // eslint-disable-line no-use-before-define
       join: {
         from: "Recipes.recipe_id",
         through: {
