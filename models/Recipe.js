@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // Model File
 import { Model } from "objection";
+=======
+import Model from "objection";
+>>>>>>> 984818210219429b8aa555afce75bd333546b84d
 import BaseModel from "./BaseModel";
 
 export default class Recipe extends BaseModel {
