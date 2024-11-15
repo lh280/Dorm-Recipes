@@ -1,10 +1,9 @@
 /* eslint-disable camelcase */
-<<<<<<< HEAD
-import { Model } from "objection";
-=======
 import Model from "objection";
->>>>>>> 984818210219429b8aa555afce75bd333546b84d
 import BaseModel from "./BaseModel";
+import Pantry from "./Pantry"
+import Review from "./Review"
+import Recipe from "./Recipe"
 
 export default class User extends BaseModel {
   static get tableName() {
@@ -12,9 +11,9 @@ export default class User extends BaseModel {
   }
 
   static relationMappings = {
-    related: {
+    Pantry_items: {
       relation: Model.OneToManyRelation,
-      modelClass: User, // eslint-disable-line no-use-before-define
+      modelClass: Pantry, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",
         through: {
@@ -22,9 +21,36 @@ export default class User extends BaseModel {
           from: "Pantry.user_id",
           to: "Pantry.ingredient_id",
         },
-        to: "Users.user_id",
+        to: "Pantry.ingredient_id",
       },
     },
+    User_reviews: {
+      relation: Model.OneToManyRelation,
+      modelClass: Review, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        through: {
+          // Review is the join table. These names must match the schema
+          from: "Review.user_id",
+          to: "Review.review_id",
+        },
+        to: "Review.review_id",
+      },
+    },
+    User_Recipes: {
+      relation: Model.OneToManyRelation,
+      modelClass: Recipe, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        through: {
+          // Review is the join table. These names must match the schema
+          from: "Recipe.user_id",
+          to: "Recipe.recipe_id",
+        },
+        to: "Recipe.recipe_id",
+      },
+    },
+    
   };
 
   static get jsonSchema() {

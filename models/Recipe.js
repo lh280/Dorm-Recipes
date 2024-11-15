@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-// Model File
-import { Model } from "objection";
-=======
 import Model from "objection";
->>>>>>> 984818210219429b8aa555afce75bd333546b84d
 import BaseModel from "./BaseModel";
+import Recipe_Ingredients from "./Recipe_Ingredients";
 
 export default class Recipe extends BaseModel {
   static get tableName() {
@@ -12,17 +8,17 @@ export default class Recipe extends BaseModel {
   }
 
   static relationMappings = {
-    related: {
-      relation: Model.OneToManyRelation,
-      modelClass: Recipe, // eslint-disable-line no-use-before-define
+    ingredients_used: {
+      relation: Model.ManyToManyRelation,
+      modelClass: Recipe_Ingredients, // eslint-disable-line no-use-before-define
       join: {
         from: "Recipes.recipe_id",
         through: {
-          // RelatedArticle is the join table. These names must match the schema
+          // Recipe_Ingredients is the join table. These names must match the schema
           from: "Recipe_Ingredients.recipe_id",
           to: "Recipe_Ingredients.ingredient_id",
         },
-        to: "Recipes.recipe_id",
+        to: "Ingredients.ingredient_id",
       },
     },
   };

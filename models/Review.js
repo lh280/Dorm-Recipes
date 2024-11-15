@@ -4,7 +4,7 @@ export default class Review extends BaseModel {
   static get tableName() {
     return "Reviews";
   }
-
+  
   static get jsonSchema() {
     return {
       type: "object",
