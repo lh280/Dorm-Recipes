@@ -9,5 +9,5 @@ exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex("Ingredients")
         .del()
-        .then(() => knex.insert("Ingredients", data));
+        .then(() => knex.batchInsert("Ingredients", data));
 };
