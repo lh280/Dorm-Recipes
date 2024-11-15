@@ -11,7 +11,7 @@ const RecipeShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   img: PropTypes.string,
   title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
+  authorId: PropTypes.number.isRequired,
   time: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   steps: PropTypes.arrayOf(PropTypes.string).isRequired,
