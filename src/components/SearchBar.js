@@ -12,7 +12,6 @@
 import { useState, useEffect } from "react";
 
 import PropTypes from "prop-types";
-import SearchIcon from '@mui/icons-material/Search';
 import {TextField, Box} from "@mui/material";
 import RecipesView from "./RecipesView";
 import Search from "./Search";
@@ -36,7 +35,6 @@ export default function SearchBar({ setCurrentRecipe /* currentRecipe */ }) {
   return (
     <div>
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-        <SearchIcon sx={{ fontSize: 40 }}/>
         <TextField
           type="text"
           placeholder="🔍 Search for a recipe..."
