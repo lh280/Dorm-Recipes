@@ -21,12 +21,14 @@ describe("Editor: Editor tests", () => {
     });
 
     test("Editor: editor is populated by article", () => {
-        render(<Editor currentArticle={{ ...recipe }} complete={handler} />);
+        render(<Editor currentRecipe={ {...recipe} } complete={handler} />);
         expect(screen.getByDisplayValue(recipe.title)).toBeVisible();
         expect(screen.getByDisplayValue(recipe.description)).toBeVisible();
-        expect(screen.getByDisplayValue(recipe.time)).toBeVisible();
-        expect(screen.getByDisplayValue(recipe.ingredients)).toBeVisible();
-        expect(screen.getByDisplayValue(recipe.steps)).toBeVisible();
+        expect(screen.getByDisplayValue(String(recipe.time))).toBeVisible();
+        expect(screen.getByDisplayValue(recipe.ingredients.join(", "))).toBeVisible();
+        
+        const stepsTextarea = screen.getByPlaceholderText("Enter cooking steps (one per line)");
+        expect(stepsTextarea.value.trim()).toBe(recipe.steps.join("\n").trim());
       });
 
       test("Editor: Props are not mutated", () => {
