@@ -1,6 +1,9 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
 import Recipe_Ingredients from "./Recipe_Ingredients";
+import Review from "./Review";
+import User from "./User";
+import Ingredient from "./Ingredient"
 
 export default class Recipe extends BaseModel {
   static get tableName() {
@@ -10,7 +13,7 @@ export default class Recipe extends BaseModel {
   static relationMappings = {
     ingredients_used: {
       relation: Model.ManyToManyRelation,
-      modelClass: Recipe_Ingredients, // eslint-disable-line no-use-before-define
+      modelClass: Ingredient, // eslint-disable-line no-use-before-define
       join: {
         from: "Recipes.recipe_id",
         through: {
@@ -21,12 +24,29 @@ export default class Recipe extends BaseModel {
         to: "Ingredients.ingredient_id",
       },
     },
+    recipe_reviews: {
+      relation: Model.OneToManyRelation,
+      modelClass: Review, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Recipes.recipe_id",
+        to: "Reviews.recipe_id",
+      },
+    },
+    recipe_user: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: User, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Recipes.user_id",
+        to: "Users.user_id",
+      },
+    },
+
   };
 
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["title"],
+      required: ["title", "user_id"],
       properties: {
         recipe_id: { type: "integer" },
         user_id: { type: "integer" },
