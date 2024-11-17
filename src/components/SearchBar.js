@@ -39,7 +39,7 @@ export default function SearchBar({ setCurrentRecipe /* currentRecipe */ }) {
         <SearchIcon sx={{ fontSize: 40 }}/>
         <TextField
           type="text"
-          placeholder="Search for a recipe..."
+          placeholder="🔍 Search for a recipe..."
           value={search}
           variant="standard"
           onChange={(s) => setSearch(s.target.value)}

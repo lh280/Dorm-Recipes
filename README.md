@@ -61,3 +61,24 @@ Tools for mocking fetch can be installed with
 ```
 
 Note we need to pin the `node-fetch` version due to breaking changes when used with Jest in newer versions.
+
+
+### Build Local Server
+
+```
+💻 npm install 
+💻 npm run build 
+💻 npm run start 
+```
+
+### Local Development Server
+
+```
+💻 npm run dev
+```
+
+### Database
+
+```
+💻 migrate latest
+```
