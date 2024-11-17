@@ -1,5 +1,0 @@
-/*
-    UserEditor 
-
-    edits a users info
-*/
