@@ -1,6 +1,7 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
 import Recipe_Ingredients from "./Recipe_Ingredients";
+import Reviews from "./Review";
 
 export default class Recipe extends BaseModel {
   static get tableName() {
@@ -21,6 +22,14 @@ export default class Recipe extends BaseModel {
         to: "Ingredients.ingredient_id",
       },
     },
+    reviews: {
+      relation: Model.OneToManyRelation,
+      modelClass: Reviews,
+      join: {
+        from: Reviews.recipe_id,
+        to: Recipe.recipe_id,
+      }
+    }
   };
 
   static get jsonSchema() {
