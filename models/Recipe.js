@@ -1,6 +1,6 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
-import Recipe_Ingredients from "./Recipe_Ingredients";
+// import Recipe_Ingredients from "./Recipe_Ingredients";
 import Review from "./Review";
 // import User from "./User";
 import Ingredient from "./Ingredient"
