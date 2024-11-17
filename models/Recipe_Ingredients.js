@@ -10,10 +10,6 @@ export default class Recipe_Ingredients extends BaseModel {
     return ["recipe_id", "ingredient_id"];
   }
 
-  static relationalMappings = {
-
-  }
-
   static get jsonSchema() {
     return {
       type: "object",
