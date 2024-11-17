@@ -1,6 +1,6 @@
 import { createRouter } from "next-connect";
 import User from "../../../../models/User";
-import { onError } from "../../../lib/middleware";
+import onError from "../../../lib/middleware";
 
 const router = createRouter();
 
