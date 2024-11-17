@@ -3,7 +3,7 @@ import BaseModel from "./BaseModel";
 
 export default class Recipe_Ingredients extends BaseModel {
   static get tableName() {
-    return "Recipe_ingredients";
+    return "Recipe_Ingredients";
   }
 
   static get idColumn() {
