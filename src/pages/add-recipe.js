@@ -1,108 +1,43 @@
-import Head from "next/head";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import Editor from "@/components/Editor";
 import styles from "@/styles/Home.module.css"; 
 
 export default function AddRecipe() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const recipeData = {
-      title,
-      description,
-      ingredients,
-      steps,
-    };
-
-    try {
-      const response = await fetch("/api/saveRecipe", {
+  const handleComplete = (recipe) => {
+    if (recipe) {
+      fetch("/api/saveRecipe", {
         method: "POST",
+        body: JSON.stringify(recipe),
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(recipeData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message); 
-        alert("Recipe saved successfully!");
-      
-        setTitle("");
-        setDescription("");
-        setIngredients("");
-        setSteps("");
-      } else {
-        console.error("Failed to save recipe");
-        alert("Failed to save recipe. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to save recipe");
+          return response.json();
+        })
+        .then((newRecipe) => {
+          alert("Recipe saved successfully!");
+          router.push(`/recipes/${newRecipe.id}`);
+        })
+        .catch((error) => {
+          console.error("Error saving recipe:", error);
+        });
+    } else {
+      router.back(); // Go back if canceled
     }
   };
 
   return (
-    <>
-      <Head>
-        <title>Add Recipe</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <main className={styles.main}>
-        <h1 className={styles.description}>Add a New Recipe</h1>
-        <form onSubmit={handleSubmit} className={styles.grid}>
-          <div className={styles.card}>
-            <label>
-              Recipe Title:
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </label>
-          </div>
-          <div className={styles.card}>
-            <label>
-              Description:
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </label>
-          </div>
-          <div className={styles.card}>
-            <label>
-              Ingredients:
-              <textarea
-                value={ingredients}
-                onChange={(e) => setIngredients(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </label>
-          </div>
-          <div className={styles.card}>
-            <label>
-              Steps:
-              <textarea
-                value={steps}
-                onChange={(e) => setSteps(e.target.value)}
-                required
-                className={styles.input}
-              />
-            </label>
-          </div>
-          <button type="submit" className={styles.card}>Submit Recipe</button>
-        </form>
+    <div className={styles.container}>
+      <main>
+        <h1 className="title">Add a New Recipe</h1>
+        <Editor complete={handleComplete} />
       </main>
-    </>
+      <footer>Recipe App</footer>
+    </div>
   );
 }
