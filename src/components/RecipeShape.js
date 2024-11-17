@@ -9,10 +9,12 @@ import PropTypes from "prop-types";
 
 const RecipeShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
+  authorId: PropTypes.number.isRequired,
   img: PropTypes.string,
   title: PropTypes.string.isRequired,
-  authorId: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
+  servings: PropTypes.number,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   steps: PropTypes.arrayOf(PropTypes.string).isRequired,
   edited: PropTypes.string.isRequired,
