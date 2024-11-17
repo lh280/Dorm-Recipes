@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 import { Model, AjvValidator } from "objection";
 import addFormats from "ajv-formats";
-import { knex } from "../../knex"; // Fix File path
+import { knex } from "../db/knex";
 
 class BaseModel extends Model {
   static createValidator() {

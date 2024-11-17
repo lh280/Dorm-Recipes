@@ -18,27 +18,27 @@
     },
     {
       "name": "Elise Scott",
-      "email": "emscott@middlbebury.edu"
+      "email": "emscott@middlebury.edu"
     },
     {
       "name": "Grayson Wade",
-      "email": "gdwade@middlbebury.edu"
+      "email": "gdwade@middlebury.edu"
     },
     {
       "name": "Yahya Rahhawi",
-      "email": "yrahhawi@middlbebury.edu"
+      "email": "yrahhawi@middlebury.edu"
     },
     {
       "name": "Noah Price",
-      "email": "nprice@middlbebury.edu"
+      "email": "nprice@middlebury.edu"
     },
     {
       "name": "Hannah Mendbayar",
-      "email": "hmendbayar@middlbebury.edu"
+      "email": "cmendbayar@middlebury.edu"
     },
     {
       "name": "Julian Grijalva",
-      "email": "jgrijalva@middlbebury.edu"
+      "email": "jgrijalva@middlebury.edu"
     }
   ],
   "scripts": {
@@ -50,7 +50,6 @@
     "prepare": "node .husky/install.mjs && husky install"
   },
   "dependencies": {
-    "ajv-formats": "^2.1.1",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/server": "^11.11.0",
@@ -58,12 +57,14 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "@mui/material-nextjs": "^6.1.6",
+    "ajv-formats": "^2.1.1",
+    "db-errors": "^0.2.3",
     "dotenv": "^16.4.5",
     "husky": "^8.0.0",
     "knex": "^3.1.0",
+    "next": "^15.0.2",
     "next-connect": "^1.0.0",
     "objection": "^3.1.5",
-    "next": "^15.0.2",
     "pg": "^8.13.1",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
