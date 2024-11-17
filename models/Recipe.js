@@ -2,7 +2,7 @@ import Model from "objection";
 import BaseModel from "./BaseModel";
 import Recipe_Ingredients from "./Recipe_Ingredients";
 import Review from "./Review";
-import User from "./User";
+// import User from "./User";
 import Ingredient from "./Ingredient"
 
 export default class Recipe extends BaseModel {
@@ -32,14 +32,14 @@ export default class Recipe extends BaseModel {
         to: "Reviews.recipe_id",
       },
     },
-    recipe_user: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: User, // eslint-disable-line no-use-before-define
-      join: {
-        from: "Recipes.user_id",
-        to: "Users.user_id",
-      },
-    },
+    // recipe_user: {
+    //   relation: Model.BelongsToOneRelation,
+    //   modelClass: User, // eslint-disable-line no-use-before-define
+    //   join: {
+    //     from: "Recipes.user_id",
+    //     to: "Users.user_id",
+    //   },
+    // },
 
   };
 

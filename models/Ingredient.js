@@ -1,10 +1,25 @@
+import Model from "objection";
 import BaseModel from "./BaseModel";
 
 export default class Ingredient extends BaseModel {
   static get tableName() {
     return "Ingredients";
   }
-  
+
+  static relationalMappings = {
+    recipes: {
+      relation: Model.ManyToManyRelation,
+      modelClass: Ingredient,
+      join: {
+        from: "Ingredients.ingredient_id",
+        through: {
+          from: "Recipe_Ingredients.ingredient_id",
+          to: "Recipe_Ingredients.recipe_id"
+        },
+        to: "Recipe.recipe_id"
+      },
+    }
+  }
 
   static get jsonSchema() {
     return {

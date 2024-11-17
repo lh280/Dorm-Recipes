@@ -6,8 +6,6 @@ export default class Pantry extends BaseModel {
     return "Pantry";
   }
 
-  
-
   // Composite key
   static get idColumn() {
     return ["user_id", "ingredient_id"];

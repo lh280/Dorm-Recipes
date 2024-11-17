@@ -2,7 +2,7 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
 import Ingredient from "./Ingredient"
-import Pantry from "./Pantry"
+// import Pantry from "./Pantry"
 import Review from "./Review"
 import Recipe from "./Recipe"
 
@@ -13,7 +13,7 @@ export default class User extends BaseModel {
 
   static relationMappings = {
     pantry_items: {
-      relation: Model.ManyToManyRelation,
+      relation: Model.OneToManyRelation,
       modelClass: Ingredient, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",
@@ -41,7 +41,7 @@ export default class User extends BaseModel {
         to: "Recipes.user_id",
       },
     },
-    
+
   };
 
   static get jsonSchema() {
