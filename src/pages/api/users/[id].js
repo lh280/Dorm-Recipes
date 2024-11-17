@@ -26,6 +26,7 @@ router
       );
       res.status(200).json(updatedRecord);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       res.status(500).json({ error: "Failed to update user" });
     }

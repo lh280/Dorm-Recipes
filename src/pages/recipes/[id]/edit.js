@@ -35,6 +35,7 @@ export default function RecipeEditor({ currentRecipe , setCurrentRecipe}){
       
             setCurrentRecipe(updated);
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error("Error updating recipe: ", error);
           }
         };

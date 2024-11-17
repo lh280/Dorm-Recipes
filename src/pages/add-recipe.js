@@ -20,10 +20,12 @@ export default function AddRecipe() {
           return response.json();
         })
         .then((newRecipe) => {
+          // eslint-disable-next-line no-alert
           alert("Recipe saved successfully!");
           router.push(`/recipes/${newRecipe.id}`);
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.error("Error saving recipe:", error);
         });
     } else {

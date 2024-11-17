@@ -32,6 +32,7 @@ router
       
       return res.status(201).json(newRecipe);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       return res.status(500).json({ error: "Failed to create recipe" });
     }
