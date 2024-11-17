@@ -13,7 +13,7 @@ const RecipeShape = PropTypes.shape({
   img: PropTypes.string,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
   servings: PropTypes.number,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   steps: PropTypes.arrayOf(PropTypes.string).isRequired,
