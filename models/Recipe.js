@@ -25,7 +25,7 @@ export default class Recipe extends BaseModel {
       },
     },
     recipe_reviews: {
-      relation: Model.OneToManyRelation,
+      relation: Model.HasManyRelation,
       modelClass: Review, // eslint-disable-line no-use-before-define
       join: {
         from: "Recipes.recipe_id",
