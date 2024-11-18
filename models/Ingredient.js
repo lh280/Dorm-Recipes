@@ -6,7 +6,7 @@ export default class Ingredient extends BaseModel {
     return "Ingredients";
   }
 
-  static relationalMappings = {
+  static relationMappings = {
     recipes: {
       relation: Model.ManyToManyRelation,
       modelClass: Ingredient,
