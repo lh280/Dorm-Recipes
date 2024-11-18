@@ -4,7 +4,7 @@
  */
 // Migration File
 exports.up = function (knex) {
-  return knex.schema.createTable("Recipe_ingredients", (table) => {
+  return knex.schema.createTable("Recipe_Ingredients", (table) => {
     table
       .integer("recipe_id")
       .references("recipe_id")

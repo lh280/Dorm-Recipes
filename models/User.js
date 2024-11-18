@@ -1,10 +1,48 @@
 /* eslint-disable camelcase */
+import Model from "objection";
 import BaseModel from "./BaseModel";
+import Ingredient from "./Ingredient"
+// import Pantry from "./Pantry"
+import Review from "./Review"
+import Recipe from "./Recipe"
 
 export default class User extends BaseModel {
   static get tableName() {
     return "Users";
   }
+
+  static relationMappings = {
+    pantry_items: {
+      relation: Model.OneToManyRelation,
+      modelClass: Ingredient, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        through: {
+          // Pantry is the join table. These names must match the schema
+          from: "Pantry.user_id",
+          to: "Pantry.ingredient_id",
+        },
+        to: "Ingredients.ingredient_id",
+      },
+    },
+    user_reviews: {
+      relation: Model.OneToManyRelation,
+      modelClass: Review, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        to: "Reviews.user_id",
+      },
+    },
+    user_recipes: {
+      relation: Model.OneToManyRelation,
+      modelClass: Recipe, // eslint-disable-line no-use-before-define
+      join: {
+        from: "Users.user_id",
+        to: "Recipes.user_id",
+      },
+    },
+
+  };
 
   static get jsonSchema() {
     return {
