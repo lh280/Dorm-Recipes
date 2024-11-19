@@ -61,3 +61,38 @@ Tools for mocking fetch can be installed with
 ```
 
 Note we need to pin the `node-fetch` version due to breaking changes when used with Jest in newer versions.
+
+
+### Build Local Server
+
+```
+💻 npm install 
+💻 npm run build 
+💻 npm run start 
+```
+
+### Development Server
+
+Run Docker on your machine.
+
+*For Windows users ONLY, 
+- make sure to change `"dev": "node ./dev-runner.js next dev",` to `"dev": "next dev",` in `package.json`.
+- before STARTING the server, run:
+
+```
+💻 docker compose -f docker-compose.dev.yml up -d
+```
+
+Then:
+
+```
+💻 npm run dev
+💻 npx knex migrate:latest
+💻 npx knex seed:run
+```
+
+*For Windows users ONLY, before STOPPING the server, run:
+
+```
+💻 docker compose -f docker-compose.dev.yml down
+```
