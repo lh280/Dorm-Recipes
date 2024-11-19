@@ -19,7 +19,7 @@ router
         .withGraphFetched('ingredients_used') // Fetch related ingredients
         .where((builder) => {
           builder
-            .where('title', 'ilike', `%${query}%`)
+            .where('title', 'ilike', `%${query}%`) // TODO: consult with how things in DB look for if this structure works
             .orWhereExists(
               Recipe.relatedQuery('ingredients_used')
                 .where('ingredient_name', 'ilike', `%${query}%`)
@@ -41,6 +41,7 @@ router
   try {
     // eslint-disable-next-line 
     const { title, description, prep_time, instructions } = req.body;
+
     // Validate the required fields
     // eslint-disable-next-line
     if (!title || !description || !prep_time || !instructions) {

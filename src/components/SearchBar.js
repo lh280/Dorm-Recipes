@@ -8,28 +8,22 @@
     setCurrentRecipe - Function to call set current recipe to display
 */
 
-import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-import PropTypes from "prop-types";
 import {TextField, Box} from "@mui/material";
-import RecipesView from "./RecipesView";
-import Search from "./SearchFunc";
 
-export default function SearchBar({ setCurrentRecipe }) {
+export default function SearchBar() {
+  const router = useRouter();
   // initialize states
-  const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
 
-  const handleSearch = async () => {
-    const result = await Search(search);
-    setRecipes(result);
-  };
-
-  useEffect(() => {
-    if (search) {
-      handleSearch();
+  const handleSearch = (q) => {
+    if(q) {
+      setSearch(q);
+      router.push(`/search?q=${search}`);
     }
-  }, [search]); // eslint-disable-line
+  };
 
   return (
     <div>
@@ -42,12 +36,7 @@ export default function SearchBar({ setCurrentRecipe }) {
           onChange={(s) => setSearch(s.target.value)}
         />
         <button type="button" onClick={handleSearch}>Search</button>
-        <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} /> {/* TODO: delete- instead send current articles to main? */}
       </Box>
     </div>
   );
 }
-
-SearchBar.propTypes = {
-  setCurrentRecipe: PropTypes.func.isRequired,
-};
