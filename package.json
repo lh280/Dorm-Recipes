@@ -44,7 +44,7 @@
   "scripts": {
     "predev": "docker compose -f docker-compose.dev.yml up -d",
     "postdev": "docker compose -f docker-compose.dev.yml down",
-    "dev": "next dev",
+    "dev": "node ./dev-runner.js next dev",
     "build": "next build",
     "start": "next start",
     "test": "jest",
