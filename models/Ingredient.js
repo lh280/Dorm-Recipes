@@ -1,5 +1,6 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
+import Recipe from "./Recipe"
 
 export default class Ingredient extends BaseModel {
   static get tableName() {
@@ -9,7 +10,7 @@ export default class Ingredient extends BaseModel {
   static relationMappings = {
     recipes: {
       relation: Model.ManyToManyRelation,
-      modelClass: Ingredient,
+      modelClass: Recipe,
       join: {
         from: "Ingredients.ingredient_id",
         through: {

@@ -56,7 +56,7 @@ router
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-      res.status(500).json({ error: "Failed to delete tje recipe" });
+      res.status(500).json({ error: "Failed to delete the recipe" });
     }
   });
 

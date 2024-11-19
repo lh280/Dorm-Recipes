@@ -1,5 +1,6 @@
 import { createRouter } from "next-connect";
 import Recipe from "../../../../models/Recipe";
+import Ingredient from "../../../../models/Ingredient"
 import onError from "../../../lib/middleware";
 
 const router = createRouter();
@@ -15,8 +16,15 @@ router
 
       // search in both title and ingredients
       const recipes = await Recipe.query()
-        .where('title', "ilike", `%${query}%`)
-        .orWhere('ingredients', "ilike", `%${query}%`); // TODO: check w DB people how to search the ingredients
+        .withGraphFetched('ingredients_used') // Fetch related ingredients
+        .where((builder) => {
+          builder
+            .where('title', 'ilike', `%${query}%`)
+            .orWhereExists(
+              Recipe.relatedQuery('ingredients_used')
+                .where('ingredient_name', 'ilike', `%${query}%`)
+            );
+        });
 
       if (recipes.length === 0) {
         return res.status(404).json({ message: "No recipes found matching the criteria." });
