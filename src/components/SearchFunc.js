@@ -1,7 +1,7 @@
 /*
   SearchFunc.js
 
-  This component fetches the user's search from the database.
+  This function fetches the user's search from the api.
 
    props:
     search - the search parameters
@@ -14,7 +14,7 @@ export default function Search({ search }) {
     if (!search) return [];
     try {
       const response = await fetch(
-        `/search?q=${encodeURIComponent(search)}`, // TODO: set API routes - connect to database & confirm routing for recipe retrieval
+        `/search?q=${search}`, 
       );
       if (!response.ok) {
         throw new Error(`Failed to fetch recipes: ${response.status}`);
