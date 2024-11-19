@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import styles from "@/styles/Home.module.css";
 import RecipeShape from "./RecipeShape";
 
 export default function Editor({ currentRecipe, complete }) {
@@ -33,7 +32,7 @@ export default function Editor({ currentRecipe, complete }) {
       };
     
       return (
-        <div className={styles.editor}>
+        <div>
           <input
             type="text"
             value={title}

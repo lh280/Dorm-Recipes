@@ -7,12 +7,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Typography, Box, Button, Container } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import SearchBar from "@/components/SearchBar";
+import UserShape from "@/components/UserShape";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import theme from "../material/theme";
 
 
-export default function Home({ setCurrentRecipe }) {
+export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   const router = useRouter();
 
   const testRecipes = [{
@@ -53,10 +54,6 @@ export default function Home({ setCurrentRecipe }) {
             edited: "2024-11-02",
         }]
 
-
-  // tempCurrentUser is not finalized, should be replaced later
-  const tempCurrentUser = "Z"
-
   // tempSections does not represent the actual composition of a section object
   const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
   const sections = tempSections.map(({ title }) => (<Section key = {title} title={title} recipes={testRecipes} openRecipe={setCurrentRecipe} />)); // Using current Recipe as a place holder
@@ -71,7 +68,7 @@ export default function Home({ setCurrentRecipe }) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
             <main>
-              <Header setCurrentRecipe={setCurrentRecipe} currentUser={tempCurrentUser} />
+              <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount}/>
               <Container>
                 <SearchBar setCurrentRecipe={()=>{}}/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
@@ -108,4 +105,6 @@ export default function Home({ setCurrentRecipe }) {
 
 Home.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
+  currentUser: UserShape,
+  viewAccount: PropTypes.func
 };
