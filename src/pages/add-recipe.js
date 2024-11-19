@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import Editor from "@/components/Editor";
-import styles from "@/styles/Home.module.css"; 
 
 export default function AddRecipe() {
   const router = useRouter();
@@ -34,7 +33,7 @@ export default function AddRecipe() {
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <main>
         <h1 className="title">Add a New Recipe</h1>
         <Editor complete={handleComplete} />
