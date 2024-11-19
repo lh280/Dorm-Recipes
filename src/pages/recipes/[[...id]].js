@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 import UserShape from "@/components/UserShape";
@@ -14,6 +15,9 @@ export default function RecipeView({
   viewAccount
 }) {
 
+  const router = useRouter();
+  const { id } = router.query; 
+
   // URL copier
   function shareRecipe() {
     const url = window.location.href;
@@ -27,6 +31,33 @@ export default function RecipeView({
     }
   }
 
+  const handleDelete = () => {
+    if (id) {
+      fetch(`/api/recipes/${id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to delete recipe");
+          return response.json();
+        })
+        .then(() => {
+          // eslint-disable-next-line no-alert
+          alert("Recipe deleted successfully");
+          router.back();
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error("Error deleting recipe:", error);
+        });
+    } else {
+      router.back(); // Go back if no id found
+    }
+  };
+
   return (
     <>
       <div>
@@ -37,6 +68,7 @@ export default function RecipeView({
       </div>
       <Recipe currentRecipe={currentRecipe} ratings={ratings} />
       <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
+      <Button variant="contained" onClick={handleDelete}>Delete Recipe</Button>
     </>
   );
 }
