@@ -3,6 +3,7 @@ import BaseModel from "./BaseModel";
 // import Recipe_Ingredients from "./Recipe_Ingredients";
 import Review from "./Review";
 // import User from "./User";
+// eslint-disable-next-line import/no-cycle
 import Ingredient from "./Ingredient"
 
 export default class Recipe extends BaseModel {

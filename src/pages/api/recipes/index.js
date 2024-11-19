@@ -1,6 +1,6 @@
 import { createRouter } from "next-connect";
 import Recipe from "../../../../models/Recipe";
-import Ingredient from "../../../../models/Ingredient"
+// import Ingredient from "../../../../models/Ingredient"
 import onError from "../../../lib/middleware";
 
 const router = createRouter();
