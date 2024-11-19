@@ -40,18 +40,25 @@ router
   })
 
   .delete(async (req, res) => {
+    const recipeID = parseInt(req.query.id, 10);
     try {
-      const { id } = req.query;
-
       // check if recipe exists before deletion
-      const recipe = await Recipe.query().findById(id);
-      if (!recipe) {
+      const recipe = await Recipe.query()
+        .where('recipe_id', recipeID)
+        .withGraphFetched("ingredients_used")
+        .first()
+        .throwIfNotFound();
+        res.status(200).json(recipe);
+      } catch (error) {
         res.status(404).json({ error: "Recipe not found" });
-        return;
       }
 
+    try {
       // delete the recipe
-      await Recipe.query().deleteById(id);
+      await Recipe.query()
+        .delete()
+        .where('recipe_id', recipeID)
+        .throwIfNotFound();
       res.status(200).json({ success: true, message: "Recipe deleted successfully" });
     } catch (error) {
       // eslint-disable-next-line no-console
