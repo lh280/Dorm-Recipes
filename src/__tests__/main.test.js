@@ -8,6 +8,7 @@ jest.mock("next/router", () => ({
 }));
 
 describe("End-to-end testing", () => {
+  const currentUser = {user_id:0,email:"test@gmail.com",created_at:"21 Jan 2024 00:00:00 GMT"}
   beforeEach(() => {
     
     useRouter.mockReturnValue({
@@ -20,7 +21,7 @@ describe("End-to-end testing", () => {
   });
 
   test("Render index.js component", () => {
-    render(<Home setCurrentRecipe={()=>{}}/>);
+    render(<Home setCurrentRecipe={()=>{}} currentUser={currentUser}/>);
   });
 });
 
