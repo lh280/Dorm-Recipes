@@ -6,37 +6,54 @@
   props:
     currentRecipe - The recipe to render
 */
-import PropTypes from "prop-types";
 import Image from "next/image";
 import RecipeShape from "./RecipeShape";
-import RatingShape from "./RatingShape";
-import Rating from "./Rating";
 
-export default function Recipe({ currentRecipe, ratings }) {
-  const editDate = new Date(currentRecipe.edited).toLocaleString();
+function parseInstructions(instructions) {
+  const sentenceRegex = /([.])\s*/;
+
+  // Split the paragraph by sentence-ending punctuation (., !, or ?) and retain the punctuation mark.
+  const sentences = instructions.split(sentenceRegex)
+                             .filter(Boolean)  // Remove any empty strings that may appear
+                             .map((sentence, index, array) => {
+                               // Combine the sentence with its punctuation if it's not the last part
+                               if (index % 2 === 0) {
+                                 return sentence.trim() + (array[index + 1] || '');
+                               }
+                               return null;
+                             })
+                             .filter(Boolean); // Filter out nulls
+  return sentences;
+}
+
+export default function Recipe({ currentRecipe }) {
+  if (!currentRecipe) {
+    return <h2>Loading...</h2>
+  }
+  const editDate = new Date(currentRecipe.updated_at).toLocaleString();
+  /*
   const ings = currentRecipe.ingredients.map((ing) => (
     <li key={ing} data-test-id="ingredient">
       {ing}
     </li>
   ));
-  const stps = currentRecipe.steps.map((stp) => (
+  */
+  const sentences = parseInstructions(currentRecipe.instructions);
+  const steps = sentences.map((stp) => (
     <li key={stp} data-test-id="step">
       {stp}
     </li>
   ));
-  return (
+  return ( // TODO: Re-add: ratings, ingredients
     <div>
       <h2>{currentRecipe.title}</h2>
-      <Image src={currentRecipe.img} width="400" height="400" />
-      <p>Duration: {currentRecipe.time}</p>
-      <Rating ratings={ratings} currentRecipe={currentRecipe} />
-      <div>
-        <h3>Ingredients</h3>
-        <ul>{ings}</ul>
-      </div>
+      <h3>{currentRecipe.description}</h3>
+      <Image src="/food.jpg" width="400" height="400" />
+      <p>Prep time: {currentRecipe.prep_time} min</p>
+      <p>Servings: {currentRecipe.servings}</p>
       <div>
         <h3>Instructions</h3>
-        <ul>{stps}</ul>
+        <ul>{steps}</ul>
       </div>
       <p>Last edited: {editDate}</p>
     </div>
@@ -44,6 +61,5 @@ export default function Recipe({ currentRecipe, ratings }) {
 }
 
 Recipe.propTypes = {
-  currentRecipe: RecipeShape,
-  ratings: PropTypes.arrayOf(RatingShape).isRequired,
+  currentRecipe: RecipeShape
 };
