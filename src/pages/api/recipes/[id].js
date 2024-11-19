@@ -15,10 +15,10 @@ router
         .throwIfNotFound();
       res.status(200).json(recipe);
     } catch (error) {
-      res.status(404).json({error: "Recipe not found"});
+      res.status(404).json({ error: "Recipe not found" });
     }
   })
-  
+
   .put(async (req, res) => {
     // PUT endpoint for editing a single recipe
     try {

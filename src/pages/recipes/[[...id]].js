@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Button } from "@mui/material";
 import UserShape from "@/components/UserShape";
 import RecipeShape from "../../components/RecipeShape";
 import RatingShape from "../../components/RatingShape";
@@ -12,6 +13,20 @@ export default function RecipeView({
   currentUser,
   viewAccount
 }) {
+
+  // URL copier
+  function shareRecipe() {
+    const url = window.location.href;
+    try {
+      navigator.clipboard.writeText(`${url}`);
+      // eslint-disable-next-line no-alert
+      alert("Recipe link copied to clipboard !");
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert("Unable to copy URL :(");
+    }
+  }
+
   return (
     <>
       <div>
@@ -21,6 +36,7 @@ export default function RecipeView({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </div>
       <Recipe currentRecipe={currentRecipe} ratings={ratings} />
+      <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
     </>
   );
 }
