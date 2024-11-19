@@ -37,6 +37,27 @@ router
       console.error(error);
       res.status(500).json({ error: "Failed to update the recipe" });
     }
+  })
+
+  .delete(async (req, res) => {
+    try {
+      const { id } = req.query;
+
+      // check if recipe exists before deletion
+      const recipe = await Recipe.query().findById(id);
+      if (!recipe) {
+        res.status(404).json({ error: "Recipe not found" });
+        return;
+      }
+
+      // delete the recipe
+      await Recipe.query().deleteById(id);
+      res.status(200).json({ success: true, message: "Recipe deleted successfully" });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(500).json({ error: "Failed to delete the recipe" });
+    }
   });
 
 export default router.handler({ onError });
