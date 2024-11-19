@@ -6,9 +6,17 @@ export default function AddRecipe() {
 
   const handleComplete = (recipe) => {
     if (recipe) {
-      fetch("/api/saveRecipe", {
+      // Prepare the recipe object
+      const recipePayload = {
+        title: recipe.title,
+        description: recipe.description,
+        prep_time: recipe.time, // Ensure the prep_time is sent correctly
+        instructions: recipe.steps.join("\n"), // Convert steps array to string
+      };
+
+      fetch("/api/recipes", {
         method: "POST",
-        body: JSON.stringify(recipe),
+        body: JSON.stringify(recipePayload),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -22,10 +30,13 @@ export default function AddRecipe() {
           // eslint-disable-next-line no-alert
           alert("Recipe saved successfully!");
           router.push(`/recipes/${newRecipe.id}`);
+          router.push(`/recipes/${newRecipe.recipe_id}`); // Navigate to the new recipe
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.error("Error saving recipe:", error);
+          // eslint-disable-next-line no-alert
+          alert("Failed to save the recipe. Please try again.");
         });
     } else {
       router.back(); // Go back if canceled
@@ -35,7 +46,6 @@ export default function AddRecipe() {
   return (
     <div>
       <main>
-        <h1 className="title">Add a New Recipe</h1>
         <Editor complete={handleComplete} />
       </main>
       <footer>Recipe App</footer>

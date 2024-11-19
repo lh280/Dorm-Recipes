@@ -47,7 +47,7 @@ export default function RecipeView({
         .then(() => {
           // eslint-disable-next-line no-alert
           alert("Recipe deleted successfully");
-          router.push("/recipes");
+          router.back();
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
