@@ -71,14 +71,28 @@ Note we need to pin the `node-fetch` version due to breaking changes when used w
 💻 npm run start 
 ```
 
-### Local Development Server
+### Development Server
+
+Run Docker on your machine.
+
+*For Windows users ONLY, 
+- make sure to change `"dev": "node ./dev-runner.js next dev",` to `"dev": "next dev",` in `package.json`.
+- before STARTING the server, run:
+
+```
+💻 docker compose -f docker-compose.dev.yml up -d
+```
+
+Then:
 
 ```
 💻 npm run dev
+💻 npx knex migrate:latest
+💻 npx knex seed:run
 ```
 
-### Database
+*For Windows users ONLY, before STOPPING the server, run:
 
 ```
-💻 migrate latest
+💻 docker compose -f docker-compose.dev.yml down
 ```

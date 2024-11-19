@@ -1,5 +1,5 @@
 /*
-  Search.js
+  SearchFunc.js
 
   This component fetches the user's search from the database.
 

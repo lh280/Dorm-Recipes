@@ -44,7 +44,7 @@ describe("RecipesView: Reacipes View tests (Part of search bar?)",()=>{
         }]
         handler.mockReset();
     })
-    test("RefcipesView displays the correct information", ()=>{
+    test("RecipesView displays the correct information", ()=>{
         render(<RecipesView recipes={recipes}/>)
         recipes.forEach((rec) => {
             expect(screen.queryByRole("paragraph", {name: rec.id}))

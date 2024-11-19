@@ -6,7 +6,6 @@
 
    props:
     setCurrentRecipe - Function to call set current recipe to display
-    // currentRecipe - The recipe to render
 */
 
 import { useState, useEffect } from "react";
@@ -14,9 +13,9 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {TextField, Box} from "@mui/material";
 import RecipesView from "./RecipesView";
-import Search from "./Search";
+import Search from "./SearchFunc";
 
-export default function SearchBar({ setCurrentRecipe /* currentRecipe */ }) {
+export default function SearchBar({ setCurrentRecipe }) {
   // initialize states
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
@@ -43,14 +42,12 @@ export default function SearchBar({ setCurrentRecipe /* currentRecipe */ }) {
           onChange={(s) => setSearch(s.target.value)}
         />
         <button type="button" onClick={handleSearch}>Search</button>
-        {/* <Search handleSearch={handleSearch} currentSearch={search} setCurrentSearch={setSearch} /> */}
-        <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} />
+        <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} /> {/* TODO: delete- instead send current articles to main? */}
       </Box>
     </div>
   );
 }
 
 SearchBar.propTypes = {
-  // currentArticle: ArticleShape,
   setCurrentRecipe: PropTypes.func.isRequired,
 };
