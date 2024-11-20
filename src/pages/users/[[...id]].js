@@ -5,6 +5,7 @@ import {ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, 
 import Image from 'next/image';
 import { useState } from "react";
 import Grid from "@mui/material/Grid2"
+import UserInfoShape from "@/components/UserInfoShape";
 
 export default function UserView({setCurrentRecipe, currentUser, viewAccount, userInfo}){
     const [tab, setTab] = useState("My Recipes");
@@ -13,7 +14,6 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
             setTab(newTab);
         }
     }
-
     let recipes;
     let reviews;
     const ingredients =  [
@@ -109,5 +109,6 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
 UserView.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
   currentUser: UserShape,
-  viewAccount: PropTypes.func
+  viewAccount: PropTypes.func,
+  userInfo: UserInfoShape
 };
