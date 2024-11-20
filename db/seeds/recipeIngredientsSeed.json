@@ -115,9 +115,15 @@
     },
     {
         "recipe_id": 3,
-        "ingredient_id": 20,
+        "ingredient_id": 22,
         "quantity": 1,
         "unit": "Tsp"
+    },
+    {
+        "recipe_id": 3,
+        "ingredient_id": 40,
+        "quantity": 1,
+        "unit": "Tbsp"
     },
     {
         "recipe_id": 4,
@@ -170,6 +176,30 @@
     {
         "recipe_id": 5,
         "ingredient_id": 17,
+        "quantity": 1,
+        "unit": ""
+    },
+    {
+        "recipe_id": 5,
+        "ingredient_id": 23,
+        "quantity": 1,
+        "unit": ""
+    },
+    {
+        "recipe_id": 5,
+        "ingredient_id": 14,
+        "quantity": 1,
+        "unit": ""
+    },
+    {
+        "recipe_id": 5,
+        "ingredient_id": 15,
+        "quantity": 1,
+        "unit": ""
+    },
+    {
+        "recipe_id": 5,
+        "ingredient_id": 13,
         "quantity": 5,
         "unit": ""
     },

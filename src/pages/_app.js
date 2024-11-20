@@ -7,11 +7,23 @@ import {useState} from "react";
 export default function App(appProps) {
   const { Component, pageProps } = appProps;
   const router = useRouter();
-  const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [currentRecipe, setCurrentRecipe] = useState(null); 
+  const [userInfo, setUserInfo] = useState(null);
 
   function viewAccount(id) {
     const addr = id !== undefined ? `/users/${id.toString()}`:"/";
     router.push(addr);
+    if (id !== undefined){
+      fetch(`/api/users/${id}`).then((res) => {
+        if (!res.ok) {
+          throw new Error("GET user/id response fail");
+        }
+        return res.json();
+      }).then((rec) => {
+        setUserInfo(rec);
+      });
+    }
+   
   }
 
   function setCurrentRec(id) {
@@ -42,7 +54,8 @@ export default function App(appProps) {
     currentRecipe,
     currentUser,
     setCurrentRecipe: setCurrentRec,
-    viewAccount
+    viewAccount,
+    userInfo
   };
 
   return (<AppCacheProvider {...appProps}><Component {...props} /></AppCacheProvider>);
