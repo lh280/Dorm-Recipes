@@ -6,41 +6,18 @@ import Image from 'next/image';
 import { useState } from "react";
 import Grid from "@mui/material/Grid2"
 
-export default function UserView({setCurrentRecipe, currentUser, viewAccount}){
+export default function UserView({setCurrentRecipe, currentUser, viewAccount, userInfo}){
     const [tab, setTab] = useState("My Recipes");
     const changeTab = (newTab) => {
         if (tab !== newTab){
             setTab(newTab);
         }
     }
-    const recipes = [
-        (<Grid key="0">
-                    <Card variant="outlined" >
-                    <CardActionArea>
-                        <CardContent>
-                            <Image src="" width={250} height={250} alignContent="center"/>
-                            <Typography textAlign="center" variant="h5">Recipe Title</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    </Card>
-        </Grid>)]
 
-    const reviews = [
-        <Grid key = "0" size={6}>
-            <Card variant="outlined" >     
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">Stove top Mac and Cheese</Typography>
-                        <Typography variant="h6"> Number of Stars: 1</Typography>
-                        <Typography variant="h6">Review:</Typography>
-                        <Typography>I didnt have milk so I used french vanilla coffee creamer instead. Other than that, I followed the recipe exactly. The Mac and cheese was incredibly sweet and almost inedible. Will not try again!</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>]
-
-    const ingredients = [
-        <Grid key = "0" size={4}>
+    let recipes;
+    let reviews;
+    const ingredients =  [
+        <Grid key = "ing0" size={4}>
             <Card variant="outlined" >     
                 <CardActionArea>
                     <CardContent>
@@ -50,7 +27,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount}){
                 </CardActionArea>
             </Card>
         </Grid>,
-        <Grid key = "0" size={4}>
+        <Grid key = "ing1" size={4}>
             <Card variant="outlined" >     
                 <CardActionArea>
                     <CardContent>
@@ -60,7 +37,40 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount}){
                 </CardActionArea>
             </Card>
         </Grid>
-    ]
+    ];
+    
+    if (userInfo){
+        recipes = userInfo.user_recipes.map((recipe) => 
+            (<Grid key={`rec${recipe.recipe_id}`}>
+                    <Card variant="outlined" >
+                    <CardActionArea>
+                        <CardContent>
+                            <Image src="/food.jpg" alt="Recipe Title" width={250} height={250} alignContent="center"/>
+                            <Typography textAlign="center" variant="h5">{recipe.title}</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    </Card>
+            </Grid>)
+        )
+ 
+        reviews = userInfo.user_reviews.map((review) => 
+            (<Grid key={`rev${review.review_id}`} size={6}>
+                <Card variant="outlined" >     
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography variant="h5">{`Recipe ID: ${review.recipe_id}`}</Typography>
+                            <Typography variant="h6">{`Number of Stars: ${review.rating / 2}`}</Typography>
+                            <Typography variant="h6">Review:</Typography>
+                            <Typography>{review.content}</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Grid>)
+        )
+    }
+
+
+   
     let currentContent;
     switch (tab) {
         case "My Reviews":
@@ -73,7 +83,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount}){
             currentContent = recipes;
             break;
     }
-    
+
     return(
     <>
         <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount}/>
@@ -91,9 +101,8 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount}){
         </Box>
         <Typography variant = "h4">{tab}</Typography>
         <Grid container rowSpacing={2} columnSpacing={2}>
-            {currentContent}
+            {currentContent !== undefined? currentContent:<div>loading</div>}
         </Grid>
-        
     </> )
 }
 

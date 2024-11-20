@@ -68,7 +68,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
             <main>
-              <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount}/>
+              <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={()=>{viewAccount(0)}}/>
               <Container>
                 <SearchBar setCurrentRecipe={()=>{}}/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
@@ -93,12 +93,8 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
                 <Button variant="contained" onClick={() => {setCurrentRecipe(3)}}>Recipe 3</Button>
                 {sections}
               </Container>
-              
-
-              
             </main>
         </ThemeProvider>
-        
     </div>
   );
 }
