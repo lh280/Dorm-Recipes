@@ -70,7 +70,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
             <main>
               <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount}/>
               <Container>
-                <SearchBar setCurrentRecipe={()=>{}}/>
+                <SearchBar/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
               </Container>
               <Container>
