@@ -1,62 +1,54 @@
 import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter} from "next/router";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Typography, Box, Button, Container } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import SearchBar from "@/components/SearchBar";
 import UserShape from "@/components/UserShape";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import theme from "../material/theme";
 
-
 export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   const router = useRouter();
 
-  const testRecipes = [{
-            id: 0,
-            img: "/pbj.jpg",
-            title: "PB & J Sandwich",
-            author: "Noah Price",
-            time: "< 15 minutes",
-            rating: "3.5 out of 5",
-            ingredients: [
-              "2 slices of bread",
-              "1 jar of peanut butter",
-              "1 jar of jelly",
-            ],
-            steps: [
-              "Apply the peanut butter to one of the slices of bread.",
-              "Apply the jelly to the other slice.",
-              "Close the sandwich.",
-            ],
-            edited: "2024-11-02",
-        },{
-            id: 1,
-            img: "/pbj.jpg",
-            title: "PB & J Sandwich 2",
-            author: "Grayson",
-            time: "< 15 minutes",
-            rating: "3.5 out of 5",
-            ingredients: [
-              "4 slices of bread",
-              "1 jar of peanut butter",
-              "1 jar of jelly",
-            ],
-            steps: [
-              "Apply the peanut butter to one of the slices of bread.",
-              "Apply the jelly to the other slice.",
-              "Close the sandwich.",
-            ],
-            edited: "2024-11-02",
-        }]
+  const [fetchedRecipes,setFetchedRecipes] = useState([])
 
+  useEffect(() => {
+   (async () => {
+      try {
+      const res = await fetch(`/api/recipes/type`)
+        if (!res.ok) {
+          throw new Error("GET user/id response fail");
+        }
+        const data = await res.json();
+        setFetchedRecipes(data)
+        
+    } catch (error) {
+      console.log("Error Retreiving recipes")
+    };
+    })()
+  },[]);
+
+  let sections = <div>LOADING...</div>
+  
   // tempSections does not represent the actual composition of a section object
-  const tempSections = [{ title: "Breakfasts:" }, { title: "Desserts:" }];
-  const sections = tempSections.map(({ title }) => (<Section key = {title} title={title} recipes={testRecipes} openRecipe={setCurrentRecipe} />)); // Using current Recipe as a place holder
+  if (fetchedRecipes){
+    let demoSections = [{ title: "All Recipes:", recipes: fetchedRecipes}];
+    if (fetchedRecipes.length > 4) {
+      const newRecipes = fetchedRecipes.slice(0,4)
+      const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
+      demoSections = [{ title: "Newest Recipes:", recipes:newRecipes}, {title: "Oldest Recipes:", recipes:oldRecipes}];
+    }
+    sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
+  }
+  
+  
+   // Using current Recipe as a place holder
 
   return (
     <div>
@@ -88,9 +80,6 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
                 </Box>
               </Container>
               <Container>
-                <Button variant="contained" onClick={() => {setCurrentRecipe(1)}}>Recipe 1</Button>
-                <Button variant="contained" onClick={() => {setCurrentRecipe(2)}}>Recipe 2</Button>
-                <Button variant="contained" onClick={() => {setCurrentRecipe(3)}}>Recipe 3</Button>
                 {sections}
               </Container>
             </main>
