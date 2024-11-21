@@ -1,17 +1,15 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-import Head from "next/head";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import UserShape from "@/components/UserShape";
 
 import PropTypes from "prop-types";
 
-import theme from "../material/theme";
+import Header from "../components/Header";
 
 import RecipesView from "../components/RecipesView";
 
-export default function Search({ setCurrentRecipe }) {
+export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
   const router = useRouter();
   // initialize states
   const [recipes, setRecipes] = useState([]);
@@ -43,28 +41,21 @@ export default function Search({ setCurrentRecipe }) {
   return (
     
     <div>
-      <Head>
-        <title>Dorm Recipes</title>
-        <meta name="Dorm Recipes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <main>
-            <div>
-              <h1>Search results for &quot;{q}&quot;</h1>
-              {recipes ? (
-                <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe}/>
-              ) : (
-                <p>No matching recipes found for &quot;{q}&quot;</p>
-              )}
-            </div>
-           </main>
-        </ThemeProvider>
+      <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount}/>
+      <div>
+        <h1>Search results for &quot;{q}&quot;</h1>
+        {recipes ? (
+          <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe}/>
+        ) : (
+          <p>No matching recipes found for &quot;{q}&quot;</p>
+        )}
+      </div>
     </div>
   );
 }
 
 Search.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
+  currentUser: UserShape,
+  viewAccount: PropTypes.func
 };

@@ -8,7 +8,7 @@ const router = createRouter();
 router
   .get(async (req, res) => {
     try {
-      const { query } = req.query;
+      const { query } = req.query; // TODO: parse query by: spaces, symbols
 
       if (!query) {
         return res.status(400).json({ message: "Search parameter is required." });
