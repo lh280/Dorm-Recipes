@@ -41,7 +41,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
     
     if (userInfo){
         recipes = userInfo.user_recipes.map((recipe) => 
-            (<Grid key={`rec${recipe.recipe_id}`}>
+            (<Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} >
                     <Card variant="outlined" >
                     <CardActionArea>
                         <CardContent>
