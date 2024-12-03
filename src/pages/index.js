@@ -29,7 +29,8 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
         setFetchedRecipes(data)
         
     } catch (error) {
-      console.log("Error Retreiving recipes")
+      // eslint-disable-next-line no-console
+      console.log("Error Retrieving recipes")
     };
     })()
   },[]);
