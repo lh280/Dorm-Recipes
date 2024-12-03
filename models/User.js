@@ -13,7 +13,7 @@ export default class User extends BaseModel {
 
   static relationMappings = {
     pantry_items: {
-      relation: Model.OneToManyRelation,
+      relation: Model.HasManyRelation,
       modelClass: Ingredient, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",
@@ -26,7 +26,7 @@ export default class User extends BaseModel {
       },
     },
     user_reviews: {
-      relation: Model.OneToManyRelation,
+      relation: Model.HasManyRelation,
       modelClass: Review, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",
@@ -34,7 +34,7 @@ export default class User extends BaseModel {
       },
     },
     user_recipes: {
-      relation: Model.OneToManyRelation,
+      relation: Model.HasManyRelation,
       modelClass: Recipe, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",

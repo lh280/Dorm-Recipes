@@ -6,11 +6,18 @@ const router = createRouter();
 
 router
   .get(async (req, res) => {
-    const recipe = await User.query()
-      .findById(req.query.id)
-      .withGraphFetched("related")
+    const userID = parseInt(req.query.id, 10);
+    try{
+    const user = await User.query()
+      .where('user_id', userID)
+      .withGraphFetched("user_recipes")
+      .withGraphFetched("user_reviews")
+      .first()
       .throwIfNotFound();
-    res.status(200).json(recipe);
+    res.status(200).json(user);
+    } catch (error){
+      res.status(404).json({error: "User not found"});
+    }
   })
   .put(async (req, res) => {
     // PUT endpoint for editing a user's info

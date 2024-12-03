@@ -13,14 +13,14 @@ export default function Section(props) {
   const cards = [...recipes].map((rec) => (
     <Card
       key={rec.id}
-      onClick={() => {openRecipe()}}
+      onClick={() => {openRecipe(rec.recipe_id)}}
       variant="outlined"
     >
       <CardActionArea>
         <CardContent>
-          <Image src="" width={250} height={250}/>
+          <Image src="/food.jpg" width={200} height={200}/>
 
-          <Typography textAlign="center" variant="h5">{rec.title}</Typography>
+          <Typography textAlign="center" variant="h6">{rec.title}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>
@@ -28,7 +28,7 @@ export default function Section(props) {
 
   return (
     <div>
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h2">{title}</Typography>
       <div id="image list">
         <Stack direction="row" spacing={2}> 
           {cards}
