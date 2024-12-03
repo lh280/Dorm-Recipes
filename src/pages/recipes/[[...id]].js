@@ -32,7 +32,9 @@ export default function RecipeView({
   }
 
   const handleDelete = () => {
-    if (id) {
+    // eslint-disable-next-line no-restricted-globals 
+    const result = confirm("Are you sure you want to delete this recipe?"); // eslint-disable-line no-alert
+    if (result && id) {
       fetch(`/api/recipes/${id}`, {
         method: "DELETE",
         headers: {
@@ -53,7 +55,8 @@ export default function RecipeView({
           // eslint-disable-next-line no-console
           console.error("Error deleting recipe:", error);
         });
-    } else {
+    } 
+    else if (!id) {
       router.back(); // Go back if no id found
     }
   };
@@ -68,7 +71,9 @@ export default function RecipeView({
       </div>
       <Recipe currentRecipe={currentRecipe} ratings={ratings} />
       <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
-      <Button variant="contained" onClick={handleDelete}>Delete Recipe</Button>
+      <Button variant="contained" onClick={handleDelete}>
+        Delete Recipe
+      </Button>
     </>
   );
 }
