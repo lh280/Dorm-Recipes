@@ -57,6 +57,8 @@ export default function RecipeView({
         });
     } 
     else if (!id) {
+      // eslint-disable-next-line no-alert
+      alert("No such recipe found: returning to homepage");
       router.back(); // Go back if no id found
     }
   };

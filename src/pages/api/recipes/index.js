@@ -15,7 +15,7 @@ router
       }
 
       // search in both title and ingredients
-      const recipes = await Recipe.query()
+      const recipes = await Recipe.query() // TODO: should it be Recipe.query() ? 
         .withGraphFetched('ingredients_used') // Fetch related ingredients
         .where((builder) => {
           builder
