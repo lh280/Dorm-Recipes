@@ -38,10 +38,15 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
     getRecipes();
   }, [q]); 
 
+  const handleReturn = (() => {
+    router.back();
+  })
+
   return (
     
     <div>
       <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount}/>
+      <button type="button" onClick={handleReturn}>🔙</button>
       <div>
         <h1>Search results for &quot;{q}&quot;</h1>
         {recipes ? (
