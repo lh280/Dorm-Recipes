@@ -31,7 +31,7 @@ export default function RecipeView({
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = () => { // TODO: integrate authorization with delete handling
     // eslint-disable-next-line no-restricted-globals 
     const result = confirm("Are you sure you want to delete this recipe?"); // eslint-disable-line no-alert
     if (result && id) {
@@ -57,6 +57,8 @@ export default function RecipeView({
         });
     } 
     else if (!id) {
+      // eslint-disable-next-line no-alert
+      alert("No such recipe found: returning to homepage");
       router.back(); // Go back if no id found
     }
   };
@@ -73,7 +75,7 @@ export default function RecipeView({
       <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
       <Button variant="contained" onClick={handleDelete}>
         Delete Recipe
-      </Button>
+      </Button> {/* TODO: integrate authorization to only show delete button to recipe owner */}
     </>
   );
 }

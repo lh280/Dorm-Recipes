@@ -30,7 +30,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
         
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log("Error Retrieving recipes")
+      console.log("Error retrieving recipes")
     };
     })()
   },[]);
