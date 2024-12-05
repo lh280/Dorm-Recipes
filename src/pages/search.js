@@ -23,7 +23,7 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
 
     const getRecipes = async () => {
       try {
-        const response = await fetch(`/search?q=${q}`);
+        const response = await fetch(`/api/recipes?q=${q}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch recipes: ${response.status}`);
         }
@@ -36,7 +36,7 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
     };
     
     getRecipes();
-  }, [q]); // eslint-disable-line
+  }, [q]); 
 
   return (
     

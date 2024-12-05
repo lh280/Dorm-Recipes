@@ -8,24 +8,20 @@ const router = createRouter();
 router
   .get(async (req, res) => {
     try {
-      const { query } = req.query; // TODO: parse query by: spaces, symbols
+      const { q } = req.query; // TODO: parse query by: spaces, symbols
 
-      if (!query) {
+      if (!q) {
         return res.status(400).json({ message: "Search parameter is required." });
       }
 
-      // search in both title and ingredients
-      const recipes = await Recipe.query() // TODO: should it be Recipe.query() ? 
-        .withGraphFetched('ingredients_used') // Fetch related ingredients
-        .where((builder) => {
-          builder
-            .where('title', 'ilike', `%${query}%`) // TODO: consult with how things in DB look for if this structure works
-            .orWhereExists(
-              Recipe.relatedQuery('ingredients_used')
-                .where('ingredient_name', 'ilike', `%${query}%`)
-            );
-        });
-
+      // search in both title and description and ingredients
+      const recipes = await Recipe.query()
+        .withGraphJoined('ingredients_used')
+        .where('title', 'ilike', `%${q}%`)
+        .orWhere('description', 'ilike', `%${q}%`)
+        .orWhere('ingredients_used.ingredient_name', 'ilike', `%${q}%`)
+      
+      
       if (recipes.length === 0) {
         return res.status(404).json({ message: "No recipes found matching the criteria." });
       }
