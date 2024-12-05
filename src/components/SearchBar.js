@@ -25,6 +25,12 @@ export default function SearchBar() {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      router.push(`/search?q=${search}`);
+    }
+  };
+
   return (
     <div>
       <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -34,6 +40,7 @@ export default function SearchBar() {
           value={search}
           variant="standard"
           onChange={(s) => setSearch(s.target.value)}
+          onKeyDown={handleEnter}
         />
         <button type="button" onClick={handleSearch}>Search</button>
       </Box>
