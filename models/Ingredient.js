@@ -1,7 +1,7 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
-// eslint-disable-next-line import/no-cycle
-// import Recipe from "./Recipe" 
+
+const Recipe = require("./Recipe");
 
 export default class Ingredient extends BaseModel {
   static get tableName() {
@@ -11,8 +11,7 @@ export default class Ingredient extends BaseModel {
   static relationMappings = {
     recipes: {
       relation: Model.ManyToManyRelation,
-      modelClass: Ingredient,
-      // modelClass: Recipe, // TODO: fix this 
+      modelClass: Recipe,
       join: {
         from: "Ingredients.ingredient_id",
         through: {
