@@ -19,8 +19,8 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
     <div
       class="container"
       data-testid="recipe"
-      key={rec.id}
-      onClick={() => setCurrentRecipe(rec)}
+      key={rec.recipe_id}
+      onClick={() => setCurrentRecipe(rec.recipe_id)}
     >
       <Image src={rec.img} width="50" height="50" />
       <div class="container__text">

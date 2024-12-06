@@ -23,12 +23,16 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
 
     const getRecipes = async () => {
       try {
-        const response = await fetch(`/api/recipes?q=${q}`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch recipes: ${response.status}`);
-        }
-        const json = await response.json();
-        setRecipes(json);
+        fetch(`/api/recipes?q=${q}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch recipes: ${response.status}`);
+          }
+        return response.json();
+        })
+        .then((recs) => {
+          setRecipes(recs);
+        })
       } catch (error) {
         console.error(`Failed to fetch recipes:`, error.message); // eslint-disable-line
         setRecipes();
