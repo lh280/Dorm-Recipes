@@ -10,7 +10,7 @@ router
     try {
       const recipe = await Recipe.query()
         .where('recipe_id', recipeID)
-        .withGraphFetched("ingredients_used")
+        .withGraphFetched("[ingredients_used, recipe_reviews, recipe_ingredient]")
         .first()
         .throwIfNotFound();
       res.status(200).json(recipe);

@@ -1,6 +1,6 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
-// import Recipe_Ingredients from "./Recipe_Ingredients";
+import Recipe_Ingredients from "./Recipe_Ingredients";
 import Review from "./Review";
 // import User from "./User";
 // eslint-disable-next-line import/no-cycle
@@ -31,6 +31,14 @@ export default class Recipe extends BaseModel {
       join: {
         from: "Recipes.recipe_id",
         to: "Reviews.recipe_id",
+      },
+    },
+    recipe_ingredient: {
+      relation: Model.HasManyRelation,
+      modelClass: Recipe_Ingredients,
+      join: {
+        from: 'Recipes.recipe_id',
+        to: 'Recipe_Ingredients.recipe_id',
       },
     },
     // recipe_user: {

@@ -83,7 +83,7 @@ export default function RecipeView({
 RecipeView.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  ratings: PropTypes.arrayOf(RatingShape).isRequired,
+  ratings: PropTypes.arrayOf(RatingShape),
   currentUser: UserShape,
   viewAccount: PropTypes.func
 };

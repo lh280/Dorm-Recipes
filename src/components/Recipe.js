@@ -44,6 +44,19 @@ export default function Recipe({ currentRecipe }) {
       {stp}
     </li>
   ));
+
+  const combinedIngredients = currentRecipe.ingredients_used.map((ingredient) => {
+    // Find the corresponding recipe_ingredient entry using the ingredient_id
+    const recipeDetails = currentRecipe.recipe_ingredient.find((recIng) => recIng.ingredient_id === ingredient.ingredient_id);
+
+    return {
+      ingredient_name: ingredient.ingredient_name,
+      ingredient_id: ingredient.ingredient_id,
+      quantity: recipeDetails.quantity,
+      unit: recipeDetails.unit,
+    };
+  });
+
   return ( // TODO: Re-add: ratings, ingredients
     <div>
       <h2>{currentRecipe.title}</h2>
@@ -51,11 +64,29 @@ export default function Recipe({ currentRecipe }) {
       <Image src="/food.jpg" width="400" height="400" />
       <p>Prep time: {currentRecipe.prep_time} min</p>
       <p>Servings: {currentRecipe.servings}</p>
+      <h2> Ingredients </h2>
+      <ul>
+        {combinedIngredients.map((ing) => (
+          <li key={ing.ingredient_id}>
+            {ing.quantity} {ing.unit} of {ing.ingredient_name}
+          </li>
+        ))}
+      </ul>
       <div>
         <h3>Instructions</h3>
         <ul>{steps}</ul>
       </div>
       <p>Last edited: {editDate}</p>
+      <h2> Reviews </h2>
+      <ul>
+        {currentRecipe.recipe_reviews.map((rev) => (
+          <li key={rev.review_id}>
+            <strong>Rating: {rev.rating}</strong>
+            <p>{rev.content}</p>
+            <p><small>{Date(rev.created_at).toLocaleString()}</small></p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
