@@ -5,7 +5,7 @@
   search the available recipes and select one for display. 
 
    props:
-    setCurrentRecipe - Function to call set current recipe to display
+    onSearch - Function to call with search to query api and retrieve recipes
 */
 
 import { useState } from "react";
