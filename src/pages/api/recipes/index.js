@@ -18,10 +18,10 @@ router
       const recipes = await Recipe.query()
         .withGraphFetched('ingredients_used')
         .where('title', 'ilike', `%${q}%`)
-        .orWhere('description', 'ilike', `%${q}%`) // TODO: fix not working with ingredients
-        // .modifyGraph('ingredients_used', (builder) => {
-        //   builder.where('ingredient_name', `%${q}%`)})
-        // .orWhere('ingredient_name', 'ilike', `%${q}%`)
+        .orWhere('description', 'ilike', `%${q}%`) 
+        .orWhereExists(
+          Recipe.relatedQuery('ingredients_used')
+            .where('ingredient_name', 'ilike', `%${q}%`))
       
       if (recipes.length === 0) {
         return res.status(404).json({ message: "No recipes found matching the criteria." });
