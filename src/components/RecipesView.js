@@ -8,11 +8,12 @@
     setCurrentRecipe - a callback that expects a recipe as an argument
 
 */
-import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
+import Box from '@mui/material/Box';
 import Image from "next/image";
 import PropTypes from "prop-types";
 import RecipeShape from "./RecipeShape";
@@ -20,27 +21,32 @@ import RecipeShape from "./RecipeShape";
 export default function RecipesView({ recipes, setCurrentRecipe }) { 
   // map the sorted titles to html elements
   const recCards = [...recipes].map((rec) => (
-    <Card
-      key={rec.id}
-      onClick={() => {setCurrentRecipe(rec.recipe_id)}}
-      variant="outlined"
-      data-testid="recipe"
-    >
-      <CardActionArea>
-        <CardContent>
-          <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
-          <Typography textAlign="center" variant="h6">{rec.title}</Typography>
-          {/* TODO: add: rating, prep_time?, servings? author?, part of description?, updated_at? */}
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Grid item xs={12} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
+      <Card
+        key={rec.id}
+        onClick={() => {setCurrentRecipe(rec.recipe_id)}}
+        variant="outlined"
+        data-testid="recipe"
+        sx={{ maxWidth: 300, width: "100%" }}
+      >
+        <CardActionArea>
+          <CardContent>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
+              <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
+            </Box>
+            <Typography textAlign="center" variant="h6">{rec.title}</Typography>
+            {/* TODO: add: rating, prep_time?, servings? author?, part of description?, updated_at? */}
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Grid>
   ));
 
   return (
       <div id="image list">
-        <Stack direction="row" spacing={2}> 
+        <Grid container spacing={2}> 
           {recCards}
-        </Stack>
+        </Grid>
       </div>
   );
 }
