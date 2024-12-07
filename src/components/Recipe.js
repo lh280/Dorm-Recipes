@@ -68,7 +68,7 @@ export default function Recipe({ currentRecipe }) {
       <button type="button" onClick={handleReturn}>🔙</button>
       <h2>{currentRecipe.title}</h2>
       <h3>{currentRecipe.description}</h3>
-      <Image src="/food.jpg" width="400" height="400" />
+      <Image src={(currentRecipe.img ? currentRecipe.img : "/food.jpg")} width="400" height="400" alt="Picture of the recipe"/>
       <p>Prep time: {currentRecipe.prep_time} min</p>
       <p>Servings: {currentRecipe.servings}</p>
       <h2> Ingredients </h2>

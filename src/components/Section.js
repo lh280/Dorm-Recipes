@@ -18,7 +18,7 @@ export default function Section(props) {
     >
       <CardActionArea>
         <CardContent>
-          <Image src="/food.jpg" width={200} height={200} alt="Picture of the recipe"/>
+          <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
 
           <Typography textAlign="center" variant="h6">{rec.title}</Typography>
         </CardContent>

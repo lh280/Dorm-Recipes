@@ -74,7 +74,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid onClick={() => {setCurrentRecipe(0)}} container spacing={2}>
                     <Grid>
-                      <Image src="/pbj.jpg" height="325" width="325" />
+                      <Image src="/pbj.jpg" height="325" width="325" alt="Picture of the recipe"/>
                     </Grid>
                     <Grid size = {4}>
                       <Typography variant="h5">PB and J</Typography>
