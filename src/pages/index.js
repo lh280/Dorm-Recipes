@@ -47,7 +47,10 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
     }
     sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
-  
+
+  const handleSearch = (q) => {
+    router.push(`/search?q=${q}`); 
+  };
   
    // Using current Recipe as a place holder
 
@@ -63,7 +66,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
             <main>
               <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={()=>{viewAccount(0)}}/>
               <Container>
-                <SearchBar/>
+                <SearchBar onSearch={handleSearch}/>
                 <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
               </Container>
               <Container>
@@ -71,7 +74,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid onClick={() => {setCurrentRecipe(0)}} container spacing={2}>
                     <Grid>
-                      <Image src="/pbj.jpg" height="325" width="325" />
+                      <Image src="/pbj.jpg" height="325" width="325" alt="Picture of the recipe"/>
                     </Grid>
                     <Grid size = {4}>
                       <Typography variant="h5">PB and J</Typography>

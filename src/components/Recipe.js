@@ -6,6 +6,7 @@
   props:
     currentRecipe - The recipe to render
 */
+import { useRouter } from "next/router";
 import Image from "next/image";
 import RecipeShape from "./RecipeShape";
 
@@ -27,6 +28,7 @@ function parseInstructions(instructions) {
 }
 
 export default function Recipe({ currentRecipe }) {
+  const router = useRouter();
   if (!currentRecipe) {
     return <h2>Loading...</h2>
   }
@@ -57,11 +59,16 @@ export default function Recipe({ currentRecipe }) {
     };
   });
 
-  return ( // TODO: Re-add: ratings, ingredients
+  const handleReturn = (() => {
+    router.back();
+  })
+
+  return ( 
     <div>
+      <button type="button" onClick={handleReturn}>🔙</button>
       <h2>{currentRecipe.title}</h2>
       <h3>{currentRecipe.description}</h3>
-      <Image src="/food.jpg" width="400" height="400" />
+      <Image src={(currentRecipe.img ? currentRecipe.img : "/food.jpg")} width="400" height="400" alt="Picture of the recipe"/>
       <p>Prep time: {currentRecipe.prep_time} min</p>
       <p>Servings: {currentRecipe.servings}</p>
       <h2> Ingredients </h2>
@@ -81,7 +88,7 @@ export default function Recipe({ currentRecipe }) {
       <ul>
         {currentRecipe.recipe_reviews.map((rev) => (
           <li key={rev.review_id}>
-            <strong>Rating: {rev.rating}</strong>
+            <strong>Rating: {rev.rating/2}</strong> {/* divide by 2 to get # stars */}
             <p>{rev.content}</p>
             <p><small>{Date(rev.created_at).toLocaleString()}</small></p>
           </li>

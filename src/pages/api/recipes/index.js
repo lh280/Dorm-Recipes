@@ -8,7 +8,7 @@ const router = createRouter();
 router
   .get(async (req, res) => {
     try {
-      const { q } = req.query; // TODO: parse query by: spaces, symbols
+      const { q } = req.query; // TODO (maybe): parse query by: spaces, symbols
 
       if (!q) {
         return res.status(400).json({ message: "Search parameter is required." });
@@ -16,11 +16,12 @@ router
 
       // search in both title and description and ingredients
       const recipes = await Recipe.query()
-        .withGraphJoined('ingredients_used')
+        .withGraphFetched('ingredients_used')
         .where('title', 'ilike', `%${q}%`)
-        .orWhere('description', 'ilike', `%${q}%`)
-        .orWhere('ingredients_used.ingredient_name', 'ilike', `%${q}%`)
-      
+        .orWhere('description', 'ilike', `%${q}%`) 
+        .orWhereExists(
+          Recipe.relatedQuery('ingredients_used')
+            .where('ingredient_name', 'ilike', `%${q}%`))
       
       if (recipes.length === 0) {
         return res.status(404).json({ message: "No recipes found matching the criteria." });

@@ -59,7 +59,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
                     <CardActionArea>
                         <CardContent>
                             <Typography variant="h5">{`Recipe ID: ${review.recipe_id}`}</Typography>
-                            <Typography variant="h6">{`Number of Stars: ${review.rating / 2}`}</Typography>
+                            <Typography variant="h6">{`Number of Stars: ${review.rating / 2}`}</Typography> {/* divide by 2 to get # stars */}
                             <Typography variant="h6">Review:</Typography>
                             <Typography>{review.content}</Typography>
                         </CardContent>
