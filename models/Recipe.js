@@ -1,56 +1,58 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
-import Recipe_Ingredients from "./Recipe_Ingredients";
-import Review from "./Review";
 // import User from "./User";
-// eslint-disable-next-line import/no-cycle
-import Ingredient from "./Ingredient"
 
 export default class Recipe extends BaseModel {
   static get tableName() {
     return "Recipes";
   }
 
-  static relationMappings = {
-    ingredients_used: {
-      relation: Model.ManyToManyRelation,
-      modelClass: Ingredient, // eslint-disable-line no-use-before-define
-      join: {
-        from: "Recipes.recipe_id",
-        through: {
-          // Recipe_Ingredients is the join table. These names must match the schema
-          from: "Recipe_Ingredients.recipe_id",
-          to: "Recipe_Ingredients.ingredient_id",
-        },
-        to: "Ingredients.ingredient_id",
-      },
-    },
-    recipe_reviews: {
-      relation: Model.HasManyRelation,
-      modelClass: Review, // eslint-disable-line no-use-before-define
-      join: {
-        from: "Recipes.recipe_id",
-        to: "Reviews.recipe_id",
-      },
-    },
-    recipe_ingredient: {
-      relation: Model.HasManyRelation,
-      modelClass: Recipe_Ingredients,
-      join: {
-        from: 'Recipes.recipe_id',
-        to: 'Recipe_Ingredients.recipe_id',
-      },
-    },
-    // recipe_user: {
-    //   relation: Model.BelongsToOneRelation,
-    //   modelClass: User, // eslint-disable-line no-use-before-define
-    //   join: {
-    //     from: "Recipes.user_id",
-    //     to: "Users.user_id",
-    //   },
-    // },
+  static get relationMappings() {
+    const Ingredient = require("./Ingredient").default; //eslint-disable-line
+    const Review = require("./Review").default; //eslint-disable-line
+    const Recipe_Ingredients = require("./Recipe_Ingredients").default; //eslint-disable-line
 
-  };
+    return {
+      ingredients_used: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Ingredient, // eslint-disable-line no-use-before-define
+        join: {
+          from: "Recipes.recipe_id",
+          through: {
+            // Recipe_Ingredients is the join table. These names must match the schema
+            from: "Recipe_Ingredients.recipe_id",
+            to: "Recipe_Ingredients.ingredient_id",
+          },
+          to: "Ingredients.ingredient_id",
+        },
+      },
+      recipe_reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review, // eslint-disable-line no-use-before-define
+        join: {
+          from: "Recipes.recipe_id",
+          to: "Reviews.recipe_id",
+        },
+      },
+      recipe_ingredient: {
+        relation: Model.HasManyRelation,
+        modelClass: Recipe_Ingredients, //eslint-disable-line
+        join: {
+          from: 'Recipes.recipe_id',
+          to: 'Recipe_Ingredients.recipe_id',
+        },
+      },
+      // recipe_user: {
+      //   relation: Model.BelongsToOneRelation,
+      //   modelClass: User, // eslint-disable-line no-use-before-define
+      //   join: {
+      //     from: "Recipes.user_id",
+      //     to: "Users.user_id",
+      //   },
+      // },
+
+    };
+  }
 
   static get jsonSchema() {
     return {
