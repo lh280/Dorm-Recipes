@@ -29,21 +29,24 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
 
     const getRecipes = async () => {
       try {
-        fetch(`/api/recipes?q=${query}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Failed to fetch recipes: ${response.status}`); // TODO: fix how catching error here - catching the 404 when no matching recipes but no longer displaying the placeholder text
+        const response = await fetch(`/api/recipes?q=${query}`);
+      
+        if (!response.ok) {
+          if (response.status === 404) {
+            setRecipes([]); 
+          } else {
+            throw new Error(`Failed to fetch recipes: ${response.status}`);
           }
-        return response.json();
-        })
-        .then((recs) => {
-          setRecipes(recs);
-        })
+          return; 
+        }
+  
+        const recs = await response.json();
+        setRecipes(recs);
       } catch (error) {
-        console.error(`Failed to fetch recipes:`, error.message); // eslint-disable-line
-        setRecipes();
+        console.error("Failed to fetch recipes:", error.message); // eslint-disable-line
+        setRecipes([]); 
       }
-    };
+    }
     
     getRecipes();
   }, [query]);
@@ -64,10 +67,10 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
       <button type="button" onClick={handleReturn}>🔙</button>
       <div>
         <h1>Search results for &quot;{query}&quot;</h1>
-        {recipes ? (
+        {recipes.length > 0 ? (
           <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe}/>
         ) : ( 
-          <p>No matching recipes found for &quot;{query}&quot;</p>
+          <p>{recipes.length === 0 ? `No matching recipes found for "${query}"` : "An error occurred while fetching recipes."}</p>
         )}
       </div>
     </div>
