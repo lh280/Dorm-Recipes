@@ -13,7 +13,7 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import RecipeShape from "./RecipeShape";
 
-export default function RecipesView({ recipes, setCurrentRecipe }) {
+export default function RecipesView({ recipes, setCurrentRecipe }) { // TODO: fix to properly show recipes
   // map the sorted titles to html elements
   const recipesDisplay = recipes.map((rec) => (
     <div
