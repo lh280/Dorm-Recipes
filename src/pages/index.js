@@ -4,8 +4,7 @@ import Head from "next/head";
 import { useRouter} from "next/router";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Typography, Box, Button, Container } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
 import SearchBar from "@/components/SearchBar";
 import UserShape from "@/components/UserShape";
 import { useState, useEffect } from "react";
@@ -61,33 +60,61 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-            <main>
-              <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={()=>{viewAccount(0)}}/>
-              <Container>
-                <SearchBar onSearch={handleSearch}/>
-                <Button variant="contained" onClick={() => router.push("/add-recipe")}>Add Recipe</Button>
-              </Container>
-              <Container>
-                <Typography variant="h2">Featured Recipe:</Typography>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Grid onClick={() => {setCurrentRecipe(0)}} container spacing={2}>
-                    <Grid>
-                      <Image src="/pbj.jpg" height="325" width="325" alt="Picture of the recipe"/>
-                    </Grid>
-                    <Grid size = {4}>
-                      <Typography variant="h5">PB and J</Typography>
-                      <Typography variant="body1">The timeless classic!</Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Container>
-              <Container>
-                {sections}
-              </Container>
-            </main>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <main>
+          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} />
+          <Container sx={{ paddingY: 4 }}>
+            <SearchBar onSearch={handleSearch} />
+            <Box display="flex" justifyContent="flex-start" marginTop={4}>
+              <Button
+                variant="contained"
+                onClick={() => router.push("/add-recipe")}
+                sx={{ padding: '10px 20px'}}
+              >
+                Add Recipe
+              </Button>
+            </Box>
+          </Container>
+          <Container sx={{ paddingY: 4 }}>
+            <Typography variant="h3" gutterBottom>
+              Featured Recipe:
+            </Typography>
+            <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
+              <Card
+                onClick={() => { setCurrentRecipe(0); }}
+                variant="outlined"
+                sx={{ maxWidth: 300, width: "100%", margin: "0 auto" }}
+              >
+                <CardActionArea>
+                  <CardContent>
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
+                      <Image src="/pbj.jpg" height={200} width={200} alt="Picture of the recipe" />
+                    </Box>
+                    <Typography textAlign="center"
+                      variant="h6"
+                      sx={{
+                        maxWidth: 200,
+                        whiteSpace: "normal", // allows wrapping
+                        overflowWrap: "break-word", // break long words to fit in card
+                        wordBreak: "break-word",
+                        margin: "0 auto" // center-align in container
+                      }}>
+                      PB and J
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" textAlign="center">
+                      The timeless classic!
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Box>
+          </Container>
+          <Container sx={{ paddingY: 4 }}>
+            {sections}
+          </Container>
+        </main>
+      </ThemeProvider>
     </div>
   );
 }

@@ -48,7 +48,6 @@ export default function AddRecipe() {
       <main>
         <Editor complete={handleComplete} />
       </main>
-      <footer>Recipe App</footer>
     </div>
   );
 }

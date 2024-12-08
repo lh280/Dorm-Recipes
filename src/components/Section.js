@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -19,14 +19,24 @@ export default function Section(props) {
         onClick={() => {openRecipe(rec.recipe_id)}}
         variant="outlined"
         data-testid="recipe"
-        sx={{ maxWidth: 300, width: "100%" }}
+        sx={{ maxWidth: 450, width: "100%" }}
       >
         <CardActionArea>
           <CardContent>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
               <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
             </Box>
-            <Typography textAlign="center" variant="h6">{rec.title}</Typography>
+            <Typography textAlign="center" 
+              variant="h6" 
+              sx={{ 
+                maxWidth: 200, 
+                whiteSpace: "normal", // allows wrapping
+                overflowWrap: "break-word", // break long words to fit in card
+                wordBreak: "break-word", 
+                margin: "0 auto" // center-align in container
+              }}>
+                {rec.title}
+              </Typography>
             {/* TODO: same as RecipesView */}
           </CardContent>
         </CardActionArea>
@@ -35,14 +45,14 @@ export default function Section(props) {
   ));
 
   return (
-    <div>
-      <Typography variant="h2">{title}</Typography>
+    <Box sx={{ marginBottom: 2}}>
+      <Typography variant="h3" gutterBottom>{title}</Typography>
       <div id="image list">
         <Grid container spacing={2}> 
           {cards}
         </Grid>
       </div>
-    </div>
+    </Box>
   );
 }
 

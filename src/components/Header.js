@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Toolbar, Typography ,Avatar} from "@mui/material";
+import { Toolbar, Typography, Avatar} from "@mui/material";
 import { blue, grey } from "@mui/material/colors";
 import UserShape from "./UserShape";
 
@@ -11,12 +11,33 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount}) {
     setCurrentRecipe();
   };
   return (
-    <div>
-      <Toolbar sx = {{bgcolor:grey.A700}}>
-        <Typography variant = "h1" component="div" sx={{ flexGrow: 1 }} onClick={goHome}>Dorm Recipes</Typography>
-        <Avatar onClick={goToAccount} sx={{ width: 65, height: 65, bgcolor: blue[100] }}>{currentUser.user_id}</Avatar>
-      </Toolbar>
-    </div>
+    <Toolbar sx={{ bgcolor: grey.A700, paddingY: 2, minHeight: 100 }}>
+      <Typography
+        variant="h5" 
+        component="div"
+        sx={{
+          flexGrow: 1,
+          cursor: "pointer",
+          color: "white", 
+        }}
+        onClick={goHome}
+      >
+        Dorm Recipes
+      </Typography>
+
+      <Avatar
+        onClick={goToAccount}
+        sx={{
+          width: 50,
+          height: 50,
+          bgcolor: blue[100],
+          cursor: "pointer", 
+          border: "2px solid white", 
+        }}
+      >
+        {currentUser.user_id}
+      </Avatar>
+    </Toolbar>
   );
 }
 

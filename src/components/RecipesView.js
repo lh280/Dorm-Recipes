@@ -8,7 +8,7 @@
     setCurrentRecipe - a callback that expects a recipe as an argument
 
 */
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -27,14 +27,24 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
         onClick={() => {setCurrentRecipe(rec.recipe_id)}}
         variant="outlined"
         data-testid="recipe"
-        sx={{ maxWidth: 300, width: "100%" }}
+        sx={{ maxWidth: 450, width: "100%" }}
       >
         <CardActionArea>
           <CardContent>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
               <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
             </Box>
-            <Typography textAlign="center" variant="h6">{rec.title}</Typography>
+            <Typography textAlign="center" 
+              variant="h6" 
+              sx={{ 
+                maxWidth: 200, 
+                whiteSpace: "normal", // allows wrapping
+                overflowWrap: "break-word", // break long words to fit in card
+                wordBreak: "break-word", 
+                margin: "0 auto" // center-align in container
+              }}>
+                {rec.title}
+              </Typography>
             {/* TODO: add: rating, prep_time?, servings? author?, part of description?, updated_at? */}
           </CardContent>
         </CardActionArea>
