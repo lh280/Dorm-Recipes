@@ -11,6 +11,7 @@
 import { useState } from "react";
 
 import {TextField, Box} from "@mui/material";
+import Button from "@mui/material/Button";
 
 import PropTypes from "prop-types";
 
@@ -40,8 +41,17 @@ export default function SearchBar({ onSearch }) {
           variant="standard"
           onChange={(s) => setSearch(s.target.value)}
           onKeyDown={handleEnter}
+          sx={{
+            width: { xs: '100%', sm: '80%', md: '60%', lg: '50%' },
+            maxWidth: '600px'
+          }}
+          InputProps={{
+            sx: {
+              fontSize: '1.15rem', // Adjust this value as needed for the desired size
+            }
+          }}
         />
-        <button type="button" onClick={handleButton}>Search</button>
+        <Button type="button" onClick={handleButton}>Search</Button>
       </Box>
     </div>
   );

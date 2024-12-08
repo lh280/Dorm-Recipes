@@ -1,8 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from "next/router";
 import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import '../styles/global.css';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Lexend, sans-serif',
+  },
+});
 
 export default function App(appProps) {
   const { Component, pageProps } = appProps;
@@ -62,10 +69,11 @@ export default function App(appProps) {
     userInfo
   };
 
-  return (<AppCacheProvider {...appProps}><Component {...props} /></AppCacheProvider>);
+  return (
+    <ThemeProvider theme={theme}>
+      <AppCacheProvider {...appProps}>
+        <Component {...props} />
+      </AppCacheProvider>
+    </ThemeProvider>
+  );
 }
-
-/* App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.shape({}),
-}; */
