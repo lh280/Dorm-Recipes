@@ -69,8 +69,7 @@ export default function RecipeView({
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </div>
-<<<<<<< HEAD
-      <Recipe currentRecipe={currentRecipe} ratings={ratings} />
+      <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
       <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
         <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
           <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
@@ -82,14 +81,6 @@ export default function RecipeView({
         </Box>
       </Container>
     </main>
-=======
-      <Recipe currentRecipe={currentRecipe}/>
-      <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
-      <Button variant="contained" onClick={handleDelete}>
-        Delete Recipe
-      </Button> {/* TODO: integrate authorization to only show delete button to recipe owner */}
-    </>
->>>>>>> 5e1b169 (in progress: reviews POST, PUT, DELETE methods. Committing so I can rebase and pull main)
   );
 }
 

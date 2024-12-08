@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function ReviewEditor({ currentRecipe, existingReview }) {
+export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
   const [reviewRating, setReviewRating] = useState(existingReview?.rating || 0);
 
@@ -25,8 +25,8 @@ export default function ReviewEditor({ currentRecipe, existingReview }) {
     };
 
     const url = existingReview
-      ? `/api/reviews` // Update the existing review (PUT request)
-      : `/api/reviews/`; // Create a new review (POST request)
+      ? `/api/reviews/${existingReview.review_id}` // Update the existing review (PUT request)
+      : `/api/reviews`; // Create a new review (POST request)
 
     const method = existingReview ? "PUT" : "POST"; 
     const body = JSON.stringify({
@@ -52,6 +52,7 @@ export default function ReviewEditor({ currentRecipe, existingReview }) {
       // Reset the form
       setReviewContent('');
       setReviewRating(0);
+      onReviewSubmitted(data);
     } catch (error) {
       console.error('Error submitting review:', error);
     }
