@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import { Button, Box, Container } from "@mui/material";
 import UserShape from "@/components/UserShape";
 import RecipeShape from "../../components/RecipeShape";
-import RatingShape from "../../components/RatingShape";
 import Recipe from "../../components/Recipe";
 import Header from "../../components/Header";
 
 export default function RecipeView({
   currentRecipe,
   setCurrentRecipe,
-  ratings,
   currentUser,
   viewAccount
 }) {
@@ -71,6 +69,7 @@ export default function RecipeView({
         <meta name="Dorm Recipes" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </div>
+<<<<<<< HEAD
       <Recipe currentRecipe={currentRecipe} ratings={ratings} />
       <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
         <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
@@ -83,13 +82,20 @@ export default function RecipeView({
         </Box>
       </Container>
     </main>
+=======
+      <Recipe currentRecipe={currentRecipe}/>
+      <Button variant="contained" onClick={() => { shareRecipe() }}>Share Recipe !</Button>
+      <Button variant="contained" onClick={handleDelete}>
+        Delete Recipe
+      </Button> {/* TODO: integrate authorization to only show delete button to recipe owner */}
+    </>
+>>>>>>> 5e1b169 (in progress: reviews POST, PUT, DELETE methods. Committing so I can rebase and pull main)
   );
 }
 
 RecipeView.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  ratings: PropTypes.arrayOf(RatingShape),
   currentUser: UserShape,
   viewAccount: PropTypes.func
 };

@@ -20,4 +20,8 @@ export default class Review extends BaseModel {
       },
     };
   }
+
+  static get idColumn() {
+    return "review_id";
+  }
 }

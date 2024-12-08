@@ -7,15 +7,16 @@
     currentRecipe - The recipe to render
 */
 import { useRouter } from "next/router";
-
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
-
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import RecipeShape from "./RecipeShape";
+import ReviewEditor from "./ReviewEditor";
+import Rating from "./Rating";
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
@@ -59,6 +60,24 @@ export default function Recipe({ currentRecipe }) {
   if (!currentRecipe) {
     return <Typography variant="h4">Loading...</Typography>;
   }
+  const [reviews, setReviews] = useState(currentRecipe.recipe_reviews || []);
+  const [userReview, setUserReview] = useState(
+    currentRecipe.recipe_reviews.find(review => review.user_id === currentRecipe.user_id) || null
+  );
+
+  const handleReviewSubmitted = (newReview) => {
+    setReviews((prevReviews) => {
+      if (userReview) {
+        return prevReviews.map((rev) =>
+          rev.review_id === newReview.review_id ? newReview : rev
+        );
+      }
+      return [newReview, ...prevReviews];
+    });
+    setUserReview(newReview);
+  };
+
+
   const editDate = new Date(currentRecipe.updated_at).toLocaleString();
 
   const steps = parseInstructions(currentRecipe.instructions).map((stp) => (
@@ -68,7 +87,6 @@ export default function Recipe({ currentRecipe }) {
   ));
 
   const combinedIngredients = currentRecipe.ingredients_used.map((ingredient) => {
-    // Find the corresponding recipe_ingredient entry using the ingredient_id
     const recipeDetails = currentRecipe.recipe_ingredient.find((recIng) => recIng.ingredient_id === ingredient.ingredient_id);
 
     return {
@@ -82,6 +100,8 @@ export default function Recipe({ currentRecipe }) {
   const handleReturn = (() => {
     router.back();
   })
+
+  const totalReviews = currentRecipe.recipe_reviews.length;
 
   return ( 
     <Box sx={{ padding: 4 }}>
@@ -158,6 +178,11 @@ export default function Recipe({ currentRecipe }) {
           </Typography>
         )}
       </Box>
+      <ReviewEditor
+        currentRecipe={currentRecipe}
+        existingReview={userReview}
+        onReviewSubmitted={handleReviewSubmitted}
+      />
     </Box>
   );
 }
