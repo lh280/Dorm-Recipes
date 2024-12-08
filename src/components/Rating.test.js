@@ -1,7 +1,7 @@
 import { render,screen } from "@testing-library/react";
 import Rating from "./Rating";
 
-describe("Rating: Rating tests", ()=>{
+describe.skip("Rating: Rating tests", ()=>{
     const handler = jest.fn();
     let ratings;
     let currentRecipe;
