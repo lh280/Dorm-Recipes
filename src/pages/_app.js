@@ -16,27 +16,14 @@ export default function App(appProps) {
   const router = useRouter();
   const [currentRecipe, setCurrentRecipe] = useState(null); 
   const [userInfo, setUserInfo] = useState(null);
-
-  function viewAccount(id) {
-    const addr = id !== undefined ? `/users/${id.toString()}`:"/";
-    router.push(addr);
-    if (id !== undefined){
-      fetch(`/api/users/${id}`).then((res) => {
-        if (!res.ok) {
-          throw new Error("GET user/id response fail");
-        }
-        return res.json();
-      }).then((rec) => {
-        setUserInfo(rec);
-      });
-    }
-  }
   
-  const recId = +router.query.id;
+  const id = +router.query.id;
+  const route = router.pathname;
 
   useEffect(() => {
-    if (recId || recId === 0) { // (id !== null) does not work here. Open to suggestions.
-      fetch(`/api/recipes/${recId}`)
+    if (route === "/recipes/[[...id]]") {
+      if (id || id === 0) { // (id !== null) does not work here. Open to suggestions.
+      fetch(`/api/recipes/${id}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("currentRecipe response fail");
@@ -49,13 +36,31 @@ export default function App(appProps) {
       } else {
         setCurrentRecipe();
       }
-  }, [recId]);
+    }
+    if (route === "/users/[[...id]]") {
+      if (id || id === 0){
+        fetch(`/api/users/${id}`)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("GET user/id response fail");
+            }
+            return res.json();
+          }).then((rec) => {
+            setUserInfo(rec);
+          });
+      }
+    }
+  }, [id,route]);
 
-  function setCurrentRec(id) {
+  function setCurrentRec(recId) {
     const addr =
-      id !== undefined ? `/recipes/${id.toString()}` : "/";
+      recId !== undefined ? `/recipes/${recId.toString()}` : "/";
     router.push(addr);
+  }
 
+  function viewAccount(usrId) {
+    const addr = usrId !== undefined ? `/users/${usrId.toString()}`:"/";
+    router.push(addr);
   }
 
   const currentUser = {user_id:0,email:"test@gmail.com",created_at:"21 Jan 2024 00:00:00 GMT"}

@@ -12,6 +12,7 @@ router
       .where('user_id', userID)
       .withGraphFetched("user_recipes")
       .withGraphFetched("user_reviews")
+      .withGraphFetched("pantry_items")
       .first()
       .throwIfNotFound();
     res.status(200).json(user);

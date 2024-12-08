@@ -13,7 +13,6 @@ function getStarIcons(rating) {
     const fullStars = Math.floor(rating / 2);
     const hasHalfStar = rating % 2 !== 0;
     const totalStars = 5; 
-  
     return (
       <>
         {Array.from({ length: totalStars }, (s, index) => {
@@ -37,10 +36,11 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
             setTab(newTab);
         }
     }
+    // console.log(userInfo);
     let recipes;
     let reviews;
-    // TODO: fetch ingredients from pantry db, not stored here in code
-    const ingredients =  [
+    let ingredients;
+    ingredients =  [
         <Grid key = "ing0" size={4}>
             <Card variant="outlined" >     
                 <CardActionArea>
@@ -104,6 +104,19 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
                 </Card>
             </Grid>)
         )
+
+        ingredients = userInfo.pantry_items.map((pantryItem) => (
+            <Grid key={`rev${pantryItem.ingredient_id}`} size={6} sx={{ mb: 3 }}>
+                <Card variant="outlined" > 
+                <CardActionArea>
+                    <CardContent>
+                        <Typography variant="h5">{pantryItem.ingredient_name}</Typography>
+                        <Typography variant="h6"> Quantity: {Math.trunc(pantryItem.quantity)} {pantryItem.unit}</Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+            </Grid>
+        ))
     }
 
 
