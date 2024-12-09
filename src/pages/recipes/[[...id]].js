@@ -15,7 +15,6 @@ import Header from "@/components/Header";
 export default function RecipeView({
   currentRecipe,
   setCurrentRecipe,
-  ratings,
   currentUser,
   viewAccount
 }) {
@@ -97,7 +96,6 @@ export default function RecipeView({
 RecipeView.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  ratings: PropTypes.arrayOf(RatingShape),
   currentUser: UserShape,
   viewAccount: PropTypes.func
 };
