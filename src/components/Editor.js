@@ -12,6 +12,7 @@ export default function Editor({ currentRecipe, complete }) {
       ? currentRecipe?.instructions
       : currentRecipe?.instructions?.split("\n") || []
   );
+  const [image, setImage] = useState(currentRecipe?.image || ""); // Store Base64 image string
 
   useEffect(() => {
     setTitle(currentRecipe?.title || "");
@@ -22,6 +23,7 @@ export default function Editor({ currentRecipe, complete }) {
         ? currentRecipe?.instructions
         : currentRecipe?.instructions?.split("\n") || []
     );
+    setImage(currentRecipe?.image || ""); // Set image if available
   }, [currentRecipe]);
 
   const handleSave = () => {
@@ -32,8 +34,20 @@ export default function Editor({ currentRecipe, complete }) {
       description,
       time,
       steps,
+      image,
       edited: new Date().toISOString(),
     });
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result.split(",")[1]); // Store only the Base64 string
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -74,6 +88,19 @@ export default function Editor({ currentRecipe, complete }) {
           placeholder="Enter cooking steps (one per line)"
           required
         />
+        {/* Image upload field */}
+        <div className={styles.inputField}>
+          <label htmlFor="imageUpload" className={styles.fileInputLabel}>
+            Upload Image (optional)
+          </label>
+          <input
+            type="file"
+            id="imageUpload"
+            onChange={handleImageChange}
+            accept="image/*"
+          />
+          </div>
+
         <div className={styles.buttonGroup}>
           <button
             type="button"

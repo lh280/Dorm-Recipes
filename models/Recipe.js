@@ -68,6 +68,7 @@ export default class Recipe extends BaseModel {
         servings: { type: "integer", minimum: 1 },
         created_at: { type: "string", format: "date-time" },
         updated_at: { type: "string", format: "date-time" },
+        image: {type: ["string", "null"]},
       },
     };
   }

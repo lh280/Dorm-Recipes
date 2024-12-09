@@ -13,6 +13,12 @@ router
         .withGraphFetched("[ingredients_used, recipe_reviews, recipe_ingredient]")
         .first()
         .throwIfNotFound();
+
+        // If the image is binary, convert it to a Base64 string
+      if (recipe.image) {
+        recipe.image = recipe.image.toString("base64");
+      }
+
       res.status(200).json(recipe);
     } catch (error) {
       res.status(404).json({ error: "Recipe not found" });
@@ -22,11 +28,17 @@ router
   .put(async (req, res) => {
     // PUT endpoint for editing a single recipe
     try {
-      const { id, ...updatedRecipe } = req.body;
+      const { id, image, ...updatedRecipe } = req.body;
       if (id !== parseInt(req.query.id, 10)) {
         res.status(400).end(`URL and object does not match`);
         return;
       }
+
+      // Decode Base64 image string if provided
+      if (image) {
+        updatedRecipe.image = Buffer.from(image, "base64");
+      }
+
       const updatedRecord = await Recipe.query().updateAndFetchById(
         id,
         updatedRecipe,
