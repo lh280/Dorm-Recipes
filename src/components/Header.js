@@ -6,11 +6,16 @@ import { useRouter } from "next/router";
 import UserShape from "./UserShape";
 
 
-export default function Header({ setCurrentRecipe, currentUser, viewAccount}) {
+export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
 
   const goToAccount = () => {
-    viewAccount(currentUser.user_id);
+    if (viewAccount) {
+      viewAccount(currentUser.user_id); 
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("viewAccount function not provided"); 
+    }
   };
   const goHome = () => {
     setCurrentRecipe();

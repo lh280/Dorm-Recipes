@@ -24,7 +24,13 @@ export default function Section(props) {
         onClick={() => {openRecipe(rec.recipe_id)}}
         variant="outlined"
         data-testid="recipe"
-        sx={{ maxWidth: 450, width: "100%" }}
+        sx={{ 
+          maxWidth: 450, 
+          width: "100%",
+          "&:hover": {
+              backgroundColor: "action.hover", 
+              boxShadow: 3, 
+          }}}
       >
         <CardActionArea>
           <CardContent>

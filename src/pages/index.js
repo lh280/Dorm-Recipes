@@ -13,7 +13,7 @@ import theme from "@/material/theme";
 import Section from "@/components/Section";
 import Header from "@/components/Header";
 
-export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
+export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
 
   const [fetchedRecipes,setFetchedRecipes] = useState([])
@@ -61,7 +61,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} />
+          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
             <Box display="flex" justifyContent="center" marginTop={4}>
               <Button
@@ -81,7 +81,14 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
               <Card
                 onClick={() => { setCurrentRecipe(0); }}
                 variant="outlined"
-                sx={{ maxWidth: 300, width: "100%", margin: "0 auto" }}
+                sx={{ 
+                  maxWidth: 300, 
+                  width: "100%", 
+                  margin: "0 auto",
+                  "&:hover": {
+                      backgroundColor: "action.hover", 
+                      boxShadow: 3, 
+                  } }}
               >
                 <CardActionArea>
                   <CardContent>

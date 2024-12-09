@@ -17,7 +17,7 @@ import theme from "@/material/theme";
 
 import Header from "@/components/Header";
 
-export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
+export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
   // initialize states
   const [recipes, setRecipes] = useState([]);

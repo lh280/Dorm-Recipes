@@ -11,26 +11,45 @@ import ReviewShape from './ReviewShape';
 export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
   const [reviewRating, setReviewRating] = useState(existingReview?.rating || 0);
+  const [fieldErrors, setFieldErrors] = useState({
+    content: false,
+    rating: false,
+  });
 
   const handleReviewChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "content") {
-      setReviewContent(value);
-    }
-    if (name === "rating") {
-      const newRating = Math.min(10, Math.max(1, Number(value))); // Keeps value between 1-10
-      setReviewRating(newRating);
-    }
+    const { value } = e.target;
+    setReviewContent(value);
   };
 
-  // const handleRatingChange = (e) => {
-  //   const { value } = e.target;
-  //   const strictValue = Math.min(10, Math.max(1, value)); // Keeps value between 1-10
-  //   setReviewRating(strictValue);
-  // };
+  const handleRatingChange = (e) => {
+    const { value } = e.target;
+    const strictValue = Math.min(10, Math.max(1, value)); // Keeps value between 1-10
+    setReviewRating(strictValue);
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+
+    let hasErrors = false;
+    const errors = {
+      content: false,
+      rating: false,
+    };
+
+    if (!reviewContent) {
+      errors.content = true;
+      hasErrors = true;
+    }
+
+    if (reviewRating === 0) {
+      errors.rating = true;
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      setFieldErrors(errors);
+      return;
+    }
 
     const reviewData = {
       recipe_id: currentRecipe.recipe_id,
@@ -82,28 +101,18 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
           </Typography>
           <form onSubmit={handleReviewSubmit}>
             <Box display="flex" flexDirection="column" gap={1.5}>
-              <TextField
-                type="number"
-                id="rating"
-                name="rating"
-                label="Rating (1-10)"
-                value={reviewRating}
-                min="1"
-                max="10"
-                inputMode="numeric"
-                onChange={handleReviewChange}
-                required
-                variant="outlined"
-                fullWidth
-                InputProps={{ style: { textAlign: 'center' } }}
-              />
-              {/* <Rating
+              <Rating
                   value={reviewRating}
                   onChange={handleRatingChange}
                   precision={1} 
                   max={10} 
                   size="large"
-                /> */}
+                />
+                {fieldErrors.rating && (
+                  <Typography color="error" variant="body2">
+                    Please provide a rating.
+                  </Typography>
+                )}
               <Box>
                 <TextField
                   id="content"
@@ -112,12 +121,16 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
                   value={reviewContent}
                   onChange={handleReviewChange}
                   placeholder="Write your review here..."
-                  required
                   variant="outlined"
                   multiline
                   rows={4}
                   fullWidth
                 />
+                {fieldErrors.content && (
+                  <Typography color="error" variant="body2">
+                    Please fill out the review content.
+                  </Typography>
+                )}
               </Box>
               <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
                 {existingReview ? 'Update Review' : 'Submit Review'}

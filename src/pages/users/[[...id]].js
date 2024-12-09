@@ -1,9 +1,10 @@
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import UserShape from "@/components/UserShape";
 import Header from "@/components/Header"
-import {ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent} from "@mui/material"
+import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material"
 import Image from 'next/image';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid2"
 import UserInfoShape from "@/components/UserInfoShape";
 
@@ -33,14 +34,59 @@ function getStarIcons(rating) {
     );
   }
 
-export default function UserView({setCurrentRecipe, currentUser, viewAccount, userInfo}){
+// TODO: fix "Unhandled Runtime Error - SecurityError: The operation is insecure."
+
+export default function UserView({ setCurrentRecipe, currentUser, viewAccount, userInfo }){
+    const router = useRouter();
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
+
     const changeTab = (newTab) => {
         if (tab !== newTab){
             setTab(newTab);
         }
     }
+
+    useEffect(() => {
+        if (!router.isReady) return; 
+        try {
+            const { id } = router.query;
+            if (id) {
+            viewAccount(id);
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error("Error during user view setup:", error);
+        }
+    }, [router.isReady, router.query, viewAccount]);
+
+    const addRecipeCard = (
+        <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+          <Card
+            onClick={() => router.push("/add-recipe")}
+            variant="outlined"
+            sx={{
+              maxWidth: 450,
+              width: 300,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              "&:hover": {
+                backgroundColor: "action.hover", 
+                boxShadow: 3, 
+              },
+            }}
+          >
+            <CardActionArea>
+              <CardContent>
+                <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
+                <Typography variant="body2" sx={{ textAlign: "center" }}>Add a new recipe</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      );
+
     let recipes;
     let reviews;
     // TODO: fetch ingredients from pantry db, not stored here in code
@@ -68,9 +114,16 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
     ];
     
     if (userInfo){
-        recipes = userInfo.user_recipes.map((recipe) => 
-            (<Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-                <Card variant="outlined" data-testid="recipe" sx={{ maxWidth: 450, width: "100%" }}>
+        recipes = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
+            <Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+                <Card variant="outlined" data-testid="recipe" 
+                    sx={{ 
+                        maxWidth: 450, 
+                        width: "100%" ,
+                        "&:hover": {
+                            backgroundColor: "action.hover", 
+                            boxShadow: 3, 
+                        }}}>
                     <CardActionArea>
                         <CardContent>
                             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
@@ -90,8 +143,8 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
                         </CardContent>
                     </CardActionArea>
                 </Card>
-            </Grid>)
-        )
+            </Grid>
+        ))];
  
         reviews = userInfo.user_reviews.map((review) => 
             (<Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
