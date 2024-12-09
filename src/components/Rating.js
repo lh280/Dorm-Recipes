@@ -72,7 +72,7 @@ export default function Rating({ review, setReviews }) {
       <Typography variant="body1">
       <strong>Rating:</strong> {getStarIcons(review.rating)}
         <p>{review.content}</p>
-        <p><small>{new Date(review.created_at).toLocaleString()}</small></p>
+        <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
       </Typography>
     </Box>
       <Button variant="contained" onClick={() => handleDelete(review)} sx={{ padding: '10px 20px' }}>

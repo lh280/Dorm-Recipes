@@ -39,6 +39,7 @@ router
         }
       
         try {
+          const updated_at = new Date().toISOString();
           const updatedReview = await Review.query()
             .patchAndFetchById(review_id, { content, rating, updated_at })
             .throwIfNotFound();

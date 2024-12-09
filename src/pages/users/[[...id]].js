@@ -142,7 +142,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
                 </Typography>
                 <Box sx={{ paddingX: 2 }}>
                     <Grid container rowSpacing={2} columnSpacing={2}>
-                        {currentContent !== undefined ? currentContent : <div>loading</div>}
+                        {currentContent !== undefined ? currentContent : <div>Loading...</div>}
                     </Grid>
                 </Box>
             </main>
