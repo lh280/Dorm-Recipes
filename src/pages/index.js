@@ -19,19 +19,20 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   const [fetchedRecipes,setFetchedRecipes] = useState([])
 
   useEffect(() => {
-   (async () => {
+    (async () => {
       try {
-      const res = await fetch(`/api/recipes/type`)
+        const res = await fetch(`/api/recipes/type`)
         if (!res.ok) {
+          // eslint-disable-next-line no-console
           throw new Error("GET user/id response fail");
         }
         const data = await res.json();
         setFetchedRecipes(data)
         
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log("Error retrieving recipes")
-    };
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log("Error retrieving recipes")
+      };
     })()
   },[]);
 

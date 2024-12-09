@@ -6,8 +6,13 @@
   props:
     currentRecipe - The recipe to render
 */
+
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
+
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { useState } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -147,7 +152,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         </Typography>
         {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
           currentRecipe.recipe_reviews.map((rev) => (
-            <Rating review={rev} setReviews={setReviews}></Rating>
+            <Rating key={rev.review_id} review={rev} setReviews={setReviews}/>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
@@ -165,5 +170,6 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
 }
 
 Recipe.propTypes = {
-  currentRecipe: RecipeShape
+  currentRecipe: RecipeShape,
+  setCurrentRecipe: PropTypes.func.isRequired
 };

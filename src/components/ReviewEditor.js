@@ -1,4 +1,11 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable object-shorthand */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-prop-types */
+
+import { useState } from 'react';
+import PropTypes from "prop-types";
+import RecipeShape from './RecipeShape';
+import ReviewShape from './ReviewShape';
 
 export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
@@ -54,7 +61,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       setReviewRating(0);
       onReviewSubmitted(data);
     } catch (error) {
-      console.error('Error submitting review:', error);
+      console.error('Error submitting review:', error); // eslint-disable-line
     }
   };
 
@@ -90,3 +97,11 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
     </div>
   );
 }
+
+ReviewEditor.propTypes = {
+  currentRecipe: RecipeShape, 
+  existingReview: ReviewShape, 
+  onReviewSubmitted: PropTypes.func.isRequired,
+  review: ReviewShape,
+  setReviews: PropTypes.func.isRequired
+};

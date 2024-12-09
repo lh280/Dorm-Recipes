@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Button, Box, Container } from "@mui/material";
 import UserShape from "@/components/UserShape";
 import RecipeShape from "@/components/RecipeShape";
-import RatingShape from "@/components/RatingShape";
 import Recipe from "@/components/Recipe";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -77,7 +76,7 @@ export default function RecipeView({
           <meta name="Dorm Recipes" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </div>
-        <Recipe currentRecipe={currentRecipe} ratings={ratings} />
+        <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
         <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
           <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
             <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
