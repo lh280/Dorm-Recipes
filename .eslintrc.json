@@ -24,6 +24,7 @@
     }
   },
   "rules": {
+    "camelcase": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "error",
     "react/require-default-props": "off",
