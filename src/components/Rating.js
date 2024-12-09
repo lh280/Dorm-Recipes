@@ -75,8 +75,12 @@ export default function Rating({ review, setReviews }) {
         <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
       </Typography>
     </Box>
-      <Button variant="contained" onClick={() => handleDelete(review)} sx={{ padding: '10px 20px' }}>
-        Delete Rating
+      <Button 
+        variant="contained" 
+        onClick={() => handleDelete(review)} 
+        sx={{ padding: '5px 10px', fontSize: '0.75rem' }}
+      >
+        Delete Review
       </Button>
   </div>
   );
