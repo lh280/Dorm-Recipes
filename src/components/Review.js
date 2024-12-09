@@ -8,34 +8,15 @@
 
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+
+import { Box, Typography, Button } from "@mui/material"
+
 import ReviewShape from './ReviewShape';
 
-function getStarIcons(rating) {
-  const fullStars = Math.floor(rating / 2);
-  const hasHalfStar = rating % 2 !== 0;
-  const totalStars = 5; 
-
-  return (
-    <>
-      {Array.from({ length: totalStars }, (s, index) => {
-        if (index < fullStars) {
-          return <FaStar key={s} style={{ color: "gold" }} />;
-        }
-        if (index === fullStars && hasHalfStar) {
-          return <FaStarHalfAlt key={s} style={{ color: "gold" }} />;
-        }
-        return <FaRegStar key={s} style={{ color: "gold" }} />;
-      })}
-    </>
-  );
-}
+import getStarIcons from '../lib/getStarIcons';
 
 
-export default function Rating({ review, setReviews }) {
+export default function Review({ review, setReviews }) {
   const router = useRouter();
   const handleDelete = (rev) => { // TODO: integrate authorization with delete handling
     // eslint-disable-next-line no-restricted-globals 
@@ -75,14 +56,18 @@ export default function Rating({ review, setReviews }) {
         <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
       </Typography>
     </Box>
-      <Button variant="contained" onClick={() => handleDelete(review)} sx={{ padding: '10px 20px' }}>
-        Delete Rating
+      <Button 
+        variant="contained" 
+        onClick={() => handleDelete(review)} 
+        sx={{ padding: '5px 10px', fontSize: '0.75rem' }}
+      >
+        Delete Review
       </Button>
   </div>
   );
 }
 
-Rating.propTypes = {
+Review.propTypes = {
   review: ReviewShape,
   setReviews: PropTypes.func.isRequired
 };

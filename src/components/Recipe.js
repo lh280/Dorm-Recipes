@@ -11,15 +11,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useRouter } from "next/router";
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
+
+import { Box, Typography, Button } from "@mui/material"
 import Image from "next/image";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+
 import RecipeShape from "./RecipeShape";
 import ReviewEditor from "./ReviewEditor";
-import Rating from "./Rating";
+import Review from "./Review";
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
@@ -48,7 +48,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           Loading...
         </Typography>
       </Box>
-      );
+    );
   }
   const [reviews, setReviews] = useState(currentRecipe.recipe_reviews || []);
   const [userReview, setUserReview] = useState(
@@ -152,7 +152,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         </Typography>
         {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
           currentRecipe.recipe_reviews.map((rev) => (
-            <Rating key={rev.review_id} review={rev} setReviews={setReviews}/>
+            <Review key={rev.review_id} review={rev} setReviews={setReviews}/>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">

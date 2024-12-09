@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
-import UserShape from "@/components/UserShape";
 import { useState, useEffect } from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,8 +11,9 @@ import theme from "@/material/theme";
 
 import Section from "@/components/Section";
 import Header from "@/components/Header";
+import UserShape from "@/components/UserShape";
 
-export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
+export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
 
   const [fetchedRecipes,setFetchedRecipes] = useState([])
@@ -40,7 +40,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   
   // tempSections does not represent the actual composition of a section object
   if (fetchedRecipes){
-    let demoSections = [{ title: "All Recipes:", recipes: fetchedRecipes}];
+    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes}];
     if (fetchedRecipes.length > 4) {
       const newRecipes = fetchedRecipes.slice(0,4)
       const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
@@ -61,7 +61,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} />
+          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
             <Box display="flex" justifyContent="center" marginTop={4}>
               <Button
@@ -81,7 +81,14 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
               <Card
                 onClick={() => { setCurrentRecipe(0); }}
                 variant="outlined"
-                sx={{ maxWidth: 300, width: "100%", margin: "0 auto" }}
+                sx={{ 
+                  maxWidth: 300, 
+                  width: "100%", 
+                  margin: "0 auto",
+                  "&:hover": {
+                      backgroundColor: "action.hover", 
+                      boxShadow: 3, 
+                  } }}
               >
                 <CardActionArea>
                   <CardContent>

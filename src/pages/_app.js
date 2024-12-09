@@ -36,19 +36,6 @@ export default function App(appProps) {
         setCurrentRecipe();
       }
     }
-    if (route === "/users/[[...id]]") {
-      if (id || id === 0){
-        fetch(`/api/users/${id}`)
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("GET user/id response fail");
-            }
-            return res.json();
-          }).then((rec) => {
-            setUserInfo(rec);
-          });
-      }
-    }
   }, [id,route]);
 
   function setCurrentRec(recId) {

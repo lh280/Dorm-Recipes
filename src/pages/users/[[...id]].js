@@ -1,129 +1,120 @@
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import UserShape from "@/components/UserShape";
-import Header from "@/components/Header"
-import {ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent} from "@mui/material"
-import Image from 'next/image';
-import { useState } from "react";
+
+import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid2"
+
 import UserInfoShape from "@/components/UserInfoShape";
+import UserShape from "@/components/UserShape";
+import Header from "@/components/Header";
+import RecipeCard from "@/components/RecipeCard";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../material/theme";
 
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
+import getStarIcons from '../../lib/getStarIcons';
 
-
-function getStarIcons(rating) {
-    const fullStars = Math.floor(rating / 2);
-    const hasHalfStar = rating % 2 !== 0;
-    const totalStars = 5; 
-    return (<>
-        {Array.from({ length: totalStars }, (s, index) => {
-          if (index < fullStars) {
-            return <FaStar key={s} style={{ color: "gold" }} />;
-          }
-          if (index === fullStars && hasHalfStar) {
-            return <FaStarHalfAlt key={s} style={{ color: "gold" }} />;
-          }
-          return <FaRegStar key={s} style={{ color: "gold" }} />;
-        })}
-    </>);
-}
-
-export default function UserView({setCurrentRecipe, currentUser, viewAccount, userInfo}){
+export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
+    const router = useRouter();
+    const { id } = router.query; 
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
+    const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
+    const [userInfo, setUserInfo] = useState(initialUserInfo);
+
+    useEffect(() => {
+        if (!userInfo && id) {
+          fetch(`/api/users/${id}`)
+            .then((res) => res.json())
+            .then((data) => setUserInfo(data))
+            // eslint-disable-next-line no-console
+            .catch((err) => console.error(err));
+        }
+      }, [id, userInfo]);
+
     const changeTab = (newTab) => {
         if (tab !== newTab) {
             setTab(newTab);
         }
     }
-    // console.log(userInfo);
-    let recipes;
-    let reviews;
-    let ingredients = [];
+    
+    useEffect(() => {
+        const addRecipeCard = (
+            <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+              <Card
+                onClick={() => router.push("/add-recipe")}
+                variant="outlined"
+                sx={{
+                  maxWidth: 450,
+                  width: 300,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover": {
+                    backgroundColor: "action.hover", 
+                    boxShadow: 3, 
+                  },
+                }}
+              >
+                <CardActionArea>
+                  <CardContent>
+                    <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>Add a new recipe</Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
 
-    if (userInfo){
-        recipes = userInfo.user_recipes.map((recipe) => 
-            (<Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-                <Card variant="outlined" data-testid="recipe" sx={{ maxWidth: 450, width: "100%" }}>
-                    <CardActionArea>
-                        <CardContent>
-                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                                <Image src={(recipe.img ? recipe.img : "/food.jpg")} width={250} height={250} alt="Picture of the recipe"/>
-                            </Box>
-                            <Typography textAlign="center" 
-                                variant="h5" 
-                                sx={{ 
-                                    maxWidth: 250, 
-                                    whiteSpace: "normal", // allows wrapping
-                                    overflowWrap: "break-word", // break long words to fit in card
-                                    wordBreak: "break-word", 
-                                    margin: "0 auto" // center-align in container
-                                }}>
-                                    {recipe.title}
-                                </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>)
-        )
- 
-        reviews = userInfo.user_reviews.map((review) => 
-            (<Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
-                <Card variant="outlined">     
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography> 
-                            {/* TODO: find some way to show/fetch recipe title */}
-                            <Typography variant="h7">ID: {review.recipe_id}</Typography>
-                            <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
-                            <Typography variant="h6"><strong>Review:</strong></Typography>
-                            <Typography>{review.content}</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>)
-        )
+        if (userInfo) {
+            let content;
+            switch (tab) {
+                case "My Reviews":
+                    content = userInfo.user_reviews.map((review) => (
+                        <Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
+                            <Card variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography>
+                                        <Typography variant="h7">ID: {review.recipe_id}</Typography>
+                                        <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
+                                        <Typography variant="h6"><strong>Review:</strong></Typography>
+                                        <Typography>{review.content}</Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ));
+                    break;
+                case "My Pantry":
+                    content = userInfo.pantry_items.map((item) => 
+                        <Grid key={`ing${item.ingredient_id}`} size={4}>
+                            <Card variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography variant="h5">{item.ingredient_name}</Typography>
+                                        <Typography variant="h6">Quantity: {Math.trunc(item.quantity)} {item.unit}</Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>,
+                    );
+                    break;
+                default:
+                    content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
+                        <Grid key={`rec${recipe.recipe_id}`} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+                            <RecipeCard recipe={recipe} setCurrentRecipe={setCurrentRecipe} size={250}/>
+                        </Grid>
+                    ))];
+                    break;
+            }
+            setCurrentContent(content);
+        }
+    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router]);
 
-        ingredients = userInfo.pantry_items.map((pantryItem) => (
-            <Grid key={`rev${pantryItem.ingredient_id}`} size={6} sx={{ mb: 3 }}>
-                <Card variant="outlined" > 
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography variant="h5">{pantryItem.ingredient_name}</Typography>
-                            <Typography variant="h6"> Quantity: {Math.trunc(pantryItem.quantity)} {pantryItem.unit}</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>)
-        )
-    }
-   
-    let currentContent;
-    switch (tab) {
-        case "My Reviews":
-            currentContent = reviews
-            break;
-        case "My Pantry":
-            currentContent = ingredients
-            ingredients.unshift(
-            (<Grid size={6} onClick = {() => {}}>
-                <Card variant="outlined">     
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography variant="h3" sx={{textAlign: "center"}} >+</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>))
-            break;
-        default:
-            currentContent = recipes;
-            break;
-    }
-
-    return(
+    return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main style={{ paddingTop: '115px' }}>
@@ -135,22 +126,23 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
                         <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2  }}>
+                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
                     {tab}
                 </Typography>
                 <Box sx={{ paddingX: 2 }}>
                     <Grid container rowSpacing={2} columnSpacing={2}>
-                        {currentContent !== undefined ? currentContent : <div>Loading...</div>}
+                        {currentContent}
                     </Grid>
                 </Box>
             </main>
         </ThemeProvider>
-        );
-    }
+    );
+}
+    
 
 UserView.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
   currentUser: UserShape,
   viewAccount: PropTypes.func,
-  userInfo: UserInfoShape
+  initialUserInfo: UserInfoShape
 };

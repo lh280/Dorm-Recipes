@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 import { createRouter } from "next-connect";
 import User from "../../../../models/User";
 import onError from "../../../lib/middleware";
@@ -15,9 +17,16 @@ router
       .withGraphFetched("pantry_items")
       .first()
       .throwIfNotFound();
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
     res.status(200).json(user);
+
     } catch (error){
-      res.status(404).json({error: "User not found"});
+      // eslint-disable-next-line no-console
+      console.error("Error fetching user:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   })
   .put(async (req, res) => {
