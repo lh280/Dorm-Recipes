@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import PropTypes from "prop-types";
+import { TextField, Button, Typography, Box, Rating, Card, CardContent } from '@mui/material';
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
@@ -17,9 +18,16 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       setReviewContent(value);
     }
     if (name === "rating") {
-      setReviewRating(Number(value));
+      const newRating = Math.min(10, Math.max(1, Number(value))); // Keeps value between 1-10
+      setReviewRating(newRating);
     }
   };
+
+  // const handleRatingChange = (e) => {
+  //   const { value } = e.target;
+  //   const strictValue = Math.min(10, Math.max(1, value)); // Keeps value between 1-10
+  //   setReviewRating(strictValue);
+  // };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -58,7 +66,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
       // Reset the form
       setReviewContent('');
-      setReviewRating(0);
+      setReviewRating(0); // 0 to begin, but once the user touches it the value can only be 1-10
       onReviewSubmitted(data);
     } catch (error) {
       console.error('Error submitting review:', error); // eslint-disable-line
@@ -66,35 +74,59 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   };
 
   return (
-    <div>
-      <h3>{existingReview ? "Edit Your Review" : "Write a Review"}</h3>
-      <form onSubmit={handleReviewSubmit}>
-        <div>
-          <label htmlFor="rating">Rating (1-10): </label>
-          <input
-            type="number"
-            id="rating"
-            name="rating"
-            value={reviewRating}
-            min="1"
-            max="10"
-            onChange={handleReviewChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="content">Review Content: </label>
-          <textarea
-            id="content"
-            name="content"
-            value={reviewContent}
-            onChange={handleReviewChange}
-            placeholder="Write your review here..."
-            required
-          />
-        </div>
-        <button type="submit">{existingReview ? "Update Review" : "Submit Review"}</button>
-      </form>
-    </div>
+    <Box display="flex" justifyContent="flex-start" p={2}>
+      <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            {existingReview ? 'Edit Your Review' : 'Write a Review'}
+          </Typography>
+          <form onSubmit={handleReviewSubmit}>
+            <Box display="flex" flexDirection="column" gap={1.5}>
+              <TextField
+                type="number"
+                id="rating"
+                name="rating"
+                label="Rating (1-10)"
+                value={reviewRating}
+                min="1"
+                max="10"
+                inputMode="numeric"
+                onChange={handleReviewChange}
+                required
+                variant="outlined"
+                fullWidth
+                InputProps={{ style: { textAlign: 'center' } }}
+              />
+              {/* <Rating
+                  value={reviewRating}
+                  onChange={handleRatingChange}
+                  precision={1} 
+                  max={10} 
+                  size="large"
+                /> */}
+              <Box>
+                <TextField
+                  id="content"
+                  name="content"
+                  label="Review Content"
+                  value={reviewContent}
+                  onChange={handleReviewChange}
+                  placeholder="Write your review here..."
+                  required
+                  variant="outlined"
+                  multiline
+                  rows={4}
+                  fullWidth
+                />
+              </Box>
+              <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+                {existingReview ? 'Update Review' : 'Submit Review'}
+              </Button>
+            </Box>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
 

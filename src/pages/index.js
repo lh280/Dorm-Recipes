@@ -40,7 +40,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   
   // tempSections does not represent the actual composition of a section object
   if (fetchedRecipes){
-    let demoSections = [{ title: "All Recipes:", recipes: fetchedRecipes}];
+    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes}];
     if (fetchedRecipes.length > 4) {
       const newRecipes = fetchedRecipes.slice(0,4)
       const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
