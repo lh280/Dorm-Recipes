@@ -7,6 +7,12 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 import RecipeShape from './RecipeShape';
 
+/* 
+  TODO: 
+  fix 
+    Failed prop type: The prop `recipes[0].recipe_id` is marked as required in `Section`, but its value is `undefined`.
+*/
+
 export default function Section(props) {
   const {title, recipes, openRecipe} =  props; // TODO: ASK WHY THIS WORKED AND THE OLD ONE DIDN'T
 
@@ -34,7 +40,6 @@ export default function Section(props) {
                 width={200} 
                 height={200} 
                 alt="Picture of the recipe"
-                objectPosition="center"
                 />
             </Box>
             <Typography textAlign="center" 
