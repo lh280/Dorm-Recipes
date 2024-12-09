@@ -6,15 +6,13 @@ import Image from 'next/image';
 import { useState } from "react";
 import Grid from "@mui/material/Grid2"
 import UserInfoShape from "@/components/UserInfoShape";
-
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
+import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa"; //eslint-disable-line
 
 function getStarIcons(rating) {
     const fullStars = Math.floor(rating / 2);
     const hasHalfStar = rating % 2 !== 0;
     const totalStars = 5; 
-    return (
-      <>
+    return (<>
         {Array.from({ length: totalStars }, (s, index) => {
           if (index < fullStars) {
             return <FaStar key={s} style={{ color: "gold" }} />;
@@ -24,45 +22,22 @@ function getStarIcons(rating) {
           }
           return <FaRegStar key={s} style={{ color: "gold" }} />;
         })}
-      </>
-    );
-  }
+    </>);
+}
 
 export default function UserView({setCurrentRecipe, currentUser, viewAccount, userInfo}){
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
     const changeTab = (newTab) => {
-        if (tab !== newTab){
+        if (tab !== newTab) {
             setTab(newTab);
         }
     }
     // console.log(userInfo);
     let recipes;
     let reviews;
-    let ingredients;
-    ingredients =  [
-        <Grid key = "ing0" size={4}>
-            <Card variant="outlined" >     
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">Flour</Typography>
-                        <Typography variant="h6"> Quantity: Half a pound</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>,
-        <Grid key = "ing1" size={4}>
-            <Card variant="outlined" >     
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">Sugar</Typography>
-                        <Typography variant="h6"> Quantity: One pound</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>
-    ];
-    
+    let ingredients = [];
+
     if (userInfo){
         recipes = userInfo.user_recipes.map((recipe) => 
             (<Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
@@ -91,10 +66,11 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
  
         reviews = userInfo.user_reviews.map((review) => 
             (<Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
-                <Card variant="outlined" >     
+                <Card variant="outlined">     
                     <CardActionArea>
                         <CardContent>
-                            <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography> {/* TODO: find some way to show/fetch recipe title */}
+                            <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography> 
+                            {/* TODO: find some way to show/fetch recipe title */}
                             <Typography variant="h7">ID: {review.recipe_id}</Typography>
                             <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
                             <Typography variant="h6"><strong>Review:</strong></Typography>
@@ -108,18 +84,16 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
         ingredients = userInfo.pantry_items.map((pantryItem) => (
             <Grid key={`rev${pantryItem.ingredient_id}`} size={6} sx={{ mb: 3 }}>
                 <Card variant="outlined" > 
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">{pantryItem.ingredient_name}</Typography>
-                        <Typography variant="h6"> Quantity: {Math.trunc(pantryItem.quantity)} {pantryItem.unit}</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-            </Grid>
-        ))
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography variant="h5">{pantryItem.ingredient_name}</Typography>
+                            <Typography variant="h6"> Quantity: {Math.trunc(pantryItem.quantity)} {pantryItem.unit}</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Grid>)
+        )
     }
-
-
    
     let currentContent;
     switch (tab) {
@@ -128,6 +102,16 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
             break;
         case "My Pantry":
             currentContent = ingredients
+            ingredients.unshift(
+            (<Grid size={6} onClick = {() => addPantryItem(ingredients)}>
+                <Card variant="outlined">     
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography variant="h3" sx={{textAlign: "center"}} >+</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Grid>))
             break;
         default:
             currentContent = recipes;
