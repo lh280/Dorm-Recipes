@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
-import UserShape from "@/components/UserShape";
 import { useState, useEffect } from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +11,7 @@ import theme from "@/material/theme";
 
 import Section from "@/components/Section";
 import Header from "@/components/Header";
+import UserShape from "@/components/UserShape";
 
 export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();

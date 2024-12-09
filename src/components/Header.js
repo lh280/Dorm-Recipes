@@ -1,8 +1,10 @@
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+
 import { Toolbar, Typography, Avatar, Box } from "@mui/material";
 import { blue } from "@mui/material/colors";
+
 import SearchBar from "@/components/SearchBar";
-import { useRouter } from "next/router";
 import UserShape from "./UserShape";
 
 

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import RecipesView from "./RecipesView";
 
-describe("RecipesView: Reacipes View tests (Part of search bar?)",()=>{
+describe("RecipesView: RecipesView tests",()=>{
     const handler = jest.fn();
     let recipes;
     beforeEach(() => {
@@ -45,7 +45,7 @@ describe("RecipesView: Reacipes View tests (Part of search bar?)",()=>{
         handler.mockReset();
     })
     test("RecipesView displays the correct information", ()=>{
-        render(<RecipesView recipes={recipes}/>)
+        render(<RecipesView recipes={recipes} setCurrentRecipe={handler}/>)
         recipes.forEach((rec) => {
             expect(screen.queryByRole("paragraph", {name: rec.id}))
             expect(screen.queryByRole("paragraph", {name: rec.rating}))

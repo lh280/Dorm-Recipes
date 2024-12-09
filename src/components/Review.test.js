@@ -1,7 +1,7 @@
 import { render,screen } from "@testing-library/react";
-import Rating from "./Rating";
+import Review from "./Review";
 
-describe.skip("Rating: Rating tests", ()=>{
+describe.skip("Review: Review tests", ()=>{
     const handler = jest.fn();
     let ratings;
     let currentRecipe;
@@ -49,8 +49,8 @@ describe.skip("Rating: Rating tests", ()=>{
 
         handler.mockReset();
     })
-    test("Rating is populated by props passed in", ()=>{
-        render(<Rating ratings={ratings} currentRecipe={currentRecipe}/>) // TODO: Account for user id
+    test("Review is populated by props passed in", ()=>{
+        render(<Review ratings={ratings} currentRecipe={currentRecipe}/>) // TODO: Account for user id
         const avgRating = ratings.reduce((total,rating)=> total + rating.value,0)/ratings.length
         const userRating = ratings.find((element) => element.userId === 0).value; // TODO: Account for user id
         expect(screen.getByText(`User Rating: ${userRating}`))

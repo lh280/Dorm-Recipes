@@ -9,11 +9,9 @@
 */
 
 import { useState } from "react";
-
-import { TextField, Box } from "@mui/material";
-import Button from "@mui/material/Button";
-
 import PropTypes from "prop-types";
+
+import { TextField, Box, Button } from "@mui/material";
 
 export default function SearchBar({ onSearch }) {
   // initialize states

@@ -1,38 +1,20 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import UserShape from "@/components/UserShape";
-import Header from "@/components/Header"
-import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material"
-import Image from 'next/image';
+
+import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid2"
+
 import UserInfoShape from "@/components/UserInfoShape";
+import UserShape from "@/components/UserShape";
+import Header from "@/components/Header";
+import RecipeCard from "@/components/RecipeCard";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../material/theme";
 
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
-
-function getStarIcons(rating) {
-    const fullStars = Math.floor(rating / 2);
-    const hasHalfStar = rating % 2 !== 0;
-    const totalStars = 5; 
-  
-    return (
-      <>
-        {Array.from({ length: totalStars }, (s, index) => {
-          if (index < fullStars) {
-            return <FaStar key={s} style={{ color: "gold" }} />;
-          }
-          if (index === fullStars && hasHalfStar) {
-            return <FaStarHalfAlt key={s} style={{ color: "gold" }} />;
-          }
-          return <FaRegStar key={s} style={{ color: "gold" }} />;
-        })}
-      </>
-    );
-  }
+import getStarIcons from '../../lib/getStarIcons';
 
 export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
     const router = useRouter();
@@ -133,35 +115,8 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     break;
                 default:
                     content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
-                        <Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-                            <Card variant="outlined" data-testid="recipe"
-                                sx={{
-                                    maxWidth: 450,
-                                    width: "100%",
-                                    "&:hover": {
-                                        backgroundColor: "action.hover",
-                                        boxShadow: 3,
-                                    }
-                                }}>
-                                <CardActionArea>
-                                    <CardContent>
-                                        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                                            <Image src={(recipe.img ? recipe.img : "/food.jpg")} width={250} height={250} alt="Picture of the recipe" />
-                                        </Box>
-                                        <Typography textAlign="center"
-                                            variant="h5"
-                                            sx={{
-                                                maxWidth: 250,
-                                                whiteSpace: "normal",
-                                                overflowWrap: "break-word",
-                                                wordBreak: "break-word",
-                                                margin: "0 auto"
-                                            }}>
-                                            {recipe.title}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                        <Grid key={`rec${recipe.recipe_id}`} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+                            <RecipeCard recipe={recipe} setCurrentRecipe={setCurrentRecipe} size={250}/>
                         </Grid>
                     ))];
                     break;
