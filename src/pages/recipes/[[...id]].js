@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { Button, Box, Container } from "@mui/material";
+
 import UserShape from "@/components/UserShape";
 import RecipeShape from "@/components/RecipeShape";
 import Recipe from "@/components/Recipe";
+import Header from "@/components/Header";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
 
-import Header from "@/components/Header";
 
 export default function RecipeView({
   currentRecipe,

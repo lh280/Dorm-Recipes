@@ -1,21 +1,18 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-import UserShape from "@/components/UserShape";
-
 import PropTypes from "prop-types";
 
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import { Button, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
-import RecipesView from "@/components/RecipesView";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
 
 import Header from "@/components/Header";
+import UserShape from "@/components/UserShape";
+import RecipesView from "@/components/RecipesView";
 
 export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
