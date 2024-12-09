@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
 import PropTypes from "prop-types";
+import Head from "next/head";
 
 import { Button, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -61,31 +61,38 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
   })
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
-          <Container sx={{ paddingY: 4 }}>
-            <Grid container spacing={2} direction="column">
-              <Grid item xs={12}>
-                <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 0 }}>
-                  🔙 To home
-                </Button>
+    <div>
+      <Head>
+          <title>Dorm Recipes | Search results for &quot;{query}&quot;</title>
+          <meta name="Dorm Recipes"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <main style={{ paddingTop: '80px' }}>
+            <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
+            <Container sx={{ paddingY: 4 }}>
+              <Grid container spacing={2} direction="column">
+                <Grid item xs={12}>
+                  <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 0 }}>
+                    🔙 To home
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <h1 style={{ margin: 0 }}>Search results for &quot;{query}&quot;</h1>
+                </Grid>
+                <Grid item xs={12}>
+                  {recipes.length > 0 ? (
+                    <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} />
+                  ) : (
+                    <p style={{ margin: 0 }}>{recipes.length === 0 ? `No matching recipes found for "${query}"` : "An error occurred while fetching recipes."}</p>
+                  )}
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <h1 style={{ margin: 0 }}>Search results for &quot;{query}&quot;</h1>
-              </Grid>
-              <Grid item xs={12}>
-                {recipes.length > 0 ? (
-                  <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} />
-                ) : (
-                  <p style={{ margin: 0 }}>{recipes.length === 0 ? `No matching recipes found for "${query}"` : "An error occurred while fetching recipes."}</p>
-                )}
-              </Grid>
-            </Grid>
-          </Container>
-      </main>
-    </ThemeProvider>
+            </Container>
+        </main>
+      </ThemeProvider>
+    </div>
   );
 }
 

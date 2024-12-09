@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import Head from "next/head";
 
 import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -115,27 +116,34 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
     }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <main style={{ paddingTop: '115px' }}>
-                <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
-                <Box display="flex" alignContent="center" justifyContent="center">
-                    <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
-                        <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
-                        <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
-                        <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
-                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
-                    {tab}
-                </Typography>
-                <Box sx={{ paddingX: 2 }}>
-                    <Grid container rowSpacing={2} columnSpacing={2}>
-                        {currentContent}
-                    </Grid>
-                </Box>
-            </main>
-        </ThemeProvider>
+        <div>
+            <Head>
+                <title>Dorm Recipes | User page</title>
+                <meta name="Dorm Recipes"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <main style={{ paddingTop: '115px' }}>
+                    <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
+                    <Box display="flex" alignContent="center" justifyContent="center">
+                        <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
+                            <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
+                            <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
+                            <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>
+                    <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
+                        {tab}
+                    </Typography>
+                    <Box sx={{ paddingX: 2 }}>
+                        <Grid container rowSpacing={2} columnSpacing={2}>
+                            {currentContent}
+                        </Grid>
+                    </Box>
+                </main>
+            </ThemeProvider>
+        </div>
     );
 }
     

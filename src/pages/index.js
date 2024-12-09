@@ -2,6 +2,7 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
 import { useState, useEffect } from "react";
 
