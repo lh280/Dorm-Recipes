@@ -46,7 +46,7 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount}) {
         Dorm Recipes
       </Typography>
       <SearchBar onSearch={handleSearch}/>
-      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto", paddingRight: 5 }}>
+      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
         <Avatar
           onClick={goToAccount}
           sx={{
