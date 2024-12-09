@@ -1,4 +1,3 @@
-import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -13,7 +12,7 @@ export default function Section(props) {
 
   const cards = [...recipes].map((rec) => (
     
-    <Grid item xs={12} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
+    <Box key={rec.id}  sx={{ flex: '0 0 auto', margin: 1 }}>
       <Card
         key={rec.id}
         onClick={() => {openRecipe(rec.recipe_id)}}
@@ -23,8 +22,20 @@ export default function Section(props) {
       >
         <CardActionArea>
           <CardContent>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-              <Image src={(rec.img ? rec.img : "/food.jpg")} width={200} height={200} alt="Picture of the recipe"/>
+            <Box 
+              sx={{ 
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center", 
+                overflow: "hidden", 
+                }}>
+              <Image 
+                src={(rec.img ? rec.img : "/food.jpg")} 
+                width={200} 
+                height={200} 
+                alt="Picture of the recipe"
+                objectPosition="center"
+                />
             </Box>
             <Typography textAlign="center" 
               variant="h6" 
@@ -41,16 +52,23 @@ export default function Section(props) {
           </CardContent>
         </CardActionArea>
       </Card>
-    </Grid>
+    </Box>
   ));
 
   return (
     <Box sx={{ marginBottom: 2}}>
       <Typography variant="h3" gutterBottom>{title}</Typography>
       <div id="image list">
-        <Grid container spacing={2}> 
+      <Box
+        sx={{
+          display: 'flex',
+          overflowX: 'auto', // horizontal scrolling
+          scrollBehavior: 'smooth', 
+          padding: 1, 
+        }}
+      >
           {cards}
-        </Grid>
+        </Box>
       </div>
     </Box>
   );

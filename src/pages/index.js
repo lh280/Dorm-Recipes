@@ -1,15 +1,15 @@
 import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { useRouter} from "next/router";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { useRouter } from "next/router";
 import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
-import SearchBar from "@/components/SearchBar";
 import UserShape from "@/components/UserShape";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Section from "../components/Section";
+
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "../material/theme";
 
 export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
@@ -42,14 +42,10 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
     if (fetchedRecipes.length > 4) {
       const newRecipes = fetchedRecipes.slice(0,4)
       const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
-      demoSections = [{ title: "Newest Recipes:", recipes:newRecipes}, {title: "Oldest Recipes:", recipes:oldRecipes}];
+      demoSections = [{ title: "Newest Recipes", recipes:newRecipes}, {title: "Oldest Recipes", recipes:oldRecipes}];
     }
     sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
-
-  const handleSearch = (q) => {
-    router.push(`/search?q=${q}`); 
-  };
   
    // Using current Recipe as a place holder
 
@@ -62,23 +58,22 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <main>
+        <main style={{ paddingTop: '80px' }}>
           <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} />
-          <Container sx={{ paddingY: 4 }}>
-            <SearchBar onSearch={handleSearch} />
-            <Box display="flex" justifyContent="flex-start" marginTop={4}>
+          <Container sx={{ paddingY: 0 }}>
+            <Box display="flex" justifyContent="center" marginTop={4}>
               <Button
                 variant="contained"
                 onClick={() => router.push("/add-recipe")}
-                sx={{ padding: '10px 20px'}}
+                sx={{ padding: '10px 20px' }}
               >
                 Add Recipe
               </Button>
             </Box>
           </Container>
-          <Container sx={{ paddingY: 4 }}>
+          <Container sx={{ paddingY: 0 }}>
             <Typography variant="h3" gutterBottom>
-              Featured Recipe:
+              Featured Recipe
             </Typography>
             <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
               <Card

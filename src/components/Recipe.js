@@ -57,7 +57,13 @@ function getStarIcons(rating) {
 export default function Recipe({ currentRecipe }) {
   const router = useRouter();
   if (!currentRecipe) {
-    return <Typography variant="h4">Loading...</Typography>;
+    return (
+      <Box sx={{ padding: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Loading...
+        </Typography>
+      </Box>
+      );
   }
   const editDate = new Date(currentRecipe.updated_at).toLocaleString();
 

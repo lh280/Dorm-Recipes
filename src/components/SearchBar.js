@@ -10,7 +10,7 @@
 
 import { useState } from "react";
 
-import {TextField, Box} from "@mui/material";
+import { TextField, Box } from "@mui/material";
 import Button from "@mui/material/Button";
 
 import PropTypes from "prop-types";
@@ -33,7 +33,7 @@ export default function SearchBar({ onSearch }) {
 
   return (
     <div>
-      <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', maxWidth: '800px' }}>
         <TextField
           type="text"
           placeholder="🔍 Search for a recipe..."
@@ -42,16 +42,35 @@ export default function SearchBar({ onSearch }) {
           onChange={(s) => setSearch(s.target.value)}
           onKeyDown={handleEnter}
           sx={{
-            width: { xs: '100%', sm: '80%', md: '60%', lg: '50%' },
-            maxWidth: '600px'
+            width: '100%',
+            maxWidth: '600px',
+            "& .MuiInputBase-root": {
+              borderBottom: "1px solid grey", 
+            },
+            "& .MuiInput-underline:before": {
+              borderBottomColor: "grey", 
+            },
+            "& .MuiInput-underline:after": {
+              borderBottomColor: "white", 
+            },
+            input: { color: "white" },
           }}
           InputProps={{
             sx: {
-              fontSize: '1.15rem', // Adjust this value as needed for the desired size
+              fontSize: '1.15rem', 
             }
           }}
         />
-        <Button type="button" onClick={handleButton}>Search</Button>
+        <Button type="button" onClick={handleButton}
+          sx={{
+            backgroundColor: "#201f54", 
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#3f3d89", 
+            }
+          }}>
+            Search
+          </Button>
       </Box>
     </div>
   );

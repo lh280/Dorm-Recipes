@@ -7,6 +7,10 @@ import RatingShape from "../../components/RatingShape";
 import Recipe from "../../components/Recipe";
 import Header from "../../components/Header";
 
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../../material/theme";
+
 export default function RecipeView({
   currentRecipe,
   setCurrentRecipe,
@@ -64,25 +68,28 @@ export default function RecipeView({
   };
 
   return (
-    <main>
-      <div>
-        <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
-        <title>Create Next App</title>
-        <meta name="Dorm Recipes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </div>
-      <Recipe currentRecipe={currentRecipe} ratings={ratings} />
-      <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
-        <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
-          <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
-            Share Recipe !
-          </Button>
-          <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }}>
-            Delete Recipe
-          </Button>
-        </Box>
-      </Container>
-    </main>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <main style={{ paddingTop: '80px' }}>
+        <div>
+          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
+          <title>Create Next App</title>
+          <meta name="Dorm Recipes" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </div>
+        <Recipe currentRecipe={currentRecipe} ratings={ratings} />
+        <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
+          <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
+            <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
+              Share Recipe !
+            </Button>
+            <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }}>
+              Delete Recipe
+            </Button>
+          </Box>
+        </Container>
+      </main>
+    </ThemeProvider>
   );
 }
 
