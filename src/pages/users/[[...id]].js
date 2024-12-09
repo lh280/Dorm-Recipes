@@ -108,7 +108,7 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
         case "My Pantry":
             currentContent = ingredients
             ingredients.unshift(
-            (<Grid size={6} onClick = {() => addPantryItem(ingredients)}>
+            (<Grid size={6} onClick = {() => {}}>
                 <Card variant="outlined">     
                     <CardActionArea>
                         <CardContent>
