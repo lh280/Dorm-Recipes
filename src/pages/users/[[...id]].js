@@ -47,6 +47,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
           fetch(`/api/users/${id}`)
             .then((res) => res.json())
             .then((data) => setUserInfo(data))
+            // eslint-disable-next-line no-console
             .catch((err) => console.error(err));
         }
       }, [id, userInfo]);
@@ -56,35 +57,35 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             setTab(newTab);
         }
     }
-
-    const addRecipeCard = (
-        <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-          <Card
-            onClick={() => router.push("/add-recipe")}
-            variant="outlined"
-            sx={{
-              maxWidth: 450,
-              width: 300,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              "&:hover": {
-                backgroundColor: "action.hover", 
-                boxShadow: 3, 
-              },
-            }}
-          >
-            <CardActionArea>
-              <CardContent>
-                <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
-                <Typography variant="body2" sx={{ textAlign: "center" }}>Add a new recipe</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      );
     
     useEffect(() => {
+        const addRecipeCard = (
+            <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+              <Card
+                onClick={() => router.push("/add-recipe")}
+                variant="outlined"
+                sx={{
+                  maxWidth: 450,
+                  width: 300,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  "&:hover": {
+                    backgroundColor: "action.hover", 
+                    boxShadow: 3, 
+                  },
+                }}
+              >
+                <CardActionArea>
+                  <CardContent>
+                    <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>Add a new recipe</Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+
         if (userInfo) {
             let content;
             switch (tab) {
@@ -167,7 +168,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             }
             setCurrentContent(content);
         }
-    }, [userInfo, tab, setCurrentRecipe]);
+    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -199,5 +200,5 @@ UserView.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
   currentUser: UserShape,
   viewAccount: PropTypes.func,
-  userInfo: UserInfoShape
+  initialUserInfo: UserInfoShape
 };
