@@ -2,6 +2,8 @@ import { createRouter } from "next-connect";
 import Review from "../../../../models/Review";
 import onError from "../../../lib/middleware";
 
+/* eslint-disable consistent-return */
+
 const router = createRouter();
 
 router
@@ -23,6 +25,7 @@ router
         });
         return res.status(201).json(newReview);
         } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
         res.status(500).json({ error: "Failed to create review" });
         }
@@ -36,8 +39,9 @@ router
         }
       
         try {
+          const updated_at = new Date().toISOString();
           const updatedReview = await Review.query()
-            .patchAndFetchById(review_id, { content, rating, edited_at })
+            .patchAndFetchById(review_id, { content, rating, updated_at })
             .throwIfNotFound();
       
           return res.status(200).json(updatedReview);
@@ -56,12 +60,7 @@ router
         }
 
         try {
-            const review = await Review.query()
-            .where("review_id", review_id)
-            .first()
-            .throwIfNotFound();
-
-            await Review.query().deleteById(reviewID);
+            await Review.query().deleteById(review_id);
             return res.status(200).json({ success: true, message: "Review deleted successfully" });
         } catch (error) {
             // eslint-disable-next-line no-console

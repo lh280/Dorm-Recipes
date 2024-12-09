@@ -18,6 +18,14 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import RecipeShape from "./RecipeShape";
 
+/* 
+  TODO: 
+  fix 
+    "Failed prop type: The prop `recipes[0].recipe_id` is marked as required in `RecipesView`, but its value is `undefined`."" 
+    and "Warning: Failed prop type: The prop `setCurrentRecipe` is marked as required in `RecipesView`, but its value is `undefined`."
+    and "Warning: Received `true` for a non-boolean attribute `item`."
+*/
+
 export default function RecipesView({ recipes, setCurrentRecipe }) { 
   // map the sorted titles to html elements
   const recCards = [...recipes].map((rec) => (

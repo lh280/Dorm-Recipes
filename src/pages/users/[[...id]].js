@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { useState } from "react";
 import Grid from "@mui/material/Grid2"
 import UserInfoShape from "@/components/UserInfoShape";
-import { FaStar, FaStarHalfAlt, FaRegStar} from "react-icons/fa"; //eslint-disable-line
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../../material/theme";
+
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
+
 
 function getStarIcons(rating) {
     const fullStars = Math.floor(rating / 2);
@@ -119,25 +124,28 @@ export default function UserView({setCurrentRecipe, currentUser, viewAccount, us
     }
 
     return(
-        <main>
-            <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
-            <Box display="flex" alignContent="center" justifyContent="center">
-                <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
-                    <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
-                    <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
-                    <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
-                </ToggleButtonGroup>
-            </Box>
-            <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2  }}>
-                {tab}
-            </Typography>
-            <Box sx={{ paddingX: 2 }}>
-                <Grid container rowSpacing={2} columnSpacing={2}>
-                    {currentContent !== undefined ? currentContent : <div>loading</div>}
-                </Grid>
-            </Box>
-        </main>
-    );
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <main style={{ paddingTop: '115px' }}>
+                <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
+                <Box display="flex" alignContent="center" justifyContent="center">
+                    <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
+                        <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
+                        <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
+                        <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
+                    </ToggleButtonGroup>
+                </Box>
+                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2  }}>
+                    {tab}
+                </Typography>
+                <Box sx={{ paddingX: 2 }}>
+                    <Grid container rowSpacing={2} columnSpacing={2}>
+                        {currentContent !== undefined ? currentContent : <div>Loading...</div>}
+                    </Grid>
+                </Box>
+            </main>
+        </ThemeProvider>
+        );
     }
 
 UserView.propTypes = {

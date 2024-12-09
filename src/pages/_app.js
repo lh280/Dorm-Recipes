@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import '../styles/global.css';
 
 const theme = createTheme({
   typography: {
