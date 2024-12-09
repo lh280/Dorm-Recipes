@@ -13,7 +13,7 @@ export default class User extends BaseModel {
 
   static relationMappings = {
     pantry_items: {
-      relation: Model.HasManyRelation,
+      relation: Model.ManyToManyRelation,
       modelClass: Ingredient, // eslint-disable-line no-use-before-define
       join: {
         from: "Users.user_id",
@@ -21,6 +21,10 @@ export default class User extends BaseModel {
           // Pantry is the join table. These names must match the schema
           from: "Pantry.user_id",
           to: "Pantry.ingredient_id",
+          extra: {
+            unit: "unit",
+            quantity: "quantity"
+          }
         },
         to: "Ingredients.ingredient_id",
       },
@@ -39,9 +43,8 @@ export default class User extends BaseModel {
       join: {
         from: "Users.user_id",
         to: "Recipes.user_id",
-      },
-    },
-
+      }
+    }
   };
 
   static get jsonSchema() {

@@ -35,7 +35,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
       }, [id, userInfo]);
 
     const changeTab = (newTab) => {
-        if (tab !== newTab){
+        if (tab !== newTab) {
             setTab(newTab);
         }
     }
@@ -89,29 +89,18 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     ));
                     break;
                 case "My Pantry":
-                    content = [
-                        // TODO: fetch ingredients from pantry db, not stored here in code
-                        <Grid key="ing0" size={4}>
+                    content = userInfo.pantry_items.map((item) => 
+                        <Grid key={`ing${item.ingredient_id}`} size={4}>
                             <Card variant="outlined">
                                 <CardActionArea>
                                     <CardContent>
-                                        <Typography variant="h5">Flour</Typography>
-                                        <Typography variant="h6"> Quantity: Half a pound</Typography>
+                                        <Typography variant="h5">{item.ingredient_name}</Typography>
+                                        <Typography variant="h6">Quantity: {Math.trunc(item.quantity)} {item.unit}</Typography>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
                         </Grid>,
-                        <Grid key="ing1" size={4}>
-                            <Card variant="outlined">
-                                <CardActionArea>
-                                    <CardContent>
-                                        <Typography variant="h5">Sugar</Typography>
-                                        <Typography variant="h6"> Quantity: One pound</Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>,
-                    ];
+                    );
                     break;
                 default:
                     content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (

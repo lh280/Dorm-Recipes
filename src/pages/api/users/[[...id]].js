@@ -14,8 +14,9 @@ router
       .where('user_id', userID)
       .withGraphFetched("user_recipes")
       .withGraphFetched("user_reviews")
-      .first();
-
+      .withGraphFetched("pantry_items")
+      .first()
+      .throwIfNotFound();
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
