@@ -34,31 +34,28 @@ function getStarIcons(rating) {
     );
   }
 
-// TODO: fix "Unhandled Runtime Error - SecurityError: The operation is insecure."
-
-export default function UserView({ setCurrentRecipe, currentUser, viewAccount, userInfo }){
+export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
     const router = useRouter();
+    const { id } = router.query; 
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
+    const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
+    const [userInfo, setUserInfo] = useState(initialUserInfo);
+
+    useEffect(() => {
+        if (!userInfo && id) {
+          fetch(`/api/users/${id}`)
+            .then((res) => res.json())
+            .then((data) => setUserInfo(data))
+            .catch((err) => console.error(err));
+        }
+      }, [id, userInfo]);
 
     const changeTab = (newTab) => {
         if (tab !== newTab){
             setTab(newTab);
         }
     }
-
-    useEffect(() => {
-        if (!router.isReady) return; 
-        try {
-            const { id } = router.query;
-            if (id) {
-            viewAccount(id);
-            }
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error("Error during user view setup:", error);
-        }
-    }, [router.isReady, router.query, viewAccount]);
 
     const addRecipeCard = (
         <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
@@ -86,99 +83,93 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, u
           </Card>
         </Grid>
       );
-
-    let recipes;
-    let reviews;
-    // TODO: fetch ingredients from pantry db, not stored here in code
-    const ingredients =  [
-        <Grid key = "ing0" size={4}>
-            <Card variant="outlined" >     
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">Flour</Typography>
-                        <Typography variant="h6"> Quantity: Half a pound</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>,
-        <Grid key = "ing1" size={4}>
-            <Card variant="outlined" >     
-                <CardActionArea>
-                    <CardContent>
-                        <Typography variant="h5">Sugar</Typography>
-                        <Typography variant="h6"> Quantity: One pound</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Grid>
-    ];
     
-    if (userInfo){
-        recipes = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
-            <Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-                <Card variant="outlined" data-testid="recipe" 
-                    sx={{ 
-                        maxWidth: 450, 
-                        width: "100%" ,
-                        "&:hover": {
-                            backgroundColor: "action.hover", 
-                            boxShadow: 3, 
-                        }}}>
-                    <CardActionArea>
-                        <CardContent>
-                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                                <Image src={(recipe.img ? recipe.img : "/food.jpg")} width={250} height={250} alt="Picture of the recipe"/>
-                            </Box>
-                            <Typography textAlign="center" 
-                                variant="h5" 
-                                sx={{ 
-                                    maxWidth: 250, 
-                                    whiteSpace: "normal", // allows wrapping
-                                    overflowWrap: "break-word", // break long words to fit in card
-                                    wordBreak: "break-word", 
-                                    margin: "0 auto" // center-align in container
+    useEffect(() => {
+        if (userInfo) {
+            let content;
+            switch (tab) {
+                case "My Reviews":
+                    content = userInfo.user_reviews.map((review) => (
+                        <Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
+                            <Card variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography>
+                                        <Typography variant="h7">ID: {review.recipe_id}</Typography>
+                                        <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
+                                        <Typography variant="h6"><strong>Review:</strong></Typography>
+                                        <Typography>{review.content}</Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ));
+                    break;
+                case "My Pantry":
+                    content = [
+                        // TODO: fetch ingredients from pantry db, not stored here in code
+                        <Grid key="ing0" size={4}>
+                            <Card variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography variant="h5">Flour</Typography>
+                                        <Typography variant="h6"> Quantity: Half a pound</Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>,
+                        <Grid key="ing1" size={4}>
+                            <Card variant="outlined">
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography variant="h5">Sugar</Typography>
+                                        <Typography variant="h6"> Quantity: One pound</Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>,
+                    ];
+                    break;
+                default:
+                    content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
+                        <Grid key={`rec${recipe.recipe_id}`} onClick={() => setCurrentRecipe(recipe.recipe_id)} item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
+                            <Card variant="outlined" data-testid="recipe"
+                                sx={{
+                                    maxWidth: 450,
+                                    width: "100%",
+                                    "&:hover": {
+                                        backgroundColor: "action.hover",
+                                        boxShadow: 3,
+                                    }
                                 }}>
-                                    {recipe.title}
-                                </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>
-        ))];
- 
-        reviews = userInfo.user_reviews.map((review) => 
-            (<Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
-                <Card variant="outlined" >     
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography> {/* TODO: find some way to show/fetch recipe title */}
-                            <Typography variant="h7">ID: {review.recipe_id}</Typography>
-                            <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
-                            <Typography variant="h6"><strong>Review:</strong></Typography>
-                            <Typography>{review.content}</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Grid>)
-        )
-    }
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
+                                            <Image src={(recipe.img ? recipe.img : "/food.jpg")} width={250} height={250} alt="Picture of the recipe" />
+                                        </Box>
+                                        <Typography textAlign="center"
+                                            variant="h5"
+                                            sx={{
+                                                maxWidth: 250,
+                                                whiteSpace: "normal",
+                                                overflowWrap: "break-word",
+                                                wordBreak: "break-word",
+                                                margin: "0 auto"
+                                            }}>
+                                            {recipe.title}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ))];
+                    break;
+            }
+            setCurrentContent(content);
+        }
+    }, [userInfo, tab, setCurrentRecipe]);
 
-
-   
-    let currentContent;
-    switch (tab) {
-        case "My Reviews":
-            currentContent = reviews
-            break;
-        case "My Pantry":
-            currentContent = ingredients
-            break;
-        default:
-            currentContent = recipes;
-            break;
-    }
-
-    return(
+    return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <main style={{ paddingTop: '115px' }}>
@@ -190,18 +181,19 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, u
                         <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2  }}>
+                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
                     {tab}
                 </Typography>
                 <Box sx={{ paddingX: 2 }}>
                     <Grid container rowSpacing={2} columnSpacing={2}>
-                        {currentContent !== undefined ? currentContent : <div>Loading...</div>}
+                        {currentContent}
                     </Grid>
                 </Box>
             </main>
         </ThemeProvider>
-        );
-    }
+    );
+}
+    
 
 UserView.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
