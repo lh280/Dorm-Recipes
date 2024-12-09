@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { Toolbar, Typography, Avatar, Box } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import UserShape from "./UserShape";
 import SearchBar from "@/components/SearchBar";
 import { useRouter } from "next/router";
+import UserShape from "./UserShape";
 
 
 export default function Header({ setCurrentRecipe, currentUser, viewAccount}) {

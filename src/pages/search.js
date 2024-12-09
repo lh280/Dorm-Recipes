@@ -9,12 +9,13 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 
-import Header from "../components/Header";
-import RecipesView from "../components/RecipesView";
+import RecipesView from "@/components/RecipesView";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "../material/theme";
+import theme from "@/material/theme";
+
+import Header from "@/components/Header";
 
 export default function Search({ setCurrentRecipe, currentUser, viewAccount}) {
   const router = useRouter();

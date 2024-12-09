@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
 import UserShape from "@/components/UserShape";
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Section from "../components/Section";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "../material/theme";
+import theme from "@/material/theme";
+
+import Section from "@/components/Section";
+import Header from "@/components/Header";
 
 export default function Home({ setCurrentRecipe, currentUser, viewAccount}) {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
-import Header from "./Header"
 import { useRouter } from "next/router";
+import Header from "./Header"
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
