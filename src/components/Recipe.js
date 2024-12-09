@@ -7,15 +7,14 @@
     currentRecipe - The recipe to render
 */
 import { useRouter } from "next/router";
-
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa"; //eslint-disable-line
-
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
 import RecipeShape from "./RecipeShape";
+import ReviewEditor from "./ReviewEditor";
+import Rating from "./Rating";
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
@@ -34,27 +33,8 @@ function parseInstructions(instructions) {
   return sentences;
 }
 
-function getStarIcons(rating) {
-  const fullStars = Math.floor(rating / 2);
-  const hasHalfStar = rating % 2 !== 0;
-  const totalStars = 5; 
 
-  return (
-    <>
-      {Array.from({ length: totalStars }, (s, index) => {
-        if (index < fullStars) {
-          return <FaStar key={s} style={{ color: "gold" }} />;
-        }
-        if (index === fullStars && hasHalfStar) {
-          return <FaStarHalfAlt key={s} style={{ color: "gold" }} />;
-        }
-        return <FaRegStar key={s} style={{ color: "gold" }} />;
-      })}
-    </>
-  );
-}
-
-export default function Recipe({ currentRecipe }) {
+export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const router = useRouter();
   if (!currentRecipe) {
     return (
@@ -65,6 +45,24 @@ export default function Recipe({ currentRecipe }) {
       </Box>
       );
   }
+  const [reviews, setReviews] = useState(currentRecipe.recipe_reviews || []);
+  const [userReview, setUserReview] = useState(
+    currentRecipe.recipe_reviews.find(review => review.user_id === currentRecipe.user_id) || null
+  );
+
+  const handleReviewSubmitted = (newReview) => {
+    setReviews((prevReviews) => {
+      if (userReview) {
+        return prevReviews.map((rev) =>
+          rev.review_id === newReview.review_id ? newReview : rev
+        );
+      }
+      return [newReview, ...prevReviews];
+    });
+    setUserReview(newReview);
+    window.location.reload();
+  };
+
   const editDate = new Date(currentRecipe.updated_at).toLocaleString();
 
   const steps = parseInstructions(currentRecipe.instructions).map((stp) => (
@@ -74,7 +72,6 @@ export default function Recipe({ currentRecipe }) {
   ));
 
   const combinedIngredients = currentRecipe.ingredients_used.map((ingredient) => {
-    // Find the corresponding recipe_ingredient entry using the ingredient_id
     const recipeDetails = currentRecipe.recipe_ingredient.find((recIng) => recIng.ingredient_id === ingredient.ingredient_id);
 
     return {
@@ -150,13 +147,7 @@ export default function Recipe({ currentRecipe }) {
         </Typography>
         {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
           currentRecipe.recipe_reviews.map((rev) => (
-            <Box key={rev.review_id} sx={{ marginBottom: 3 }}>
-              <Typography variant="body1">
-              <strong>Rating:</strong> {getStarIcons(rev.rating)}
-                <p>{rev.content}</p>
-                <p><small>{new Date(rev.created_at).toLocaleString()}</small></p>
-              </Typography>
-            </Box>
+            <Rating review={rev} setReviews={setReviews}></Rating>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
@@ -164,6 +155,11 @@ export default function Recipe({ currentRecipe }) {
           </Typography>
         )}
       </Box>
+      <ReviewEditor
+        currentRecipe={currentRecipe}
+        existingReview={userReview}
+        onReviewSubmitted={handleReviewSubmitted}
+      />
     </Box>
   );
 }

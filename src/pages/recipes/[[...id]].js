@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Button, Box, Container } from "@mui/material";
 import UserShape from "@/components/UserShape";
 import RecipeShape from "../../components/RecipeShape";
-import RatingShape from "../../components/RatingShape";
 import Recipe from "../../components/Recipe";
 import Header from "../../components/Header";
 
@@ -14,7 +13,6 @@ import theme from "../../material/theme";
 export default function RecipeView({
   currentRecipe,
   setCurrentRecipe,
-  ratings,
   currentUser,
   viewAccount
 }) {
@@ -96,7 +94,6 @@ export default function RecipeView({
 RecipeView.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  ratings: PropTypes.arrayOf(RatingShape),
   currentUser: UserShape,
   viewAccount: PropTypes.func
 };
