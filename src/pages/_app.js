@@ -14,7 +14,6 @@ export default function App(appProps) {
   const { Component, pageProps } = appProps;
   const router = useRouter();
   const [currentRecipe, setCurrentRecipe] = useState(null); 
-  const [userInfo, setUserInfo] = useState(null);
   
   const id = +router.query.id;
   const route = router.pathname;
@@ -56,8 +55,7 @@ export default function App(appProps) {
     currentRecipe,
     currentUser,
     setCurrentRecipe: setCurrentRec,
-    viewAccount,
-    userInfo
+    viewAccount
   };
 
   return (
