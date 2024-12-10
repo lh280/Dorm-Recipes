@@ -7,6 +7,14 @@ export default class Recipe extends BaseModel {
     return "Recipes";
   }
 
+  static get modifiers() {
+    return {
+      onlyTitle(query) {
+        query.select('recipe_id', 'title');
+      }
+    };
+  }
+
   static get relationMappings() {
     const Ingredient = require("./Ingredient").default; //eslint-disable-line
     const Review = require("./Review").default; //eslint-disable-line
