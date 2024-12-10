@@ -11,7 +11,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { Box, Typography, Button } from "@mui/material"
@@ -20,6 +20,8 @@ import Image from "next/image";
 import RecipeShape from "./RecipeShape";
 import ReviewEditor from "./ReviewEditor";
 import Review from "./Review";
+
+import getStarIcons from '../lib/getStarIcons';
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
@@ -54,6 +56,18 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const [userReview, setUserReview] = useState(
     currentRecipe.recipe_reviews.find(review => review.user_id === currentRecipe.user_id) || null
   );
+  const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
+
+  useEffect(() => {
+    setReviews(currentRecipe.recipe_reviews || []);
+    const totalReviews = currentRecipe.recipe_reviews.length;
+    const totalScore = currentRecipe.recipe_reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = totalScore / totalReviews; 
+    setRatingData({
+      averageRating: averageRating.toFixed(1),
+      reviewCount: totalReviews
+    });
+  }, [currentRecipe.recipe_reviews]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
@@ -97,9 +111,31 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         🔙 Back
       </Button>
 
-      <Typography variant="h3" component="h1" gutterBottom>
-        {currentRecipe.title}
-      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
+        <Typography variant="h3" component="h1" gutterBottom >
+          {currentRecipe.title}
+        </Typography>
+
+        {ratingData.averageRating > 0 ? (
+          <Box 
+            sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              marginLeft: 3 
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {getStarIcons(ratingData.averageRating, "2rem")}
+            </Box>
+            <Typography variant="body2" sx={{ marginLeft: 1 }}>
+              ({ratingData.reviewCount})
+            </Typography>
+          </Box>
+        ) : (
+          <Typography variant="body2" sx={{ marginLeft: 4 }}>No reviews yet</Typography>
+        )}
+      </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Image
@@ -150,9 +186,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>
-        {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
-          currentRecipe.recipe_reviews.map((rev) => (
-            <Review key={rev.review_id} review={rev} setReviews={setReviews}/>
+        {reviews && reviews.length > 0 ? (
+          reviews.map((rev) => (
+            <Box key={rev.review_id} sx={{ mb: 3 }}> 
+              <Review review={rev} setReviews={setReviews} />
+            </Box>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
@@ -160,6 +198,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           </Typography>
         )}
       </Box>
+
       <ReviewEditor
         currentRecipe={currentRecipe}
         existingReview={userReview}

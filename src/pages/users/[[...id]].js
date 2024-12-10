@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
 import { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid2"
+import Grid from "@mui/material/Grid2";
 
 import UserInfoShape from "@/components/UserInfoShape";
 import UserShape from "@/components/UserShape";
@@ -56,7 +56,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                   "&:hover": {
                     backgroundColor: "action.hover", 
                     boxShadow: 3, 
-                  },
+                  }
                 }}
               >
                 <CardActionArea>
@@ -75,7 +75,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 case "My Reviews":
                     content = userInfo.user_reviews.map((review) => (
                         <Grid key={`rev${review.review_id}`} onClick={() => setCurrentRecipe(review.recipe_id)} size={6} sx={{ mb: 3 }}>
-                            <Card variant="outlined">
+                            <Card variant="outlined" sx = {{"&:hover": { backgroundColor: "action.hover", boxShadow: 3, } }}>
                                 <CardActionArea>
                                     <CardContent>
                                         <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography>
