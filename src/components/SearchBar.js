@@ -19,13 +19,13 @@ export default function SearchBar({ onSearch }) {
 
   const handleButton = () => {
     if(search) {
-      onSearch(search);
+      onSearch(encodeURIComponent(search));
     }
   };
 
   const handleEnter = (e) => {
     if (e.key === 'Enter' && search) {
-      onSearch(search);
+      onSearch(encodeURIComponent(search)); // encode to properly handle symbols etc.
     }
   };
 

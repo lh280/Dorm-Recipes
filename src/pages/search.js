@@ -23,7 +23,7 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
   useEffect(() => {
     const { q } = router.query;
     if (q) {
-      setQuery(q);
+      setQuery(encodeURIComponent(q));
     }
   }, [router.query]);
 
@@ -60,10 +60,12 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
     router.push(`/`);
   })
 
+  const title = `Dorm Recipes | Search results for "${decodeURIComponent(query)}"`;
+
   return (
     <div>
       <Head>
-          <title>Dorm Recipes | Search results for &quot;{query}&quot;</title>
+          <title>{title}</title>
           <meta name="Dorm Recipes"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
@@ -79,13 +81,13 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
                   </Button>
                 </Grid>
                 <Grid item xs={12}>
-                  <h1 style={{ margin: 0 }}>Search results for &quot;{query}&quot;</h1>
+                  <h1 style={{ margin: 0 }}>Search results for &quot;{decodeURIComponent(query)}&quot;</h1>
                 </Grid>
                 <Grid item xs={12}>
                   {recipes.length > 0 ? (
                     <RecipesView recipes={recipes} setCurrentRecipe={setCurrentRecipe} />
                   ) : (
-                    <p style={{ margin: 0 }}>{recipes.length === 0 ? `No matching recipes found for "${query}"` : "An error occurred while fetching recipes."}</p>
+                    <p style={{ margin: 0 }}>{recipes.length === 0 ? `No matching recipes found for "${decodeURIComponent(query)}"` : "An error occurred while fetching recipes."}</p>
                   )}
                 </Grid>
               </Grid>

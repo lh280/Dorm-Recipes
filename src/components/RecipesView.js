@@ -47,5 +47,5 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
 
 RecipesView.propTypes = {
   recipes: PropTypes.arrayOf(RecipeShape).isRequired,
-  setCurrentRecipe: PropTypes.func.isRequired    
+  setCurrentRecipe: PropTypes.func    
 }

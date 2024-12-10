@@ -69,10 +69,12 @@ export default function RecipeView({
     }
   };
 
+  const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
+
   return (
     <div>
       <Head>
-          <title>Dorm Recipes | {currentRecipe?.title || "Recipe"}</title>
+          <title>{title}</title>
           <meta name="Dorm Recipes"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

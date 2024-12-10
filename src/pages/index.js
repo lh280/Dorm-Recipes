@@ -37,9 +37,8 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
     })()
   },[]);
 
-  let sections = <div>LOADING...</div>
+  let sections = <div>Loading...</div>
   
-  // tempSections does not represent the actual composition of a section object
   if (fetchedRecipes){
     let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes}];
     if (fetchedRecipes.length > 4) {
@@ -50,7 +49,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
     sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
   
-   // Using current Recipe as a place holder
+   // Using current Recipe as a place holder - TODO: is this still true?
 
   return (
     <div>
@@ -80,7 +79,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
             </Typography>
             <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
               <Card
-                onClick={() => { setCurrentRecipe(0); }}
+                onClick={() => { setCurrentRecipe(0); }} // TODO: change how this recipe is rendered to be dynamic
                 variant="outlined"
                 sx={{ 
                   maxWidth: 300, 
