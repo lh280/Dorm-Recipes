@@ -4,6 +4,7 @@ import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SessionProvider } from "next-auth/react";
+import PropTypes from "prop-types";
 
 const theme = createTheme({
   typography: {
@@ -11,6 +12,7 @@ const theme = createTheme({
   },
 });
 
+// eslint-disable-next-line react/prop-types
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   // const { Component, pageProps } = appProps;
   const router = useRouter();
@@ -60,12 +62,17 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   };
 
   return (
-    <SessionProvider >
+    <SessionProvider session={session}>
       <ThemeProvider theme={theme}>
-        <AppCacheProvider {...appProps}>
+        <AppCacheProvider {...pageProps}>
           <Component {...props} />
         </AppCacheProvider>
       </ThemeProvider>
     </SessionProvider>
   );
 }
+
+App.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.shape({}),
+};
