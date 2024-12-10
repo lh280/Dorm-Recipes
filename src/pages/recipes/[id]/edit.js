@@ -5,11 +5,12 @@
 */
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import Head from "next/head";
 
 import RecipeShape from "@/components/RecipeShape";
 import Editor from "@/components/Editor";
 
-export default function RecipeEditor({ currentRecipe , setCurrentRecipe}){
+export default function RecipeEditor({ currentRecipe, setCurrentRecipe }){
     const router = useRouter();
 
     const handleComplete = async (updatedRecipe) => {
@@ -40,8 +41,14 @@ export default function RecipeEditor({ currentRecipe , setCurrentRecipe}){
             console.error("Error updating recipe: ", error);
           }
         };
+
         return (
             <div>
+              <Head>
+                <title>Dorm Recipes | Recipe edit</title>
+                <meta name="Dorm Recipes" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+              </Head>
               <Editor
                 key={currentRecipe?.id}
                 currentRecipe={currentRecipe}

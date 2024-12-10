@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import Head from "next/head";
 
 import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
 import { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid2"
+import Grid from "@mui/material/Grid2";
 
 import UserInfoShape from "@/components/UserInfoShape";
 import UserShape from "@/components/UserShape";
@@ -19,7 +20,6 @@ import getStarIcons from '../../lib/getStarIcons';
 export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
     const router = useRouter();
     const { id } = router.query; 
-    // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
     const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
     const [userInfo, setUserInfo] = useState(initialUserInfo);
@@ -47,15 +47,16 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 onClick={() => router.push("/add-recipe")}
                 variant="outlined"
                 sx={{
-                  maxWidth: 450,
-                  width: 300,
+                  cursor: "pointer",
+                  maxWidth: 285,
+                  width: 284,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   "&:hover": {
                     backgroundColor: "action.hover", 
                     boxShadow: 3, 
-                  },
+                  }
                 }}
               >
                 <CardActionArea>
@@ -73,8 +74,8 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             switch (tab) {
                 case "My Reviews":
                     content = userInfo.user_reviews.map((review) => (
-                        <Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
-                            <Card variant="outlined">
+                        <Grid key={`rev${review.review_id}`} onClick={() => setCurrentRecipe(review.recipe_id)} size={6} sx={{ mb: 3 }}>
+                            <Card variant="outlined" sx = {{"&:hover": { backgroundColor: "action.hover", boxShadow: 3, } }}>
                                 <CardActionArea>
                                     <CardContent>
                                         <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography>
@@ -92,7 +93,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     content = userInfo.pantry_items.map((item) => 
                         <Grid key={`ing${item.ingredient_id}`} size={4}>
                             <Card variant="outlined">
-                                <CardActionArea>
+                                <CardActionArea sx={{ cursor: "default" }}>
                                     <CardContent>
                                         <Typography variant="h5">{item.ingredient_name}</Typography>
                                         <Typography variant="h6">Quantity: {Math.trunc(item.quantity)} {item.unit}</Typography>
@@ -115,27 +116,35 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
     }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <main style={{ paddingTop: '115px' }}>
-                <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
-                <Box display="flex" alignContent="center" justifyContent="center">
-                    <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
-                        <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
-                        <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
-                        <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
-                    </ToggleButtonGroup>
-                </Box>
-                <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
-                    {tab}
-                </Typography>
-                <Box sx={{ paddingX: 2 }}>
-                    <Grid container rowSpacing={2} columnSpacing={2}>
-                        {currentContent}
-                    </Grid>
-                </Box>
-            </main>
-        </ThemeProvider>
+        <div>
+            <Head>
+                <title>Dorm Recipes | Account</title>
+                <meta name="Dorm Recipes"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </Head>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <main style={{ paddingTop: '115px' }}>
+                    <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
+                    <Box display="flex" alignContent="center" justifyContent="center">
+                        <ToggleButtonGroup size="large" aria-label="Tab Group" value={tab} exclusive>
+                            <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
+                            <ToggleButton value="My Reviews" onClick={() => changeTab("My Reviews")}>My Reviews</ToggleButton>
+                            <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>
+                    <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2, mt: 3 }}>
+                        {tab}
+                    </Typography>
+                    <Box sx={{ paddingX: 2 }}>
+                        <Grid container rowSpacing={2} columnSpacing={2}>
+                            {currentContent}
+                        </Grid>
+                    </Box>
+                    <Box sx={{ height: 50 }} />
+                </main>
+            </ThemeProvider>
+        </div>
     );
 }
     

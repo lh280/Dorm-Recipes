@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
+import Head from "next/head";
+
 import { Button, Box, Container } from "@mui/material";
 
 import UserShape from "@/components/UserShape";
@@ -67,29 +69,38 @@ export default function RecipeView({
     }
   };
 
+  const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <main style={{ paddingTop: '80px' }}>
-        <div>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
-          <title>Create Next App</title>
-          <meta name="Dorm Recipes" />
+    <div>
+      <Head>
+          <title>{title}</title>
+          <meta name="Dorm Recipes"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </div>
-        <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
-        <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
-          <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
-            <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
-              Share Recipe !
-            </Button>
-            <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }}>
-              Delete Recipe
-            </Button>
-          </Box>
-        </Container>
-      </main>
-    </ThemeProvider>
+      </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <main style={{ paddingTop: '80px' }}>
+          <div>
+            <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
+            <title>Create Next App</title>
+            <meta name="Dorm Recipes" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+          </div>
+          <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
+          <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
+            <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
+              <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
+                Share Recipe !
+              </Button>
+              <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }}>
+                Delete Recipe
+              </Button>
+            </Box>
+          </Container>
+        </main>
+      </ThemeProvider>
+    </div>
   );
 }
 

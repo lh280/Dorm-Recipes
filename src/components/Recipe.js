@@ -11,15 +11,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { Box, Typography, Button } from "@mui/material"
+import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material"
 import Image from "next/image";
 
 import RecipeShape from "./RecipeShape";
 import ReviewEditor from "./ReviewEditor";
 import Review from "./Review";
+
+import getStarIcons from '../lib/getStarIcons';
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
@@ -41,19 +43,30 @@ function parseInstructions(instructions) {
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const router = useRouter();
-  if (!currentRecipe) {
-    return (
-      <Box sx={{ padding: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Loading...
-        </Typography>
-      </Box>
-    );
-  }
-  const [reviews, setReviews] = useState(currentRecipe.recipe_reviews || []);
-  const [userReview, setUserReview] = useState(
-    currentRecipe.recipe_reviews.find(review => review.user_id === currentRecipe.user_id) || null
-  );
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [reviews, setReviews] = useState([]);
+  const [userReview, setUserReview] = useState(null);
+  const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
+
+  useEffect(() => {
+    if (currentRecipe) {
+      setReviews(currentRecipe.recipe_reviews || []);
+      const totalReviews = currentRecipe.recipe_reviews.length;
+      const totalScore = currentRecipe.recipe_reviews.reduce((sum, review) => sum + review.rating, 0);
+      const averageRating = totalScore / totalReviews;
+      setRatingData({
+        averageRating: averageRating.toFixed(1),
+        reviewCount: totalReviews,
+      });
+      const userRev = currentRecipe.recipe_reviews.find(
+        (review) => review.user_id === currentRecipe.user_id
+      );
+      setUserReview(userRev || null);
+    }
+  }, [currentRecipe]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
@@ -68,7 +81,23 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
     window.location.reload();
   };
 
-  const editDate = new Date(currentRecipe.updated_at).toLocaleString();
+  const handleReturn = () => {
+    router.back();
+  };
+
+  if (!currentRecipe) {
+    return (
+      <Box sx={{ padding: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Loading...
+        </Typography>
+      </Box>
+    );
+  }
+
+  const editDate = currentRecipe
+    ? new Date(currentRecipe.updated_at).toLocaleString()
+    : "";
 
   const steps = parseInstructions(currentRecipe.instructions).map((stp) => (
     <Typography key={stp} variant="body1" component="li" sx={{ marginBottom: 1 }}>
@@ -76,8 +105,12 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
     </Typography>
   ));
 
-  const combinedIngredients = currentRecipe.ingredients_used.map((ingredient) => {
-    const recipeDetails = currentRecipe.recipe_ingredient.find((recIng) => recIng.ingredient_id === ingredient.ingredient_id);
+  const combinedIngredients =
+  currentRecipe &&
+  currentRecipe.ingredients_used.map((ingredient) => {
+    const recipeDetails = currentRecipe.recipe_ingredient.find(
+      (recIng) => recIng.ingredient_id === ingredient.ingredient_id
+    );
 
     return {
       ingredient_name: ingredient.ingredient_name,
@@ -87,28 +120,62 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
     };
   });
 
-  const handleReturn = (() => {
-    router.back();
-  })
-
   return ( 
     <Box sx={{ padding: 4 }}>
       <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 2 }}>
         🔙 Back
       </Button>
 
-      <Typography variant="h3" component="h1" gutterBottom>
-        {currentRecipe.title}
-      </Typography>
+      <Box 
+        sx={{ 
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+          marginBottom: 2,
+          }}>
+        <Typography variant={isMobile ? "h4" : "h3"}
+          component="h1"
+          gutterBottom
+          sx={{ 
+            textAlign: isMobile ? "center" : "left", 
+            marginBottom: isMobile ? 1 : 0 
+          }}>
+          {currentRecipe.title}
+        </Typography>
+
+        {ratingData.averageRating > 0 ? (
+          <Box 
+            sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: isMobile ? "center" : "flex-start", 
+              marginLeft: isMobile ? 0 : 2
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {getStarIcons(ratingData.averageRating, isMobile ? "1.5rem" : "2rem")}
+            </Box>
+            <Typography variant="body2" sx={{ marginLeft: 1 }}>
+              ({ratingData.reviewCount})
+            </Typography>
+          </Box>
+        ) : (
+          <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
+            No reviews yet
+          </Typography>
+        )}
+      </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
-        <Image
-          src={currentRecipe.img ? currentRecipe.img : "/food.jpg"}
-          width={400}
-          height={400}
-          alt="Picture of the recipe"
-          style={{ borderRadius: "8px", marginBottom: "16px" }}
-        />
+        <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
+          <Image
+            src={currentRecipe.img ? currentRecipe.img : "/food.jpg"}
+            width={isMobile ? 300 : 400}
+            height={isMobile ? 300 : 400}
+            alt="Picture of the recipe"
+            style={{ borderRadius: "8px", marginBottom: "16px" }}
+          />
+        </Box>
 
         <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
           {currentRecipe.description}
@@ -150,9 +217,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>
-        {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
-          currentRecipe.recipe_reviews.map((rev) => (
-            <Review key={rev.review_id} review={rev} setReviews={setReviews}/>
+        {reviews && reviews.length > 0 ? (
+          reviews.map((rev) => (
+            <Box key={rev.review_id} sx={{ mb: 3 }}> 
+              <Review review={rev} setReviews={setReviews} />
+            </Box>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
@@ -160,6 +229,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           </Typography>
         )}
       </Box>
+
       <ReviewEditor
         currentRecipe={currentRecipe}
         existingReview={userReview}

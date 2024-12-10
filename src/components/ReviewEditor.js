@@ -5,12 +5,15 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
 
-import { TextField, Button, Typography, Box, Rating, Card, CardContent } from '@mui/material';
+import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery } from '@mui/material';
 
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
 export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
   const [reviewRating, setReviewRating] = useState(existingReview?.rating || 0);
   const [fieldErrors, setFieldErrors] = useState({
@@ -103,13 +106,15 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
           </Typography>
           <form onSubmit={handleReviewSubmit}>
             <Box display="flex" flexDirection="column" gap={1.5}>
-              <Rating
+              <Box display="flex" justifyContent={ isMobile ? "center" : "left"} sx={{ mb: 2 }}>
+                <Rating
                   value={reviewRating}
                   onChange={handleRatingChange}
-                  precision={1} 
-                  max={10} 
-                  size="large"
+                  precision={1}
+                  max={10}
+                  size={isMobile ? "medium" : "large"}
                 />
+              </Box>
                 {fieldErrors.rating && (
                   <Typography color="error" variant="body2">
                     Please provide a rating.

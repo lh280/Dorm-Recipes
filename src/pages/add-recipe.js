@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import Head from "next/head";
+
 import Editor from "@/components/Editor";
 
 export default function AddRecipe() {
@@ -45,6 +47,11 @@ export default function AddRecipe() {
 
   return (
     <div>
+      <Head>
+        <title>Dorm Recipes | Add recipe</title>
+        <meta name="Dorm Recipes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <main>
         <Editor complete={handleComplete} />
       </main>

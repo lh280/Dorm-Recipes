@@ -18,6 +18,7 @@ import getStarIcons from '../lib/getStarIcons';
 
 export default function Review({ review, setReviews }) {
   const router = useRouter();
+  
   const handleDelete = (rev) => { // TODO: integrate authorization with delete handling
     // eslint-disable-next-line no-restricted-globals 
     const result = confirm("Are you sure you want to delete this review?"); // eslint-disable-line no-alert
