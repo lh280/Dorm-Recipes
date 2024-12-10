@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Recipe from "./Recipe";
 
-describe.skip("Recipe: Recipe tests", () => { // NOTE: SKIPPING THE RECIPE TEST FOR NOW because this needs to be updated to work with DB content
+describe("Recipe: Recipe tests", () => { // NOTE: SKIPPING THE RECIPE TEST FOR NOW because this needs to be updated to work with DB content
     let currentRecipe
     let ratings;
     beforeEach(()=>{

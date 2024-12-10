@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Editor from "./Editor";
 
-describe.skip("Editor: Editor tests", () => { // NOTE: Skipping the Editor test for now because this needs to be updated to work with DB content
+describe("Editor: Editor tests", () => { // NOTE: Skipping the Editor test for now because this needs to be updated to work with DB content
     let recipe;
     const handler = jest.fn();
   
