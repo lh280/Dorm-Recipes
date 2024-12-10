@@ -4,7 +4,7 @@
 
 ### Deployed application
 
-https://lincoln.csci312.dev
+https://lincoln.csci312.dev, available through [go/dormrecipes/](https://go.middlebury.edu/dormrecipes/)
 
 ### Description
 
