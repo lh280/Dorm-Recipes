@@ -48,8 +48,8 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 variant="outlined"
                 sx={{
                   cursor: "pointer",
-                  maxWidth: 450,
-                  width: 300,
+                  maxWidth: 285,
+                  width: 284,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -133,7 +133,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                             <ToggleButton value="My Pantry" onClick={() => changeTab("My Pantry")}>My Pantry</ToggleButton>
                         </ToggleButtonGroup>
                     </Box>
-                    <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2 }}>
+                    <Typography variant="h4" sx={{ textAlign: "left", mb: 4, paddingX: 2, mt: 3 }}>
                         {tab}
                     </Typography>
                     <Box sx={{ paddingX: 2 }}>
@@ -141,6 +141,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                             {currentContent}
                         </Grid>
                     </Box>
+                    <Box sx={{ height: 50 }} />
                 </main>
             </ThemeProvider>
         </div>

@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 
-import { Toolbar, Typography, Avatar, Box } from "@mui/material";
+import { Toolbar, Typography, Avatar, Box , useTheme, useMediaQuery } from "@mui/material";
+import Image from "next/image"
 import { blue } from "@mui/material/colors";
 
 import SearchBar from "@/components/SearchBar";
@@ -25,6 +26,10 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
   const handleSearch = (q) => {
     router.push(`/search?q=${q}`); 
   };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Toolbar sx={{ 
         bgcolor: '#201f54', 
@@ -40,18 +45,26 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
         alignItems: "center",
         justifyContent: "space-between"
         }}>
-      <Typography
-        variant="h5" 
-        component="div"
-        sx={{
-          cursor: "pointer",
-          color: "white", 
-          marginRight: 4
-        }}
-        onClick={goHome}
-      >
-        Dorm Recipes
-      </Typography>
+      
+      {isMobile ? (
+        <Box onClick={goHome} sx={{ cursor: "pointer", mr: 2 }}>
+          <Image src="/favicon.ico" alt="Dorm Recipes Logo" width={32} height={32} />
+        </Box>
+      ) : (
+        <Typography
+          variant="h5" 
+          component="div"
+          sx={{
+            cursor: "pointer",
+            color: "white", 
+            marginRight: 4
+          }}
+          onClick={goHome}
+        >
+          Dorm Recipes
+        </Typography>
+      )}
+      
       <SearchBar onSearch={handleSearch}/>
       <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
         <Avatar

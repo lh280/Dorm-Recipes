@@ -11,7 +11,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import { TextField, Box, Button } from "@mui/material";
+import { TextField, Box, Button, useTheme, useMediaQuery } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar({ onSearch }) {
   // initialize states
@@ -29,12 +30,15 @@ export default function SearchBar({ onSearch }) {
     }
   };
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <div>
       <Box sx={{ display: 'flex', alignItems: 'flex-end', width: '100%', maxWidth: '800px' }}>
         <TextField
           type="text"
-          placeholder="🔍 Search for a recipe..."
+          placeholder={isMobile ? "Search..." : "🔍 Search for a recipe..."}
           value={search}
           variant="standard"
           onChange={(s) => setSearch(s.target.value)}
@@ -67,7 +71,7 @@ export default function SearchBar({ onSearch }) {
               backgroundColor: "#3f3d89", 
             }
           }}>
-            Search
+            {isMobile ? <SearchIcon /> : "Search"}
           </Button>
       </Box>
     </div>
