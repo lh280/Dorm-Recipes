@@ -47,25 +47,28 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
         }}>
       
       {isMobile ? (
-        <Box onClick={goHome} sx={{ cursor: "pointer", mr: 2 }}>
+        <Box onClick={goHome} sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }}>
           <Image src="/favicon.ico" alt="Dorm Recipes Logo" width={32} height={32} />
         </Box>
       ) : (
-        <Typography
-          variant="h5" 
-          component="div"
-          sx={{
-            cursor: "pointer",
-            color: "white", 
-            marginRight: 4
-          }}
-          onClick={goHome}
-        >
-          Dorm Recipes
-        </Typography>
+        <Box onClick={goHome}  sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }}>
+          <Image src="/favicon.ico" alt="Dorm Recipes Logo" width={32} height={32} />
+          <Typography
+            variant="h5" 
+            component="div"
+            sx={{
+              color: "white", 
+              marginRight: 1,
+              marginLeft: 2
+            }}
+          >
+            Dorm Recipes
+          </Typography>
+        </Box>
       )}
       
       <SearchBar onSearch={handleSearch}/>
+      
       <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
         <Avatar
           onClick={goToAccount}
