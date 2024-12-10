@@ -118,7 +118,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
     return (
         <div>
             <Head>
-                <title>Dorm Recipes | User page</title>
+                <title>Dorm Recipes | Account</title>
                 <meta name="Dorm Recipes"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
