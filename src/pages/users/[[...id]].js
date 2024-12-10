@@ -20,7 +20,6 @@ import getStarIcons from '../../lib/getStarIcons';
 export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
     const router = useRouter();
     const { id } = router.query; 
-    // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
     const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
     const [userInfo, setUserInfo] = useState(initialUserInfo);
@@ -48,6 +47,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 onClick={() => router.push("/add-recipe")}
                 variant="outlined"
                 sx={{
+                  cursor: "pointer",
                   maxWidth: 450,
                   width: 300,
                   display: "flex",
@@ -74,7 +74,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             switch (tab) {
                 case "My Reviews":
                     content = userInfo.user_reviews.map((review) => (
-                        <Grid key={`rev${review.review_id}`} size={6} sx={{ mb: 3 }}>
+                        <Grid key={`rev${review.review_id}`} onClick={() => setCurrentRecipe(review.recipe_id)} size={6} sx={{ mb: 3 }}>
                             <Card variant="outlined">
                                 <CardActionArea>
                                     <CardContent>
@@ -93,7 +93,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     content = userInfo.pantry_items.map((item) => 
                         <Grid key={`ing${item.ingredient_id}`} size={4}>
                             <Card variant="outlined">
-                                <CardActionArea>
+                                <CardActionArea sx={{ cursor: "default" }}>
                                     <CardContent>
                                         <Typography variant="h5">{item.ingredient_name}</Typography>
                                         <Typography variant="h6">Quantity: {Math.trunc(item.quantity)} {item.unit}</Typography>

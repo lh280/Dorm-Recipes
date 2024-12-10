@@ -19,6 +19,7 @@ export default function makeRecipeCard({ recipe, setCurrentRecipe, size }) {
         variant="outlined"
         data-testid="recipe"
         sx={{ 
+            cursor: "pointer",
             maxWidth: 450, 
             width: "100%",
             "&:hover": {
