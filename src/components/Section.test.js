@@ -51,4 +51,48 @@ describe("Section: Testing sections", () => {
             expect(screen.queryByRole("heading", {name : rec.title})).toBeInTheDocument()
         })
     })
+    test("Renders the correct number of recipes", () => {
+      render(<Section title="Test Section" recipes={recipes} openRecipe={handler} />);
+      const recipeCards = screen.getAllByRole("button");
+      expect(recipeCards.length).toBe(recipes.length);
+  });
+  test("Each card displays the correct content", () => {
+    render(<Section title="Test Section" recipes={recipes} openRecipe={handler} />);
+    recipes.forEach((rec) => {
+        expect(screen.getByRole("heading", { name: rec.title })).toBeInTheDocument();
+        expect(screen.getByAltText(`Image of ${rec.title}`)).toBeInTheDocument();
+    });
+});
+test("Displays no recipes when the recipes list is empty", () => {
+  render(<Section title="Test Section" recipes={[]} openRecipe={handler} />);
+  expect(screen.queryByRole("button")).not.toBeInTheDocument();
+});
+test("Displays the correct section title", () => {
+  const title = "Test Section";
+  render(<Section title={title} recipes={recipes} openRecipe={handler} />);
+  expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
+});
+test("Matches snapshot", () => {
+  const { container } = render(<Section title="Test Section" recipes={recipes} openRecipe={handler} />);
+  expect(container).toMatchSnapshot();
+});
+test("Handles a long list of recipes", () => {
+  const longRecipes = Array.from({ length: 50 }, (_, index) => ({
+      id: index,
+      img: "/long-test.jpg",
+      title: `Recipe ${index}`,
+      author: "Test Author",
+      time: "10 minutes",
+      rating: "5 stars",
+      ingredients: [],
+      steps: [],
+      edited: "2024-11-02",
+  }));
+  render(<Section title="Long Test Section" recipes={longRecipes} openRecipe={handler} />);
+  longRecipes.forEach((rec) => {
+      expect(screen.getByRole("heading", { name: rec.title })).toBeInTheDocument();
+  });
+  expect(screen.getAllByRole("button").length).toBe(50);
+});
+
 })

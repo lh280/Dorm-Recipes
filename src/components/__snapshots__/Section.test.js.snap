@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section: Testing sections Matches snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-1qm1lh"
+  >
+    <h3
+      class="MuiTypography-root MuiTypography-h3 MuiTypography-gutterBottom css-uynfxu-MuiTypography-root"
+    >
+      Test Section
+    </h3>
+    <div
+      id="image list"
+    >
+      <div
+        class="MuiBox-root css-15vft8n"
+      >
+        <div
+          class="MuiBox-root css-1v0nlel"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1pngqm2-MuiPaper-root-MuiCard-root"
+            data-testid="recipe"
+          >
+            <button
+              class="MuiButtonBase-root MuiCardActionArea-root css-coyn9m-MuiButtonBase-root-MuiCardActionArea-root"
+              tabindex="0"
+              type="button"
+            >
+              <div
+                class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1n2mv2k"
+                >
+                  <img
+                    alt="Picture of the recipe"
+                    data-nimg="1"
+                    decoding="async"
+                    height="200"
+                    loading="lazy"
+                    src="/_next/image?url=%2Fpbj.jpg&w=640&q=75"
+                    srcset="/_next/image?url=%2Fpbj.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj.jpg&w=640&q=75 2x"
+                    style="color: transparent;"
+                    width="200"
+                  />
+                </div>
+                <h6
+                  class="MuiTypography-root MuiTypography-h6 css-yxblcp-MuiTypography-root"
+                >
+                  PB & J Sandwich
+                </h6>
+              </div>
+              <span
+                class="MuiCardActionArea-focusHighlight css-1h5un5t-MuiCardActionArea-focusHighlight"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1v0nlel"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1pngqm2-MuiPaper-root-MuiCard-root"
+            data-testid="recipe"
+          >
+            <button
+              class="MuiButtonBase-root MuiCardActionArea-root css-coyn9m-MuiButtonBase-root-MuiCardActionArea-root"
+              tabindex="0"
+              type="button"
+            >
+              <div
+                class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
+              >
+                <div
+                  class="MuiBox-root css-1n2mv2k"
+                >
+                  <img
+                    alt="Picture of the recipe"
+                    data-nimg="1"
+                    decoding="async"
+                    height="200"
+                    loading="lazy"
+                    src="/_next/image?url=%2Fpbj.jpg&w=640&q=75"
+                    srcset="/_next/image?url=%2Fpbj.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj.jpg&w=640&q=75 2x"
+                    style="color: transparent;"
+                    width="200"
+                  />
+                </div>
+                <h6
+                  class="MuiTypography-root MuiTypography-h6 css-yxblcp-MuiTypography-root"
+                >
+                  PB & J Sandwich 2
+                </h6>
+              </div>
+              <span
+                class="MuiCardActionArea-focusHighlight css-1h5un5t-MuiCardActionArea-focusHighlight"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
