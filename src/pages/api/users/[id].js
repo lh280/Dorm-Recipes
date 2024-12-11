@@ -12,9 +12,7 @@ router
     try{
     const user = await User.query()
       .where('user_id', userID)
-      .withGraphFetched("user_recipes")
-      .withGraphFetched("user_reviews")
-      .withGraphFetched("pantry_items")
+      .withGraphFetched('[user_recipes, pantry_items, user_reviews.[recipes(onlyTitle)]]') // Changed reviews to user_reviews
       .first()
       .throwIfNotFound();
     if (!user) {

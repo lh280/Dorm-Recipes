@@ -7,7 +7,7 @@ exports.seed = function (knex) {
     const data = JSON.parse(contents);
 
     // Deletes ALL existing entries
-    return knex("Recipe_Ingredients")
+    return knex("Recipe_ingredients")
         .del()
-        .then(() => knex.batchInsert("Recipe_Ingredients", data));
+        .then(() => knex.batchInsert("Recipe_ingredients", data));
 };
