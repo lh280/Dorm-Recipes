@@ -5,7 +5,7 @@ exports.seed = async function (knex) {
 
     // Deletes ALL existing entries
     await knex("Reviews").del();
-    await knex("Recipe_Ingredients").del();
+    await knex("Recipe_ingredients").del();
     await knex("Pantry").del();
     await knex("Recipes").del();
     await knex("Ingredients").del();
