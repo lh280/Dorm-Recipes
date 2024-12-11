@@ -1,10 +1,34 @@
+import Model from "objection";
 import BaseModel from "./BaseModel";
+import Recipe from "./Recipe";
+import User from "./User"
 
 export default class Review extends BaseModel {
   static get tableName() {
     return "Reviews";
   }
-  
+
+  // Use a function for relationMappings to avoid circular dependency issues
+  static relationMappings = () => ({
+    recipes: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: Recipe,
+      join: {
+        from: "Reviews.recipe_id",
+        to: "Recipes.recipe_id",
+      },
+    },
+
+    users: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: User,
+      join: {
+        from: "Reviews.user_id",
+        to: "Users.user_id",
+      },
+    },
+  });
+
   static get jsonSchema() {
     return {
       type: "object",

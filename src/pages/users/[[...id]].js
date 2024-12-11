@@ -68,7 +68,6 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
               </Card>
             </Grid>
           );
-
         if (userInfo) {
             let content;
             switch (tab) {
@@ -78,8 +77,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                             <Card variant="outlined" sx = {{"&:hover": { backgroundColor: "action.hover", boxShadow: 3, } }}>
                                 <CardActionArea>
                                     <CardContent>
-                                        <Typography variant="h5"><strong>Recipe:</strong>{review.recipe_title}</Typography>
-                                        <Typography variant="h7">ID: {review.recipe_id}</Typography>
+                                        <Typography variant="h5"><strong>Recipe: </strong>{review.recipes.title}</Typography>
                                         <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
                                         <Typography variant="h6"><strong>Review:</strong></Typography>
                                         <Typography>{review.content}</Typography>

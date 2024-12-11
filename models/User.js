@@ -1,17 +1,17 @@
 /* eslint-disable camelcase */
 import Model from "objection";
 import BaseModel from "./BaseModel";
-import Ingredient from "./Ingredient"
-// import Pantry from "./Pantry"
-import Review from "./Review"
-import Recipe from "./Recipe"
+import Ingredient from "./Ingredient";
+import Review from "./Review";
+import Recipe from "./Recipe";
 
 export default class User extends BaseModel {
   static get tableName() {
     return "Users";
   }
 
-  static relationMappings = {
+  // Use a function for relationMappings to avoid circular dependency issues
+  static relationMappings = () => ({
     pantry_items: {
       relation: Model.ManyToManyRelation,
       modelClass: Ingredient, // eslint-disable-line no-use-before-define
@@ -23,8 +23,8 @@ export default class User extends BaseModel {
           to: "Pantry.ingredient_id",
           extra: {
             unit: "unit",
-            quantity: "quantity"
-          }
+            quantity: "quantity",
+          },
         },
         to: "Ingredients.ingredient_id",
       },
@@ -43,9 +43,9 @@ export default class User extends BaseModel {
       join: {
         from: "Users.user_id",
         to: "Recipes.user_id",
-      }
-    }
-  };
+      },
+    },
+  });
 
   static get jsonSchema() {
     return {
