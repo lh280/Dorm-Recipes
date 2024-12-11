@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
+import { Typography, Box, Button, Container, Card, CardActionArea, CardContent, useTheme, useMediaQuery } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,6 +18,9 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
 
   const [fetchedRecipes,setFetchedRecipes] = useState([])
+    
+  const mTheme = useTheme();
+  const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
 
   useEffect(() => {
     (async () => {
@@ -73,8 +76,8 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
               </Button>
             </Box>
           </Container>
-          <Container sx={{ paddingY: 0 }}>
-            <Typography variant="h3" gutterBottom>
+          <Container sx={{ paddingY: 1 }}>
+            <Typography variant={isMobile ? "h4" : "h3"} gutterBottom>
               Featured Recipe
             </Typography>
             <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
@@ -93,7 +96,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
                 <CardActionArea>
                   <CardContent>
                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                      <Image src="/pbj.jpg" height={200} width={200} alt="Picture of the recipe" />
+                      <Image src="/pbj1.jpg" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }}/>
                     </Box>
                     <Typography textAlign="center"
                       variant="h6"

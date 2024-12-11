@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 
-import { Button, Container } from "@mui/material";
+import { Button, Container, useTheme, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,6 +19,9 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
   // initialize states
   const [recipes, setRecipes] = useState([]);
   const [query, setQuery] = useState("");
+  
+  const mTheme = useTheme();
+  const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
 
   useEffect(() => {
     const { q } = router.query;
@@ -81,7 +84,7 @@ export default function Search({ setCurrentRecipe, currentUser, viewAccount }) {
                   </Button>
                 </Grid>
                 <Grid item xs={12}>
-                  <h1 style={{ margin: 0 }}>Search results for &quot;{decodeURIComponent(query)}&quot;</h1>
+                  {isMobile ? <h3 style={{ margin: 0 }}>Search results for &quot;{decodeURIComponent(query)}&quot;</h3> : <h1 style={{ margin: 0 }}>Search results for &quot;{decodeURIComponent(query)}&quot;</h1>}
                 </Grid>
                 <Grid item xs={12}>
                   {recipes.length > 0 ? (

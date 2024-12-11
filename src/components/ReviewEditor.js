@@ -28,7 +28,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
   const handleRatingChange = (e) => {
     const { value } = e.target;
-    const strictValue = Math.min(10, Math.max(1, value)); // Keeps value between 1-10
+    const strictValue = isMobile ? Math.min(10, Math.max(1, value)) : Math.min(5, Math.max(1, value)); // Keeps value between 1-5 on mobile, 1-10 on pc
     setReviewRating(strictValue);
   };
 
@@ -56,11 +56,13 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       return;
     }
 
+    const normalizedRating = isMobile ? reviewRating : reviewRating * 2;
+
     const reviewData = {
       recipe_id: currentRecipe.recipe_id,
       user_id: currentRecipe.user_id,
       content: reviewContent,
-      rating: reviewRating,
+      rating: normalizedRating,
     };
 
     const url = existingReview
@@ -107,13 +109,23 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
           <form onSubmit={handleReviewSubmit}>
             <Box display="flex" flexDirection="column" gap={1.5}>
               <Box display="flex" justifyContent={ isMobile ? "center" : "left"} sx={{ mb: 2 }}>
+                {isMobile ? (
                 <Rating
                   value={reviewRating}
                   onChange={handleRatingChange}
                   precision={1}
                   max={10}
-                  size={isMobile ? "medium" : "large"}
-                />
+                  size="medium"
+                />)
+                : (
+                <Rating
+                  name="half-rating"
+                  value={reviewRating}
+                  onChange={handleRatingChange}
+                  precision={0.5}
+                  max={5}
+                  size="large"
+                />)}
               </Box>
                 {fieldErrors.rating && (
                   <Typography color="error" variant="body2">
