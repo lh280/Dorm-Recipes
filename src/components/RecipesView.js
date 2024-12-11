@@ -10,6 +10,7 @@
 */
 import PropTypes from "prop-types";
 
+import { useTheme, useMediaQuery } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 
 import RecipeShape from "./RecipeShape";
@@ -24,6 +25,10 @@ import RecipeCard from './RecipeCard';
 */
 
 export default function RecipesView({ recipes, setCurrentRecipe }) { 
+  
+  const mTheme = useTheme();
+  const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
+
   if (!recipes) {
       return (
         <p>Loading...</p>
@@ -32,8 +37,8 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
   
   // map the sorted titles to html elements 
   const recCards = [...recipes].map((rec) => (
-    <Grid item xs={12} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
-      <RecipeCard recipe={rec} setCurrentRecipe={setCurrentRecipe}/>
+    <Grid item xs={6} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
+      <RecipeCard recipe={rec} setCurrentRecipe={setCurrentRecipe} size={isMobile ? 125 : 200}/>
     </Grid>
   ));
   return (

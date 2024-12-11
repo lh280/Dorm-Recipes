@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { Box, Typography, Card, CardActionArea, CardContent } from "@mui/material"
+import { Box, Typography, Card, CardActionArea, CardContent, useTheme, useMediaQuery } from "@mui/material"
 import Image from "next/image"
 
 import RecipeShape from "@/components/RecipeShape";
@@ -9,7 +9,11 @@ import RecipeShape from "@/components/RecipeShape";
 import getStarIcons from '../lib/getStarIcons';
 
 export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
-    const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  
+  const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
     
     useEffect(() => {
         if (recipe && recipe.recipe_id) {
@@ -51,8 +55,7 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
           data-testid="recipe"
           sx={{ 
             cursor: "pointer",
-            maxWidth: (size ? 285 : 235), 
-            width: "100%",
+            width: (size ? (size+30) : 235), 
             "&:hover": {
                 backgroundColor: "action.hover", 
                 boxShadow: 3, 
@@ -75,20 +78,22 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
                         alignItems: "center", 
                     }}>
                         <Image 
-                        src={(recipe.img ? recipe.img : "/food.jpg")} 
+                        src={(recipe.img ? recipe.img : "/food1.jpg")} 
                         width={cardSize} 
                         height={cardSize} 
-                        alt="Picture of the recipe"/>
+                        alt="Picture of the recipe"
+                        style={{objectFit: "cover"}}/>
                     </Box>
                     <Typography 
                         textAlign="center" 
-                        variant="h6" 
+                        variant="h6"
                         sx={{ 
                         maxWidth: cardSize, 
                         whiteSpace: "normal", // allows wrapping
                         overflowWrap: "break-word", // break long words to fit in card
                         wordBreak: "break-word", 
-                        margin: "0 auto" // center-align in container
+                        margin: "0 auto", // center-align in container
+                        fontSize: { xs: "0.95rem", sm: "1rem", md: "1.25rem" }
                         }}>
                         {recipe.title}
                     </Typography>
@@ -97,15 +102,18 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
                         color="textSecondary" 
                         textAlign="center"                 
                         sx={{
-                            whiteSpace: "nowrap", 
-                            overflow: "hidden",  
+                            display: "-webkit-box", 
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2, 
+                            overflow: "hidden", 
+                            whiteSpace: "normal",
                             textOverflow: "ellipsis", 
-                            display: "block", 
-                            maxWidth: "100%" 
+                            maxWidth: "100%",
+                            fontSize: { xs: "0.75rem", sm: ".8rem", md: "1rem" }
                         }}>
                       {recipe.description}
                     </Typography>
-                    <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                    <Box sx={{ textAlign: "center", marginTop: {xs: 0.5, sm: 2 }}}>
                         {ratingData.averageRating > 0 ? (
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 {getStarIcons(ratingData.averageRating)}
@@ -114,7 +122,7 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
                                 </Typography>
                             </Box>
                         ) : (
-                            <Typography variant="body2">No reviews yet</Typography>
+                            <Typography variant="body2" fontSize={isMobile ? ".7rem" : "1rem"}>No reviews yet</Typography>
                         )}
                     </Box>
                 {/* TODO?: add: prep_time, servings, updated_at? */}

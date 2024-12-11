@@ -169,11 +169,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
-            src={currentRecipe.img ? currentRecipe.img : "/food.jpg"}
+            src={currentRecipe.img ? currentRecipe.img : "/food1.jpg"}
             width={isMobile ? 300 : 400}
             height={isMobile ? 300 : 400}
             alt="Picture of the recipe"
-            style={{ borderRadius: "8px", marginBottom: "16px" }}
+            style={{ objectFit: "cover", borderRadius: "8px", marginBottom: "16px" }}
           />
         </Box>
 
