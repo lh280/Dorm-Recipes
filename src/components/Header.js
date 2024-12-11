@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import PropTypes from "prop-types";
-
-import { Toolbar, Typography, Avatar, Box, useTheme, useMediaQuery } from "@mui/material";
-import Image from "next/image"
+import { Toolbar, Typography, Avatar, Box, Tooltip, useTheme, useMediaQuery } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import SearchBar from "@/components/SearchBar";
 import UserShape from "./UserShape";
@@ -10,9 +9,14 @@ import LoginWidget from "./LoginWidget";
 
 
 export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
+  const { data: session, status } = useSession();
+  const disabled = status !== "authenticated";
   const router = useRouter();
 
   const goToAccount = () => {
+    if (disabled) {
+      return;
+    }
     if (viewAccount) {
       viewAccount(currentUser.user_id);
     } else {
@@ -29,6 +33,12 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const avatarSymbol = (
+    <Image src="/avatar-icon.svg" width={40} height={40} />
+  );
+
+  const avatarRender = status !== "authenticated" ? avatarSymbol : session.user.email[0];
+  const msg = status !== "authenticated" ? "Sign in to view user page" : "";
 
   return (
     <Toolbar sx={{
@@ -68,21 +78,26 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
       )}
 
       <SearchBar onSearch={handleSearch} />
-
       <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
-        <Avatar
-          onClick={goToAccount}
-          sx={{
-            width: 50,
-            height: 50,
-            bgcolor: blue[100],
-            cursor: "pointer",
-            border: "2px solid white",
-          }}
-        >
-          {currentUser.user_id}
-        </Avatar>
-        <LoginWidget />
+        <Box spacing={1} align="center">
+          <Tooltip title={msg}>
+            <span>
+              <Avatar
+                onClick={goToAccount}
+                sx={{
+                  width: 50,
+                  height: 50,
+                  bgcolor: blue[100],
+                  cursor: "pointer",
+                  border: "2px solid white",
+                  color: "black"
+                }}>
+                {avatarRender}
+              </Avatar>
+            </span>
+          </Tooltip>
+          <LoginWidget />
+        </Box>
       </Box>
     </Toolbar>
   );

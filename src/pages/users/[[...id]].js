@@ -10,30 +10,43 @@ import UserInfoShape from "@/components/UserInfoShape";
 import UserShape from "@/components/UserShape";
 import Header from "@/components/Header";
 import RecipeCard from "@/components/RecipeCard";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { useSession } from "next-auth/react";
 import theme from "../../material/theme";
-
 import getStarIcons from '../../lib/getStarIcons';
 
-export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }){
+export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }) {
     const router = useRouter();
-    const { id } = router.query; 
+    const { id } = router.query;
+
+    // eslint-disable-next-line no-unused-vars
+    const { data: session, status } = useSession();
+    useEffect(() => {
+        if (status !== "authenticated") {
+            router.push("/loginPage");
+        } else if (!session) {
+            // Redirect to the home page if the user is not signed in
+            router.push("/");
+        }
+    }, [session, status, router]);
+
+
+    // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
     const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
     const [userInfo, setUserInfo] = useState(initialUserInfo);
-      
+
     const mTheme = useTheme();
     const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
 
     useEffect(() => {
         if (!userInfo && id) {
-          fetch(`/api/users/${id}`)
-            .then((res) => res.json())
-            .then((data) => setUserInfo(data))
-            // eslint-disable-next-line no-console
-            .catch((err) => console.error(err));
+            fetch(`/api/users/${id}`)
+                .then((res) => res.json())
+                .then((data) => setUserInfo(data))
+                // eslint-disable-next-line no-console
+                .catch((err) => console.error(err));
         }
     }, [id, userInfo]);
 
@@ -42,42 +55,42 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             setTab(newTab);
         }
     }
-    
+
     useEffect(() => {
         const addRecipeCard = (
             <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-              <Card
-                onClick={() => router.push("/add-recipe")}
-                variant="outlined"
-                sx={{
-                  cursor: "pointer",
-                  width: isMobile ? 150 : 284,
-                  padding: isMobile ? 1 : 2,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  "&:hover": {
-                    backgroundColor: "action.hover", 
-                    boxShadow: 3, 
-                  }
-                }}
-              >
-                <CardActionArea>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
-                    <Typography variant="body2" fontSize={isMobile ? ".8rem" : "1rem"} sx={{ textAlign: "center" }}>Add a new recipe</Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+                <Card
+                    onClick={() => router.push("/add-recipe")}
+                    variant="outlined"
+                    sx={{
+                        cursor: "pointer",
+                        width: isMobile ? 150 : 284,
+                        padding: isMobile ? 1 : 2,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": {
+                            backgroundColor: "action.hover",
+                            boxShadow: 3,
+                        }
+                    }}
+                >
+                    <CardActionArea>
+                        <CardContent>
+                            <Typography variant="h5" sx={{ textAlign: "center", color: "primary.main" }}>+</Typography>
+                            <Typography variant="body2" fontSize={isMobile ? ".8rem" : "1rem"} sx={{ textAlign: "center" }}>Add a new recipe</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             </Grid>
-          );
+        );
         if (userInfo) {
             let content;
             switch (tab) {
                 case "My Reviews":
                     content = userInfo.user_reviews.map((review) => (
                         <Grid key={`rev${review.review_id}`} onClick={() => setCurrentRecipe(review.recipe_id)} size={6} sx={{ mb: 3 }}>
-                            <Card variant="outlined" sx = {{"&:hover": { backgroundColor: "action.hover", boxShadow: 3, } }}>
+                            <Card variant="outlined" sx={{ "&:hover": { backgroundColor: "action.hover", boxShadow: 3, } }}>
                                 <CardActionArea>
                                     <CardContent>
                                         <Typography variant="h5"><strong>Recipe:</strong> {review.recipes.title}</Typography>
@@ -91,7 +104,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     ));
                     break;
                 case "My Pantry":
-                    content = userInfo.pantry_items.map((item) => 
+                    content = userInfo.pantry_items.map((item) =>
                         <Grid key={`ing${item.ingredient_id}`} size={isMobile ? 6 : 4}>
                             <Card variant="outlined">
                                 <CardActionArea sx={{ cursor: "default" }}>
@@ -107,7 +120,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 default:
                     content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
                         <Grid key={`rec${recipe.recipe_id}`} item xs={6} sm={4} md={3} sx={{ display: "flex", justifyContent: "center" }}>
-                            <RecipeCard recipe={recipe} setCurrentRecipe={setCurrentRecipe} size={isMobile ? 120 : 250}/>
+                            <RecipeCard recipe={recipe} setCurrentRecipe={setCurrentRecipe} size={isMobile ? 120 : 250} />
                         </Grid>
                     ))];
                     break;
@@ -120,7 +133,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
         <div>
             <Head>
                 <title>Dorm Recipes | Account</title>
-                <meta name="Dorm Recipes"/>
+                <meta name="Dorm Recipes" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <ThemeProvider theme={theme}>
@@ -148,11 +161,11 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
         </div>
     );
 }
-    
+
 
 UserView.propTypes = {
-  setCurrentRecipe: PropTypes.func.isRequired,
-  currentUser: UserShape,
-  viewAccount: PropTypes.func,
-  initialUserInfo: UserInfoShape
+    setCurrentRecipe: PropTypes.func.isRequired,
+    currentUser: UserShape,
+    viewAccount: PropTypes.func,
+    initialUserInfo: UserInfoShape
 };

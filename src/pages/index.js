@@ -17,8 +17,8 @@ import UserShape from "@/components/UserShape";
 export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
   const router = useRouter();
 
-  const [fetchedRecipes,setFetchedRecipes] = useState([])
-    
+  const [fetchedRecipes, setFetchedRecipes] = useState([]);
+
   const mTheme = useTheme();
   const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
 
@@ -32,27 +32,27 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
         }
         const data = await res.json();
         setFetchedRecipes(data)
-        
+
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log("Error retrieving recipes")
       };
     })()
-  },[]);
+  }, []);
 
   let sections = <div>Loading...</div>
-  
-  if (fetchedRecipes){
-    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes}];
+
+  if (fetchedRecipes) {
+    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes }];
     if (fetchedRecipes.length > 4) {
-      const newRecipes = fetchedRecipes.slice(0,4)
-      const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
-      demoSections = [{ title: "Newest Recipes", recipes:newRecipes}, {title: "Oldest Recipes", recipes:oldRecipes}];
+      const newRecipes = fetchedRecipes.slice(0, 4)
+      const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length - 4, fetchedRecipes.length);
+      demoSections = [{ title: "Newest Recipes", recipes: newRecipes }, { title: "Oldest Recipes", recipes: oldRecipes }];
     }
-    sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
+    sections = demoSections.map(({ title, recipes }) => (<Section key={title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
-  
-   // Using current Recipe as a place holder - TODO: is this still true?
+
+  // Using current Recipe as a place holder - TODO: is this still true?
 
   return (
     <div>
@@ -70,7 +70,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
               <Button
                 variant="contained"
                 onClick={() => router.push("/add-recipe")}
-                sx={{ padding: '10px 20px' }}
+                sx={{ padding: '10px 20px', bgcolor: '#201f54' }}
               >
                 Add Recipe
               </Button>
@@ -84,19 +84,20 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
               <Card
                 onClick={() => { setCurrentRecipe(0); }} // TODO: change how this recipe is rendered to be dynamic
                 variant="outlined"
-                sx={{ 
-                  maxWidth: 300, 
-                  width: "100%", 
+                sx={{
+                  maxWidth: 300,
+                  width: "100%",
                   margin: "0 auto",
                   "&:hover": {
-                      backgroundColor: "action.hover", 
-                      boxShadow: 3, 
-                  } }}
+                    backgroundColor: "action.hover",
+                    boxShadow: 3,
+                  }
+                }}
               >
                 <CardActionArea>
                   <CardContent>
                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                      <Image src="/pbj1.jpg" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }}/>
+                      <Image src="/pbj1.jpg" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }} />
                     </Box>
                     <Typography textAlign="center"
                       variant="h6"

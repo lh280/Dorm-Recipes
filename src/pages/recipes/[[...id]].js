@@ -1,14 +1,12 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Head from "next/head";
-
-import { Button, Box, Container } from "@mui/material";
-
+import { useSession } from "next-auth/react";
+import { Button, Box, Container, Tooltip } from "@mui/material";
 import UserShape from "@/components/UserShape";
 import RecipeShape from "@/components/RecipeShape";
 import Recipe from "@/components/Recipe";
 import Header from "@/components/Header";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
@@ -20,9 +18,10 @@ export default function RecipeView({
   currentUser,
   viewAccount
 }) {
-
+  // eslint-disable-next-line no-unused-vars
+  const { session, status } = useSession();
   const router = useRouter();
-  const { id } = router.query; 
+  const { id } = router.query;
 
   // URL copier
   function shareRecipe() {
@@ -61,7 +60,7 @@ export default function RecipeView({
           // eslint-disable-next-line no-console
           console.error("Error deleting recipe:", error);
         });
-    } 
+    }
     else if (!id) {
       // eslint-disable-next-line no-alert
       alert("No such recipe found: returning to homepage");
@@ -70,14 +69,16 @@ export default function RecipeView({
   };
 
   const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
+  const deleteButton = status !== "authenticated";
+  const msg = deleteButton ? "Recipes can only be deleted by the publishing user" : "";
 
   return (
     <div>
       <Head>
-          <title>{title}</title>
-          <meta name="Dorm Recipes"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+        <title>{title}</title>
+        <meta name="Dorm Recipes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head >
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
@@ -87,19 +88,23 @@ export default function RecipeView({
             <meta name="Dorm Recipes" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
           </div>
-          <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
+          <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} status={status} />
           <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
             <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
               <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
-                Share Recipe !
+                Share Recipe
               </Button>
-              <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }}>
-                Delete Recipe
-              </Button>
+              <Tooltip title={msg}>
+                <span>
+                  <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }} disabled={deleteButton}>
+                    Delete Recipe
+                  </Button>
+                </span>
+              </Tooltip>
             </Box>
           </Container>
-        </main>
-      </ThemeProvider>
+        </main >
+      </ThemeProvider >
     </div>
   );
 }

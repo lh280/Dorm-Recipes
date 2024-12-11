@@ -51,6 +51,21 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     router.push(addr);
   }
 
+  // eslint-disable-next-line no-constant-condition
+  if (false) {
+    // eslint-disable-next-line react/prop-types
+    const authUser = { email: session.user.email };
+    // eslint-disable-next-line no-unused-vars
+    const currentUser = fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(authUser),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const currentUser = { user_id: 0, email: "test@gmail.com", created_at: "21 Jan 2024 00:00:00 GMT" }
 
   const props = {
