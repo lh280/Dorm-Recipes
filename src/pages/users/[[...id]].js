@@ -28,7 +28,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
         if (status !== "authenticated") {
             router.push("/");
         }
-    }, [goHome, status]);
+    }, [goHome, status]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
