@@ -38,8 +38,9 @@ function parseInstructions(instructions) {
 }
 
 
-export default function Recipe({ currentRecipe, setCurrentRecipe, status }) {
+export default function Recipe({ currentRecipe, setCurrentRecipe, status, currentUser }) {
   // const { data: session, status } = useSession();
+  const deleteButton = currentRecipe && (currentUser.id === currentRecipe.user_id);
   const disabled = status !== "authenticated";
   const router = useRouter();
 
@@ -119,10 +120,12 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, status }) {
       };
     });
 
+  const back = "\u2B05 Back";
+
   return (
     <Box sx={{ padding: 4 }}>
-      <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 2 }}>
-        🔙 Back
+      <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
+        {back}
       </Button>
 
       <Box
@@ -216,19 +219,21 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, status }) {
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>
-        {reviews && reviews.length > 0 ? (
-          reviews.map((rev) => (
-            <Box key={rev.review_id} sx={{ mb: 3 }}>
-              <Review review={rev} setReviews={setReviews} />
-            </Box>
-          ))
-        ) : (
-          <Typography variant="body1" color="textSecondary">
-            No reviews for this recipe—be the first to leave a rating!
-          </Typography>
-        )}
-      </Box>
+        {
+          reviews && reviews.length > 0 ? (
+            reviews.map((rev) => (
+              <Box key={rev.review_id} sx={{ mb: 3 }}>
+                <Review review={rev} setReviews={setReviews} currentUser={currentUser} disabled={!deleteButton} />
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body1" color="textSecondary">
+              No reviews for this recipe—be the first to leave a rating!
+            </Typography>
+          )
+        }
 
+      </Box >
       <ReviewEditor
         currentRecipe={currentRecipe}
         existingReview={userReview}

@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+// import { signOut } from "next-auth/react";
+// import { useRouter } from "next/router";
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -16,6 +18,10 @@ export const authOptions = {
             }
             return true; // Do different verification for other providers that don't have `email_verified`
         },
+        // async signOut() {
+        //     const router = useRouter();
+        //     router.push("/");
+        // }
     }
 }
 

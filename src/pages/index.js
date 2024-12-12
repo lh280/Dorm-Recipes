@@ -2,19 +2,19 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
-
-import { Typography, Box, Button, Container, Card, CardActionArea, CardContent, useTheme, useMediaQuery } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { Typography, Box, Button, Container, Card, CardActionArea, CardContent, useTheme, useMediaQuery, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
-
 import Section from "@/components/Section";
 import Header from "@/components/Header";
 import UserShape from "@/components/UserShape";
 
 export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
+  const { data: session, status } = useSession(); // eslint-disable-line no-unused-vars
+  const disabled = status !== "authenticated";
   const router = useRouter();
 
   const [fetchedRecipes, setFetchedRecipes] = useState([]);
@@ -52,8 +52,11 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
     sections = demoSections.map(({ title, recipes }) => (<Section key={title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
 
-  // Using current Recipe as a place holder - TODO: is this still true?
 
+  // Using current Recipe as a place holder - TODO: is this still true?
+  const msg = disabled ? "Sign in to post a new recipe" : "";
+
+  // Using current Recipe as a place holder
   return (
     <div>
       <Head>
@@ -66,14 +69,30 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
         <main style={{ paddingTop: '80px' }}>
           <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
-            <Box display="flex" justifyContent="center" marginTop={4}>
-              <Button
-                variant="contained"
-                onClick={() => router.push("/add-recipe")}
-                sx={{ padding: '10px 20px', bgcolor: '#201f54' }}
-              >
-                Add Recipe
-              </Button>
+            <Box display="flex" justifyContent="center" marginTop={4} >
+              <Tooltip title={msg} slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [160, -49],
+                      },
+                    },
+                  ],
+                },
+              }}>
+                <span>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push("/add-recipe")}
+                    sx={{ padding: '10px 20px', bgcolor: '#201f54' }}
+                    disabled={disabled}
+                  >
+                    Add Recipe
+                  </Button>
+                </span>
+              </Tooltip>
             </Box>
           </Container>
           <Container sx={{ paddingY: 1 }}>

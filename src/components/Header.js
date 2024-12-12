@@ -80,7 +80,18 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
       <SearchBar onSearch={handleSearch} />
       <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
         <Box spacing={1} align="center">
-          <Tooltip title={msg}>
+          <Tooltip title={msg} slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [-110, -50],
+                  },
+                },
+              ],
+            },
+          }}>
             <span>
               <Avatar
                 onClick={goToAccount}

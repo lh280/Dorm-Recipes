@@ -95,7 +95,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
     }
   };
 
-  const msg = !disabled ? "" : "Sign in to leave a review";
+  const msg = !disabled ? "" : "Sign in to post or edit a review";
   return (
     <Box display="flex" justifyContent="flex-start" p={2}>
       <Tooltip title={msg}>
@@ -155,7 +155,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
                         </Typography>
                       )}
                     </Box>
-                    <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+                    <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2, bgcolor: '#201f54' }}>
                       {existingReview ? 'Update Review' : 'Submit Review'}
                     </Button>
                   </Box>

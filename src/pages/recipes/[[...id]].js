@@ -29,7 +29,7 @@ export default function RecipeView({
     try {
       navigator.clipboard.writeText(`${url}`);
       // eslint-disable-next-line no-alert
-      alert("Recipe link copied to clipboard !");
+      alert("Recipe link copied to clipboard");
     } catch (err) {
       // eslint-disable-next-line no-alert
       alert("Unable to copy URL :(");
@@ -67,45 +67,48 @@ export default function RecipeView({
       router.back(); // Go back if no id found
     }
   };
-
   const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
-  const deleteButton = status !== "authenticated";
-  const msg = deleteButton ? "Recipes can only be deleted by the publishing user" : "";
+  const deleteButton = /* true || */ false && (currentUser.user_id === currentRecipe.user_id); // TODO: change to check that the currentUser.user_id matches currentRecipe.user_id
+  const msg = !deleteButton ? "Recipes can only be deleted by the publishing user" : "";
 
   return (
-    <div>
-      <Head>
-        <title>{title}</title>
-        <meta name="Dorm Recipes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <main style={{ paddingTop: '80px' }}>
-          <div>
-            <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
-            <title>Create Next App</title>
-            <meta name="Dorm Recipes" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-          </div>
-          <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} status={status} />
-          <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
-            <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
-              <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
-                Share Recipe
-              </Button>
-              <Tooltip title={msg}>
-                <span>
-                  <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px' }} disabled={deleteButton}>
-                    Delete Recipe
-                  </Button>
-                </span>
-              </Tooltip>
-            </Box>
-          </Container>
-        </main >
-      </ThemeProvider >
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <main style={{ paddingTop: '80px' }}>
+        <div>
+          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
+          <title>Create Next App</title>
+          <meta name="Dorm Recipes" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </div>
+        <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} status={status} currentUser={currentUser} />
+        <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
+          <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
+            <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px', bgcolor: '#201f54' }}>
+              Share Recipe
+            </Button>
+            <Tooltip title={msg} slotProps={{
+              popper: {
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [235, -47.5],
+                    },
+                  },
+                ],
+              },
+            }}>
+              <span>
+                <Button variant="contained" onClick={handleDelete} sx={{ padding: '10px 20px', bgcolor: '#201f54' }} disabled={!deleteButton}>
+                  Delete Recipe
+                </Button>
+              </span>
+            </Tooltip>
+          </Box>
+        </Container>
+      </main>
+    </ThemeProvider >
   );
 }
 

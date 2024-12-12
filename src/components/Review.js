@@ -56,12 +56,23 @@ export default function Review({ review, setReviews, disabled }) {
           <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
         </Typography>
       </Box>
-      <Tooltip title={msg} >
+      <Tooltip title={msg} slotProps={{
+        popper: {
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [220, -35],
+              },
+            },
+          ],
+        },
+      }}>
         <span>
           <Button
             variant="contained"
             onClick={() => handleDelete(review)}
-            sx={{ padding: '5px 10px', fontSize: '0.75rem' }}
+            sx={{ padding: '5px 10px', fontSize: '0.75rem', bgcolor: '#201f54' }}
             disabled={disabled}
           >
             Delete Review

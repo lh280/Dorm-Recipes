@@ -22,15 +22,13 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
 
     // eslint-disable-next-line no-unused-vars
     const { data: session, status } = useSession();
+    const goHome = session;
+
     useEffect(() => {
         if (status !== "authenticated") {
-            router.push("/loginPage");
-        } else if (!session) {
-            // Redirect to the home page if the user is not signed in
             router.push("/");
         }
-    }, [session, status, router]);
-
+    }, [goHome, status]);
 
     // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [tab, setTab] = useState("My Recipes");
