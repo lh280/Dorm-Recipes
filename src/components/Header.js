@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { Toolbar, Typography, Avatar, Box, Tooltip, useTheme, useMediaQuery } from "@mui/material";
+import Image from "next/image";
 import { blue } from "@mui/material/colors";
 import SearchBar from "@/components/SearchBar";
 import UserShape from "./UserShape";
@@ -101,7 +102,8 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
                   bgcolor: blue[100],
                   cursor: "pointer",
                   border: "2px solid white",
-                  color: "black"
+                  color: "black",
+                  marginTop: 1.45
                 }}>
                 {avatarRender}
               </Avatar>

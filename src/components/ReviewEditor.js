@@ -7,7 +7,7 @@ import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
-export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
+export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted, disabled }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
