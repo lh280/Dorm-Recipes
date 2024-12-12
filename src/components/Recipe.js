@@ -40,6 +40,7 @@ function parseInstructions(instructions) {
 
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
+  //console.log(currentRecipe)
   const router = useRouter();
   if (!currentRecipe) {
     return (

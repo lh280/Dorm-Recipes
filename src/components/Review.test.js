@@ -1,7 +1,7 @@
 import { render,screen } from "@testing-library/react";
 import Review from "./Review";
 
-describe.skip("Review: Review tests", ()=>{
+describe("Review: Review tests", ()=>{
     const handler = jest.fn();
     let ratings;
     let currentRecipe;
