@@ -6,7 +6,7 @@ export default function getStarIcons(rating) {
     const totalStars = 5; 
   
     return (
-      <>
+      <span data-testid="star-icons">
         {Array.from({ length: totalStars }, (s, index) => {
           if (index < fullStars) {
             return <FaStar key={s} style={{ color: "gold" }} />;
@@ -16,6 +16,6 @@ export default function getStarIcons(rating) {
           }
           return <FaRegStar key={s} style={{ color: "gold" }} />;
         })}
-      </>
+      </span>
     );
   }
