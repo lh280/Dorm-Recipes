@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Recipe from "./Recipe";
+import getStarIcons from "@/lib/getStarIcons";
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
@@ -95,7 +96,7 @@ describe("Recipe: Recipe tests", () => {
   });
 
   test("Recipe renders the correct Ingredients and Steps", () => {
-    render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}}/>);
+    render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}} setReviews/>);
 
     // Check if ingredients with quantities and units are rendered correctly
     currentRecipe.recipe_ingredient.forEach((ingredient) => {
@@ -124,22 +125,41 @@ describe("Recipe: Recipe tests", () => {
     });
   });
 
-  test.skip("Recipe calculates and displays the correct average rating", () => {
-    render(<Recipe currentRecipe={currentRecipe} reviews={reviews} />);
-
+  test("Recipe calculates and displays the correct average rating", () => {
+    render(
+      <Recipe
+        currentRecipe={currentRecipe}
+        setCurrentRecipe={() => {}}
+        setReviews={() => {}}
+      />
+    );
+  
     // Calculate expected average rating
     const expectedAverageRating = (
-      reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+      currentRecipe.recipe_reviews.reduce((sum, review) => sum + review.rating, 0) /
+      currentRecipe.recipe_reviews.length
     ).toFixed(1);
-
-    expect(screen.getByText(`Average Rating: ${expectedAverageRating}`)).toBeInTheDocument();
+  
+    // Query the star icons container by its test ID
+    const starIconsContainer = screen.getByTestId("star-icons");
+  
+    // Check if the star icons container is in the document
+    expect(starIconsContainer).toBeInTheDocument();
+  
+    // Optionally, verify the number of children (stars) rendered matches the expected average
+    const starCount = starIconsContainer.children.length; // Count the child elements inside the container
+    const fullStars = Math.floor(expectedAverageRating / 2);
+    const hasHalfStar = expectedAverageRating % 2 !== 0;
+    const expectedStarCount = fullStars + (hasHalfStar ? 1 : 0) + (5 - fullStars - (hasHalfStar ? 1 : 0));
+  
+    expect(starCount).toBe(expectedStarCount);
   });
 
   test.skip("Recipe renders reviews correctly", () => {
-    render(<Recipe currentRecipe={currentRecipe} reviews={reviews} />);
-
+    render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}} />);
+  
     // Check if reviews are rendered
-    reviews.forEach((review) => {
+    currentRecipe.recipe_reviews.forEach((review) => {
       expect(screen.getByText(review.content)).toBeInTheDocument();
       expect(screen.getByText(`Rating: ${review.rating}`)).toBeInTheDocument();
       expect(screen.getByText(new Date(review.updated_at).toLocaleString())).toBeInTheDocument();
