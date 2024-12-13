@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 
 import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery } from '@mui/material';
@@ -20,6 +20,11 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
     content: false,
     rating: false,
   });
+
+  useEffect(() => {
+    setReviewContent(existingReview?.content || '');
+    setReviewRating(existingReview?.rating || 0);
+  }, [existingReview]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
