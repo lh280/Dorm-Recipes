@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Head from "next/head";
+import PropTypes from "prop-types";
 
-import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent, useTheme, useMediaQuery } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea, CardContent, useTheme, useMediaQuery, TextField, Stack, Button} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 import UserInfoShape from "@/components/UserInfoShape";
@@ -23,9 +23,23 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
     const [tab, setTab] = useState("My Recipes");
     const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
     const [userInfo, setUserInfo] = useState(initialUserInfo);
-      
+    const [pantryState, setPantryState] = useState("view");
+    const [name, setName] = useState('');
+    const [selectedIng, setSelectedIng] = useState("");
+    const [quantity, setquantity] = useState(1);
+    const [newQuantity, setNewQuantity] = useState(1);
+    const [unit, setUnit] = useState('');
+    const [newUnit, setNewUnit] = useState("");
     const mTheme = useTheme();
     const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
+
+    const setQuant = (val) => {
+        if (val) {
+            setNewQuantity(val);
+        }else{
+            setNewQuantity("");
+        }
+    }
 
     useEffect(() => {
         if (!userInfo && id) {
@@ -42,8 +56,107 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             setTab(newTab);
         }
     }
-    
+
     useEffect(() => {
+        const addItem = async () => {
+            // Create ingredient with name
+            let ingredient_id; // TEMP
+            let ingName;
+            try {
+                const response = await fetch(
+                    "/api/ingredient",
+                    {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({name})
+                    });
+                if (!response.ok) {
+                    throw new Error('Failed to submit Item');
+                } else {
+                    const result = await response.json()
+                    ingredient_id = result.ingredient_id;
+                    ingName = result.ingredient_name;
+                }
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log("Error creating Pantry item")
+            }
+            
+            const {user_id} = userInfo;
+            const body = JSON.stringify({user_id, ingredient_id, name, quantity, unit});
+            try {
+                const response = await fetch(
+                    "/api/pantry",
+                    {
+                        method: "POST",
+                        headers: {'Content-Type': 'application/json'},
+                        body
+                    });
+                if (!response.ok) {
+                    throw new Error('Failed to submit Item');
+                }
+
+                const item = await response.json();
+                item.ingredient_name = ingName
+                userInfo.pantry_items.push(item);
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log("Error creating pantry item: ", error);
+            }
+            setName("");
+            setPantryState("");
+        }
+
+        const editItem = async () => {
+            try {
+                const {user_id} = userInfo;
+                const body = {user_id, selectedIng, newQuantity, newUnit}
+                const response = await fetch(
+                    "/api/pantry",
+                    {
+                        method: "Put",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(body)
+                    }
+                )
+                if (!response) {
+                    throw new Error('Failed to update Item');
+                }
+                const index = userInfo.pantry_items.findIndex(item => item.ingredient_id === selectedIng);
+                const item = userInfo.pantry_items[index]
+                item.quantity = newQuantity
+                item.unit = newUnit
+                userInfo.pantry_items[index] = item;
+                setSelectedIng("");
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error("Error updating Pantry item")
+            }
+        }
+
+        const deleteItem = async () => {
+            try {
+                const {user_id} = userInfo;
+                const response = await fetch(
+                    "/api/pantry",
+                    {
+                        method: "Delete",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({user_id, selectedIng})
+                    });
+                if (!response.ok) {
+                    throw new Error('Failed to delete Item');
+                } else {
+                    userInfo.pantry_items = userInfo.pantry_items.filter(item => item.ingredient_id !== selectedIng)
+                }
+
+            }catch (error) {
+                // eslint-disable-next-line no-console
+                console.error("Error creating Pantry item")
+            }
+            setSelectedIng("");
+        }
+
         const addRecipeCard = (
             <Grid item xs={12} sm={6} md={3} sx={{ display: "flex", justifyContent: "center" }}>
               <Card
@@ -70,7 +183,42 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                 </CardActionArea>
               </Card>
             </Grid>
-          );
+        );
+
+       let addPantryCard;
+        if (pantryState === "add") {
+            addPantryCard = (<Grid key="addIng" size={isMobile ? 6 : 4} sx={{minHeight:99}}>
+                <Card variant="outlined" >
+                    <CardContent>
+                        <Stack spacing={2}>
+                            <TextField id="Name" name = "test" label="Name" variant="standard" value={name}
+                            onChange={(event) => {setName(event.target.value);}}/>
+                            <Stack direction="row" spacing={1}>
+                                <TextField id="quantity" label="Quantity" variant="standard"
+                                onChange={(e) => {setquantity(e.target.value)}}/>
+                                <TextField id="Unit" label="Unit" variant="standard" onChange={(e) => {setUnit(e.target.value)}}/>
+                            </Stack>
+                            <Stack direction="row" spacing={2}>
+                                <Button color="error" variant="contained" onClick={() => {setPantryState("")}}>Close</Button>
+                                <Button color="success" variant="contained" onClick={addItem}>Save</Button>
+                            </Stack>
+                        </Stack>
+                    </CardContent>
+                </Card>
+            </Grid>)
+        }else {
+            addPantryCard = (<Grid key="addIng" size={isMobile ? 6 : 4}>
+                <Card variant="outlined" sx={{minHeight:99}}>
+                    <CardActionArea sx={{ textAlign:"center", minHeight:98}} onClick={() => setPantryState("add")}>
+                        <CardContent>
+                            <Typography variant={isMobile ? "h4" : "h3"}><strong>+</strong></Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Grid>
+            )
+        }    
+        
         if (userInfo) {
             let content;
             switch (tab) {
@@ -91,18 +239,49 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
                     ));
                     break;
                 case "My Pantry":
-                    content = userInfo.pantry_items.map((item) => 
+                    content = userInfo.pantry_items.map((item) => {
+                        if (item.ingredient_id === selectedIng) {
+                            return (
+                            <Grid key={`ing${item.ingredient_id}`} size={isMobile ? 6 : 4}>
+                                <Card variant="outlined">
+                                    <CardContent>
+                                        <Stack direction="row" spacing={2} mb={2}>
+                                            <Typography variant={isMobile ? "h6" : "h5"}><strong>{item.ingredient_name}</strong></Typography>
+                                            <Button color="error" variant="contained" onClick={deleteItem}>Delete</Button>
+                                        </Stack>
+                                        <Stack spacing={1}>
+                                            <Stack direction="row" spacing={1}>
+                                                <TextField id="quantity" label="Quantity" variant="standard"
+                                                    value ={newQuantity} onChange={(e) => {setQuant(Number(e.target.value))}}/>
+                                                <TextField id="Unit" label="Unit" variant="standard"
+                                                    value ={newUnit} onChange={(e) => setNewUnit(e.target.value)}/>
+                                            </Stack>
+                                            <Stack direction="row" spacing={2}>
+                                                <Button color="error" variant="contained" onClick={() => {setSelectedIng("")}}>Cancel</Button>
+                                                <Button color="success" variant="contained" onClick={editItem}>Save</Button>
+                                            </Stack>
+                                        </Stack>
+                                    </CardContent>
+                                </Card>
+                            </Grid>)
+                        }
+                        return (
                         <Grid key={`ing${item.ingredient_id}`} size={isMobile ? 6 : 4}>
                             <Card variant="outlined">
-                                <CardActionArea sx={{ cursor: "default" }}>
+                                <CardActionArea onClick={() => {
+                                    setSelectedIng(item.ingredient_id);
+                                    setNewQuantity(Math.trunc(item.quantity));
+                                    setNewUnit(item.unit)}}>
                                     <CardContent>
                                         <Typography variant={isMobile ? "h6" : "h5"}><strong>{item.ingredient_name}</strong></Typography>
                                         <Typography variant={isMobile ? "body1" : "h6"}>Quantity: {Math.trunc(item.quantity)} {item.unit}</Typography>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
-                        </Grid>,
+                        </Grid>)
+                        }
                     );
+                    content = [addPantryCard,...content]
                     break;
                 default:
                     content = [addRecipeCard, ...userInfo.user_recipes.map((recipe) => (
@@ -114,7 +293,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             }
             setCurrentContent(content);
         }
-    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router, isMobile]);
+    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router, isMobile, pantryState, name, quantity, unit, selectedIng, newQuantity, newUnit]);
 
     return (
         <div>
