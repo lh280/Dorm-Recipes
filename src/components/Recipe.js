@@ -154,6 +154,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
               justifyContent: isMobile ? "center" : "flex-start", 
               marginLeft: isMobile ? 0 : 2
             }}
+            displayPrint="none"
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {getStarIcons(ratingData.averageRating, isMobile ? "1.5rem" : "2rem")}
@@ -163,9 +164,12 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             </Typography>
           </Box>
         ) : (
-          <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
+          <Box displayPrint="none">
+            <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
             No reviews yet
-          </Typography>
+            </Typography>
+          </Box>
+          
         )}
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
@@ -205,7 +209,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             component="li"
             sx={{ marginBottom: 1 }}
           >
-            {ing.quantity} {ing.unit} of {ing.ingredient_name}
+            {Math.trunc(ing.quantity)} {ing.unit} of {ing.ingredient_name}
           </Typography>
         ))}
       </ul>
