@@ -27,11 +27,12 @@ This is an application to help connect students who want to cook around campus t
 
 - upload their own recipes with title, photo, description, prep & cook time, ingredients, and steps
   - view and edit their own recipes
-  - make them public or private
   - view the ratings others have given them
 - see the reviews they have left on other recipes
 - keep a personal pantry of their own ingredients
-- see other users' public recipes (title, author, other ratings, etc.) and rate them
+- see other users' recipes (title, author, other ratings, etc.) 
+  - rate the recipes 
+  - share & print them out
 - search for recipes by name, description, or ingredients
 
 ## Creation
