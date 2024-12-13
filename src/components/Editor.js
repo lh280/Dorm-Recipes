@@ -50,9 +50,14 @@ export default function Editor({ currentRecipe, complete }) {
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  
+    if (errors[field]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  }; 
 
   const handleAddIngredient = () => {
     setFormData((prev) => ({
@@ -74,6 +79,16 @@ export default function Editor({ currentRecipe, complete }) {
       ingredients[index] = value;
       return { ...prev, ingredients };
     });
+    // Clear error if valid input is provided
+    if (errors.ingredients && value.trim() !== "") {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        if (formData.ingredients.every((ingredient) => ingredient.trim() !== "")) {
+          delete newErrors.ingredients;
+        }
+        return newErrors;
+      });
+    }
   };
 
   const handleAddStep = () => {
@@ -96,6 +111,16 @@ export default function Editor({ currentRecipe, complete }) {
       steps[index] = value;
       return { ...prev, steps };
     });
+      // Clear error if valid input is provided
+    if (errors.steps && value.trim() !== "") {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        if (formData.steps.every((step) => step.trim() !== "")) {
+          delete newErrors.steps;
+        }
+        return newErrors;
+      });
+    }
   };
 
   const validateForm = () => {
