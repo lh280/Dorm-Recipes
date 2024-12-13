@@ -89,7 +89,7 @@ export default function RecipeView({
           </div>
           <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe}/>
           <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
-            <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
+            <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }} displayPrint="none">
               <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px' }}>
                 Share Recipe !
               </Button>

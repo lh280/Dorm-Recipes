@@ -122,9 +122,12 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
 
   return ( 
     <Box sx={{ padding: 4 }}>
-      <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 2 }}>
+      <Box displayPrint="none">
+        <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 2 }}>
         🔙 Back
-      </Button>
+        </Button>
+      </Box>
+      
 
       <Box 
         sx={{ 
@@ -151,6 +154,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
               justifyContent: isMobile ? "center" : "flex-start", 
               marginLeft: isMobile ? 0 : 2
             }}
+            displayPrint="none"
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {getStarIcons(ratingData.averageRating, isMobile ? "1.5rem" : "2rem")}
@@ -160,12 +164,18 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             </Typography>
           </Box>
         ) : (
-          <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
+          <Box displayPrint="none">
+            <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
             No reviews yet
-          </Typography>
+            </Typography>
+          </Box>
+          
         )}
       </Box>
-
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
+        <Button variant="contained" onClick={() => {window.print()}}>Print</Button>
+      </Box>
+      
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
@@ -199,7 +209,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             component="li"
             sx={{ marginBottom: 1 }}
           >
-            {ing.quantity} {ing.unit} of {ing.ingredient_name}
+            {Math.trunc(ing.quantity)} {ing.unit} of {ing.ingredient_name}
           </Typography>
         ))}
       </ul>
@@ -213,7 +223,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         Last edited: {editDate}
       </Typography>
 
-      <Box sx={{ marginTop: 6 }}>
+      <Box sx={{ marginTop: 6 }} displayPrint="none">
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>

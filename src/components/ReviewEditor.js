@@ -105,7 +105,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   };
 
   return (
-    <Box display="flex" justifyContent="flex-start" p={2}>
+    <Box display="flex" justifyContent="flex-start" p={2} displayPrint="none">
       <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
         <CardContent>
           <Typography variant="h5" gutterBottom>
