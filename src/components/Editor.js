@@ -112,6 +112,8 @@ export default function Editor({ currentRecipe, complete }) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
+  const MAX_IMAGE_SIZE_MB=5;
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -120,6 +122,12 @@ export default function Editor({ currentRecipe, complete }) {
     if (!file.type.startsWith("image/")) {
       // eslint-disable-next-line no-alert
       alert("Please upload a valid image file.");
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+      // eslint-disable-next-line no-alert
+      alert(`Image size must be less than ${MAX_IMAGE_SIZE_MB} MB.`);
       return;
     }
 
