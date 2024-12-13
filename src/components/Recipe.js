@@ -125,9 +125,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
 
   return (
     <Box sx={{ padding: 4 }}>
-      <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
-        {back}
-      </Button>
+      <Box displayPrint="none">
+        <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
+          {back}
+        </Button>
+      </Box>
 
       <Box
         sx={{
@@ -172,10 +174,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           
         )}
       </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
-        <Button variant="contained" onClick={() => {window.print()}}>Print</Button>
-      </Box>
-      
+
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
@@ -185,6 +184,10 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             alt="Picture of the recipe"
             style={{ objectFit: "cover", borderRadius: "8px", marginBottom: "16px" }}
           />
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
+          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54'}} >Print</Button>
         </Box>
 
         <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>

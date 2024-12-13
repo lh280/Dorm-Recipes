@@ -16,7 +16,6 @@ export default function RecipeView({
   setCurrentRecipe,
   viewAccount
 }) {
-  // eslint-disable-next-line no-unused-vars
   const { data: session, status } = useSession();
   const router = useRouter();
   const { id } = router.query;
@@ -66,7 +65,7 @@ export default function RecipeView({
     }
   };
   const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
-  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id); // TODO: change to check that the currentUser.user_id matches currentRecipe.user_id
+  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id); 
   const msg = !deleteButton ? "Recipes can only be deleted by the publishing user" : "";
 
   return (

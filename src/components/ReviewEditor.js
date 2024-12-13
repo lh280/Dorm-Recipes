@@ -3,11 +3,13 @@
 /* eslint-disable react/no-unused-prop-types */
 import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
+import { useSession } from "next-auth/react";
 import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
 export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted, disabled }) {
+  const { data: session } = useSession();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -67,13 +69,14 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       rating: normalizedRating,
     };
 
+    // TODO: fix how existing review is populated-- dependent on if (session.user.id === review.id) 
     const url = existingReview
       ? `/api/reviews/${existingReview.review_id}` // Update the existing review (PUT request)
       : `/api/reviews`; // Create a new review (POST request)
 
     const method = existingReview ? "PUT" : "POST";
     const body = JSON.stringify({
-      ...(existingReview ? { review_id: existingReview.review_id } : {}),
+      ...((existingReview && (session.user.id === reviewData.id)) ? { review_id: existingReview.review_id } : {}),
       ...reviewData,
     });
 
@@ -114,7 +117,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
             <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
-                  {existingReview ? 'Edit Your Review' : 'Write a Review'}
+                  {(existingReview && (session.user.id === existingReview.id)) ? 'Edit Your Review' : 'Write a Review'}
                 </Typography>
                 <form onSubmit={handleReviewSubmit}>
                   <Box display="flex" flexDirection="column" gap={1.5}>
@@ -162,7 +165,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
                       )}
                     </Box>
                     <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2, bgcolor: '#201f54' }}>
-                      {existingReview ? 'Update Review' : 'Submit Review'}
+                      {(existingReview && (session.user.id === existingReview.id)) ? 'Update Review' : 'Submit Review'}
                     </Button>
                   </Box>
                 </form>
