@@ -69,7 +69,6 @@ export default class User extends BaseModel {
       required: ["username"/*, "user_id"*/], // TODO: un-comment out
       properties: {
         id: { type: "integer" },
-        google_id: { type: "string" },
         username: { type: "string", minLength: 1, maxLength: 50 },
         created_at: { type: "string", format: "date-time" },
       },

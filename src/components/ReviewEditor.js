@@ -56,7 +56,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
     const reviewData = {
       recipe_id: currentRecipe.recipe_id,
-      user_id: currentRecipe.user_id,
+      id: currentRecipe.id,
       content: reviewContent,
       rating: normalizedRating,
     };

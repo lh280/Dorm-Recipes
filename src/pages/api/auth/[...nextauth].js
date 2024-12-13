@@ -20,26 +20,28 @@ export const authOptions = {
             return true; // Do different verification for other providers that don't have `email_verified`
         },
         async jwt({ token, user }) {
-          if (user) {
-            let localUser = await User.query().findOne("google_id", user.id);
-            if (!localUser) {
-              // Create new user record in the database
-              localUser = await User.query().insertAndFetch({
-                google_id: user.id,
-                username: user.email,
-              });
+            if (user) {
+                let localUser = await User.query().findOne("username", user.email);
+                if (!localUser) {
+                    // Create new user record in the database
+                    const idGet = await User.query().max('id as max_id');
+                    const newId = idGet[0].max_id + 1
+                    localUser = await User.query().insertAndFetch({
+                        id: newId,
+                        username: user.email,
+                    });
+                }
+                // Add user id to the token
+                // eslint-disable-next-line no-param-reassign
+                token.id = localUser.id;
             }
-            // Add user id to the token
-            // eslint-disable-next-line no-param-reassign
-            token.id = localUser.id;
-          }
-          return token;
+            return token;
         },
         async session({ session, token }) {
-          // Add user id to the session
-          // eslint-disable-next-line no-param-reassign
-          session.user.id = token.id;
-          return session;
+            // Add user id to the session
+            // eslint-disable-next-line no-param-reassign
+            session.user.id = token.id;
+            return session;
         },
         // async signOut() {
         //     const router = useRouter();

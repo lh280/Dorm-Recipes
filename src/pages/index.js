@@ -67,7 +67,7 @@ export default function Home({ setCurrentRecipe, /*currentUser,*/ viewAccount })
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
+          <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ viewAccount={() => { viewAccount(session.user.id) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
             <Box display="flex" justifyContent="center" marginTop={4} >
               <Tooltip title={msg} slotProps={{

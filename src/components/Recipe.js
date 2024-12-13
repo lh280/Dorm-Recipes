@@ -41,7 +41,7 @@ function parseInstructions(instructions) {
 
 export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, currentUser*/ }) {
   const { data: session, status } = useSession();
-  const deleteButton = currentRecipe && (session.user.id === currentRecipe.id);
+  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";
   const router = useRouter();
 
