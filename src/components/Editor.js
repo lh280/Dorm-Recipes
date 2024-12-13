@@ -304,6 +304,7 @@ export default function Editor({ currentRecipe, complete }) {
             Ingredients <Typography component="span" color="error">*</Typography>
           </Typography>
           {formData.ingredients.map((ingredient, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Box key={index} display="flex" alignItems="center" mb={1}>
               <TextField
                 fullWidth
@@ -343,6 +344,7 @@ export default function Editor({ currentRecipe, complete }) {
             Cooking Steps <Typography component="span" color="error">*</Typography>
           </Typography>
           {formData.steps.map((step, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Box key={index} display="flex" alignItems="center" mb={1}>
               <TextField
                 fullWidth
