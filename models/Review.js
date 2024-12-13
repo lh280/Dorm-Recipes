@@ -1,7 +1,8 @@
 import Model from "objection";
 import BaseModel from "./BaseModel";
 import Recipe from "./Recipe";
-import User from "./User"
+
+const User = require("./User");
 
 export default class Review extends BaseModel {
   static get tableName() {

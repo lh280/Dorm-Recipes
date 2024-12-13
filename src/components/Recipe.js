@@ -8,6 +8,7 @@
 */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/prop-types */ // TODO: delete - TEMPORARY for CurrentUser
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";

@@ -50,9 +50,10 @@ export default class User extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["username", "user_id"],
+      required: ["username"/*, "user_id"*/], // TODO: un-comment out
       properties: {
         user_id: { type: "integer" },
+        google_id: { type: "string" },
         username: { type: "string", minLength: 1, maxLength: 50 },
         created_at: { type: "string", format: "date-time" },
       },

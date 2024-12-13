@@ -100,7 +100,7 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
                   width: 50,
                   height: 50,
                   bgcolor: blue[100],
-                  cursor: "pointer",
+                  cursor: msg ? "default" : "pointer",
                   border: "2px solid white",
                   color: "black",
                   marginTop: 1.45
