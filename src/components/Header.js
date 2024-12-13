@@ -66,10 +66,12 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
           </Typography>
         </Box>
       )}
+      <Box displayPrint="none">
+        <SearchBar onSearch={handleSearch}/>
+      </Box>
       
-      <SearchBar onSearch={handleSearch}/>
       
-      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
+      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }} displayPrint="none">
         <Avatar
           onClick={goToAccount}
           sx={{
