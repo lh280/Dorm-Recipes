@@ -12,7 +12,6 @@ import {
   Tooltip,
   CircularProgress,
   IconButton,
-  useTheme
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -35,7 +34,6 @@ export default function Editor({ currentRecipe, complete }) {
   });
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
-  const theme = useTheme();
 
   useEffect(() => {
     setFormData({
@@ -290,7 +288,8 @@ export default function Editor({ currentRecipe, complete }) {
         <Grid item xs={12}>
           <Typography variant="h6">Ingredients</Typography>
           {formData.ingredients.map((ingredient, index) => (
-          <Box key={`${ingredient}-${index}`} display="flex" alignItems="center" mb={1}>
+            // eslint-disable-next-line react/no-array-index-key
+          <Box key={index} display="flex" alignItems="center" mb={1}>
 
 
               <TextField
@@ -321,7 +320,8 @@ export default function Editor({ currentRecipe, complete }) {
         <Grid item xs={12}>
           <Typography variant="h6">Cooking Steps</Typography>
             {formData.steps.map((step, index) => (
-              <Box key={`${step}-${index}`} display="flex" alignItems="center" mb={1}>
+              // eslint-disable-next-line react/no-array-index-key
+              <Box key={index} display="flex" alignItems="center" mb={1}>
 
               <TextField
                 fullWidth
