@@ -3,10 +3,23 @@ import { useRouter } from "next/router";
 import { AppCacheProvider } from "@mui/material-nextjs/v13-pagesRouter";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
+import { Lexend } from "next/font/google";
+
+const lexend = Lexend({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 const theme = createTheme({
+  palette: {
+    primary: { main: "#556cd6" },
+    secondary: { main: "#19857b" },
+    error: { main: "#f44336" },
+  },
   typography: {
-    fontFamily: 'Lexend, sans-serif',
+    fontFamily: lexend.style.fontFamily,
   },
 });
 

@@ -12,6 +12,7 @@ import {
   Tooltip,
   CircularProgress,
   IconButton,
+  useTheme
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -33,6 +34,7 @@ export default function Editor({ currentRecipe, complete }) {
   });
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     setFormData({
@@ -154,16 +156,16 @@ export default function Editor({ currentRecipe, complete }) {
       elevation={3}
       sx={{
         padding: 4,
-        maxWidth: 700,
+        maxWidth: 800,
         margin: "auto",
-        background: "#f9f9f9",
+        background: theme.palette.background.default,
       }}
     >
       <Typography variant="h4" textAlign="center" gutterBottom>
         Add a New Recipe
       </Typography>
       <Divider sx={{ marginBottom: 3 }} />
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         {/* Recipe Details */}
         <Grid item xs={12}>
           <TextField
@@ -237,7 +239,7 @@ export default function Editor({ currentRecipe, complete }) {
               alt="Recipe Preview"
               width={100}
               height={100}
-              style={{ borderRadius: 8 }}
+              style={{ borderRadius: "8px" }}
             />
             )}
           </Box>
