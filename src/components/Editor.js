@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import Image from "next/image"
 import {
   Box,
   Typography,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import ImageIcon from "@mui/icons-material/Image";
 
 import RecipeShape from "./RecipeShape";
 
@@ -22,10 +24,12 @@ export default function Editor({ currentRecipe, complete }) {
     title: currentRecipe?.title || "",
     description: currentRecipe?.description || "",
     time: currentRecipe?.time || "",
+    servings: currentRecipe?.servings || "",
     steps: Array.isArray(currentRecipe?.instructions)
       ? currentRecipe?.instructions
       : currentRecipe?.instructions?.split("\n") || [],
     ingredients: currentRecipe?.ingredients || [],
+    image: currentRecipe?.image || "",
   });
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
@@ -39,6 +43,7 @@ export default function Editor({ currentRecipe, complete }) {
         ? currentRecipe?.instructions
         : currentRecipe?.instructions?.split("\n") || [],
       ingredients: currentRecipe?.ingredients || [],
+      image: currentRecipe?.image || "",
     });
   }, [currentRecipe]);
 
@@ -96,6 +101,8 @@ export default function Editor({ currentRecipe, complete }) {
     if (!formData.description) newErrors.description = "Description is required";
     if (!formData.time || formData.time <= 0)
       newErrors.time = "Preparation time must be greater than 0";
+    if (!formData.servings || formData.servings <= 0)
+      newErrors.servings = "Servings must be greater than 0";
     if (!formData.ingredients.length || formData.ingredients.every((i) => i.trim() === ""))
       newErrors.ingredients = "At least one ingredient is required";
     if (!formData.steps.length || formData.steps.every((s) => s.trim() === ""))
@@ -103,6 +110,23 @@ export default function Editor({ currentRecipe, complete }) {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      // eslint-disable-next-line no-alert
+      alert("Please upload a valid image file.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setFormData((prev) => ({...prev, image: reader.result }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = () => {
@@ -115,8 +139,10 @@ export default function Editor({ currentRecipe, complete }) {
       title: formData.title,
       description: formData.description,
       time: formData.time,
+      servings: formData.servings,
       steps: formData.steps,
       ingredients: formData.ingredients,
+      image: formData.image,
       edited: new Date().toISOString(),
     });
     setIsSaving(false);
@@ -175,12 +201,59 @@ export default function Editor({ currentRecipe, complete }) {
             required
           />
         </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="Servings"
+            type="number"
+            fullWidth
+            value={formData.servings}
+            onChange={(e) => handleInputChange("servings", Math.max(1, e.target.value))}
+            error={!!errors.servings}
+            helperText={errors.servings}
+            required
+          />
+        </Grid>
+
+        {/* Image Upload */}
+        <Grid item xs={12}>
+          <Typography variant="h6">Recipe Image</Typography>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Button 
+              variant="contained" 
+              component="label" 
+              startIcon={<ImageIcon />}
+            >
+              Upload Image
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleImageUpload}
+              />
+            </Button>
+            {formData.image && (
+              <Image
+              src={formData.image || "/default-image.jpg"} 
+              alt="Recipe Preview"
+              width={100}
+              height={100}
+              style={{ borderRadius: 8 }}
+            />
+            )}
+          </Box>
+          <Typography variant="caption" color="textSecondary">
+            Optional, but highly recommended.
+          </Typography>
+        </Grid>
+
 
         {/* Ingredients */}
         <Grid item xs={12}>
           <Typography variant="h6">Ingredients</Typography>
           {formData.ingredients.map((ingredient, index) => (
-            <Box key={index} display="flex" alignItems="center" mb={1}>
+          <Box key={`${ingredient}-${index}`} display="flex" alignItems="center" mb={1}>
+
+
               <TextField
                 fullWidth
                 value={ingredient}
@@ -208,8 +281,9 @@ export default function Editor({ currentRecipe, complete }) {
         {/* Cooking Steps */}
         <Grid item xs={12}>
           <Typography variant="h6">Cooking Steps</Typography>
-          {formData.steps.map((step, index) => (
-            <Box key={index} display="flex" alignItems="center" mb={1}>
+            {formData.steps.map((step, index) => (
+              <Box key={`${step}-${index}`} display="flex" alignItems="center" mb={1}>
+
               <TextField
                 fullWidth
                 value={step}
