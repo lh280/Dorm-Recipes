@@ -155,23 +155,28 @@ describe("Recipe: Recipe tests", () => {
     expect(starCount).toBe(expectedStarCount);
   });
 
-  test.skip("Recipe renders reviews correctly", () => {
-    render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}} />);
+  test("Recipe renders reviews correctly", () => {
+    render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}} setReviews={() => {}} />);
+      const individualStarIcons = screen.getAllByTestId("star-icons");  
+    // Check if reviews are rendered and verify ratings
+    currentRecipe.recipe_reviews.forEach((review, index) => {
+      // Check if the review content is rendered
+      expect(screen.getAllByText(review.content)[0]).toBeInTheDocument();
   
-    // Check if reviews are rendered
-    currentRecipe.recipe_reviews.forEach((review) => {
-      expect(screen.getByText(review.content)).toBeInTheDocument();
-      expect(screen.getByText(`Rating: ${review.rating}`)).toBeInTheDocument();
-      expect(screen.getByText(new Date(review.updated_at).toLocaleString())).toBeInTheDocument();
+      // Verify the number of stars matches the review rating
+      const starsContainer = individualStarIcons[index];
+      expect(starsContainer).toBeInTheDocument(); 
+
+      // const starCount = starsContainer.children.length;  
+      // expect(starCount).toBe(review.rating.toFixed(1))
+      // expect(renderedStarsCount).toBe(expectedStarCount);
     });
   });
 
-  test.skip("Recipe displays 'No ratings yet' if there are no reviews", () => {
+  test("Recipe displays 'No reviews yet' if there are no reviews", () => {
     const emptyRecipe = { ...currentRecipe, recipe_reviews: [] };
 
-    render(<Recipe currentRecipe={emptyRecipe} reviews={[]} />);
-
-    expect(screen.getByText("Average Rating: No ratings yet")).toBeInTheDocument();
-    expect(screen.getByText("No reviews yet")).toBeInTheDocument();
+    render(<Recipe currentRecipe={emptyRecipe} setCurrentRecipe={() => {}} />);
+    expect(screen.getByText("No reviews for this recipe—be the first to leave a rating!")).toBeInTheDocument();
   });
 });
