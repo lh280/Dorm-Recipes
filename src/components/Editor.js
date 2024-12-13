@@ -17,6 +17,7 @@ import {
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ImageIcon from "@mui/icons-material/Image";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import RecipeShape from "./RecipeShape";
 
@@ -131,6 +132,10 @@ export default function Editor({ currentRecipe, complete }) {
     reader.readAsDataURL(file);
   };
 
+  const handleClearImage = () => {
+    setFormData((prev) => ({...prev, image: "" }));
+  };
+
   const handleSave = () => {
     if (!validateForm()) return;
 
@@ -152,45 +157,69 @@ export default function Editor({ currentRecipe, complete }) {
 
   return (
     <Box
-      component={Paper}
-      elevation={3}
       sx={{
+        background: "linear-gradient(to bottom right, #f8f9fa, #e9ecef)",
+        minHeight: "100vh",
         padding: 4,
-        maxWidth: 800,
-        margin: "auto",
-        background: theme.palette.background.default,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Typography variant="h4" textAlign="center" gutterBottom>
-        Add a New Recipe
-      </Typography>
-      <Divider sx={{ marginBottom: 3 }} />
-      <Grid container spacing={3}>
-        {/* Recipe Details */}
-        <Grid item xs={12}>
-          <TextField
-            label="Recipe Title"
-            fullWidth
-            value={formData.title}
-            onChange={(e) => handleInputChange("title", e.target.value)}
-            error={!!errors.title}
-            helperText={errors.title}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Recipe Description"
-            fullWidth
-            multiline
-            rows={3}
-            value={formData.description}
-            onChange={(e) => handleInputChange("description", e.target.value)}
-            error={!!errors.description}
-            helperText={errors.description}
-            required
-          />
-        </Grid>
+      <Box
+        component={Paper}
+        elevation={6}
+        sx={{
+          padding: 6,
+          maxWidth: 800,
+          borderRadius: "20px",
+          background: "#fff",
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
+        }}
+      >
+    
+        <Typography
+          variant="h3"
+          textAlign="center"
+          gutterBottom
+          sx={{ color: "primary.main", fontWeight: 700 }}
+        >
+          Add a New Recipe
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          textAlign="center"
+          sx={{ marginBottom: 3, color: "text.secondary" }}
+        >
+          Make your dish shine with the perfect recipe details.
+        </Typography>
+
+        <Divider sx={{ marginBottom: 4 }} />
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              label="Recipe Title"
+              fullWidth
+              variant="outlined"
+              value={formData.title}
+              onChange={(e) => handleInputChange("title", e.target.value)}
+              error={!!errors.title}
+              helperText={errors.title}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Description"
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              value={formData.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              error={!!errors.description}
+              helperText={errors.description}
+            />
+          </Grid>
         <Grid item xs={6}>
           <TextField
             label="Preparation Time (minutes)"
@@ -233,15 +262,23 @@ export default function Editor({ currentRecipe, complete }) {
                 onChange={handleImageUpload}
               />
             </Button>
-            {formData.image && (
-              <Image
-              src={formData.image || "/default-image.jpg"} 
-              alt="Recipe Preview"
-              width={100}
-              height={100}
-              style={{ borderRadius: "8px" }}
-            />
-            )}
+      {formData.image && (
+        <>
+          <Image
+            src={formData.image}
+            alt="Uploaded Recipe"
+            width={100}
+            height={100}
+            style={{ borderRadius: "8px", objectFit: "cover" }}
+          />
+          <IconButton
+            onClick={handleClearImage}
+            sx={{ color: "red", ml: 1 }} 
+          >
+          <ClearIcon />
+        </IconButton>
+      </>
+    )}
           </Box>
           <Typography variant="caption" color="textSecondary">
             Optional, but highly recommended.
@@ -331,6 +368,7 @@ export default function Editor({ currentRecipe, complete }) {
           </Tooltip>
         </Grid>
       </Grid>
+    </Box>
     </Box>
   );
 }
