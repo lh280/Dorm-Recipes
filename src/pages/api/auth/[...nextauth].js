@@ -21,20 +21,13 @@ export const authOptions = {
         },
         async jwt({ token, user }) {
           if (user) {
-            // let localUser = await User.query().findOne("google_id", user.id);
-            let localUser = await User.query().findOne({ google_id: user.id });
+            let localUser = await User.query().findOne("google_id", user.id);
             if (!localUser) {
               // Create new user record in the database
-            //   localUser = await User.query().insertAndFetch({
-            //     google_id: user.id,
-            //     username: user.email,
-            //   });
-                localUser = await User.query()
-                .insert({
-                    google_id: user.id,
-                    username: user.email,
-                })
-                .returning(["user_id"]);
+              localUser = await User.query().insertAndFetch({
+                google_id: user.id,
+                username: user.email,
+              });
             }
             // Add user id to the token
             // eslint-disable-next-line no-param-reassign
