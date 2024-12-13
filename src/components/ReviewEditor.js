@@ -1,7 +1,7 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import RecipeShape from './RecipeShape';
@@ -17,6 +17,12 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
     content: false,
     rating: false,
   });
+
+  useEffect(() => {
+    setReviewContent(existingReview?.content || '');
+    setReviewRating(existingReview?.rating || 0);
+  }, [existingReview]);
+
   const handleReviewChange = (e) => {
     const { value } = e.target;
     setReviewContent(value);
@@ -97,7 +103,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
   const msg = !disabled ? "" : "Sign in to post or edit a review";
   return (
-    <Box display="flex" justifyContent="flex-start" p={2}>
+    <Box display="flex" justifyContent="flex-start" p={2} displayPrint="none">
       <Tooltip title={msg}>
         <span>
           <div style={{

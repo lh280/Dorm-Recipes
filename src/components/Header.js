@@ -5,11 +5,10 @@ import { Toolbar, Typography, Avatar, Box, Tooltip, useTheme, useMediaQuery } fr
 import Image from "next/image";
 import { blue } from "@mui/material/colors";
 import SearchBar from "@/components/SearchBar";
-import UserShape from "./UserShape";
 import LoginWidget from "./LoginWidget";
 
 
-export default function Header({ setCurrentRecipe, /*currentUser,*/ viewAccount }) {
+export default function Header({ setCurrentRecipe, viewAccount }) {
   const { data: session, status } = useSession();
   const disabled = status !== "authenticated";
   const router = useRouter();
@@ -77,9 +76,12 @@ export default function Header({ setCurrentRecipe, /*currentUser,*/ viewAccount 
           </Typography>
         </Box>
       )}
-
-      <SearchBar onSearch={handleSearch} />
-      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
+      
+      <Box displayPrint="none">
+        <SearchBar onSearch={handleSearch}/>
+      </Box>
+      
+      <Box sx={{ display: "flex", alignItems: "center", marginLeft: "auto" }} displayPrint="none">
         <Box spacing={1} align="center">
           <Tooltip title={msg} slotProps={{
             popper: {

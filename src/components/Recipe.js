@@ -39,7 +39,7 @@ function parseInstructions(instructions) {
 }
 
 
-export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, currentUser*/ }) {
+export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const { data: session, status } = useSession();
   const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";
@@ -154,6 +154,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
               justifyContent: isMobile ? "center" : "flex-start",
               marginLeft: isMobile ? 0 : 2
             }}
+            displayPrint="none"
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {getStarIcons(ratingData.averageRating, isMobile ? "1.5rem" : "2rem")}
@@ -163,12 +164,18 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
             </Typography>
           </Box>
         ) : (
-          <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
+          <Box displayPrint="none">
+            <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
             No reviews yet
-          </Typography>
+            </Typography>
+          </Box>
+          
         )}
       </Box>
-
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
+        <Button variant="contained" onClick={() => {window.print()}}>Print</Button>
+      </Box>
+      
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
@@ -202,7 +209,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
             component="li"
             sx={{ marginBottom: 1 }}
           >
-            {ing.quantity} {ing.unit} of {ing.ingredient_name}
+            {Math.trunc(ing.quantity)} {ing.unit} of {ing.ingredient_name}
           </Typography>
         ))}
       </ul>
@@ -216,7 +223,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
         Last edited: {editDate}
       </Typography>
 
-      <Box sx={{ marginTop: 6 }}>
+      <Box sx={{ marginTop: 6 }} displayPrint="none">
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>
@@ -224,7 +231,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
           reviews && reviews.length > 0 ? (
             reviews.map((rev) => (
               <Box key={rev.review_id} sx={{ mb: 3 }}>
-                <Review review={rev} setReviews={setReviews} /*currentUser={currentUser}*/ disabled={!deleteButton} />
+                <Review review={rev} setReviews={setReviews} disabled={!deleteButton} />
               </Box>
             ))
           ) : (
@@ -248,5 +255,4 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, curr
 Recipe.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  status: PropTypes.string
 };

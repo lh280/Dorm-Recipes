@@ -11,10 +11,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
 
 import Header from "@/components/Header";
-import UserShape from "@/components/UserShape";
 import RecipesView from "@/components/RecipesView";
 
-export default function Search({ setCurrentRecipe, /*currentUser,*/ viewAccount }) {
+export default function Search({ setCurrentRecipe, viewAccount }) {
   const router = useRouter();
   // initialize states
   const [recipes, setRecipes] = useState([]);
@@ -76,7 +75,7 @@ export default function Search({ setCurrentRecipe, /*currentUser,*/ viewAccount 
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ viewAccount={viewAccount} />
+          <Header setCurrentRecipe={setCurrentRecipe} viewAccount={viewAccount} />
           <Container sx={{ paddingY: 4 }}>
             <Grid container spacing={2} direction="column">
               <Grid item xs={12}>
@@ -104,6 +103,5 @@ export default function Search({ setCurrentRecipe, /*currentUser,*/ viewAccount 
 
 Search.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
-  // currentUser: UserShape,
   viewAccount: PropTypes.func
 };
