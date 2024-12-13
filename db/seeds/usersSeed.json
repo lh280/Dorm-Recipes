@@ -1,26 +1,26 @@
 [
     {
-        "user_id": 0,
+        "id": 0,
         "username": "Joe@gmail.com",
         "created_at": "21 Jan 2024 00:00:00 GMT"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "username": "John@gmail.com",
         "created_at": "22 Jan 2024 00:00:00 GMT"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "username": "Jill@gmail.com",
         "created_at": "23 Jan 2024 00:00:00 GMT"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "username": "Jeff@gmail.com",
         "created_at": "24 Jan 2024 00:00:00 GMT"
     },
     {
-        "user_id": 4,
+        "id": 4,
         "username": "Jack@gmail.com",
         "created_at": "25 Jan 2024 00:00:00 GMT"
     }

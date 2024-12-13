@@ -12,7 +12,7 @@ import Section from "@/components/Section";
 import Header from "@/components/Header";
 import UserShape from "@/components/UserShape";
 
-export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
+export default function Home({ setCurrentRecipe, /*currentUser,*/ viewAccount }) {
   const { data: session, status } = useSession(); // eslint-disable-line no-unused-vars
   const disabled = status !== "authenticated";
   const router = useRouter();
@@ -67,7 +67,7 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
+          <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
             <Box display="flex" justifyContent="center" marginTop={4} >
               <Tooltip title={msg} slotProps={{
@@ -148,6 +148,6 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
 
 Home.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
-  currentUser: UserShape,
+  // currentUser: UserShape,
   viewAccount: PropTypes.func
 };

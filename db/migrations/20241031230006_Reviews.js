@@ -13,8 +13,8 @@ exports.up = function (knex) {
       .onDelete("CASCADE")
       .notNullable();
     table
-      .integer("user_id")
-      .references("user_id")
+      .integer("id")
+      .references("id")
       .inTable("Users")
       .onDelete("CASCADE")
       .notNullable();

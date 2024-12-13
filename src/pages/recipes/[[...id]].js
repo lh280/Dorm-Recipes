@@ -15,7 +15,7 @@ import theme from "@/material/theme";
 export default function RecipeView({
   currentRecipe,
   setCurrentRecipe,
-  currentUser,
+  /*currentUser,*/
   viewAccount
 }) {
   // eslint-disable-next-line no-unused-vars
@@ -68,7 +68,7 @@ export default function RecipeView({
     }
   };
   const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
-  const deleteButton = /* true || */ false && (currentUser.user_id === currentRecipe.user_id); // TODO: change to check that the currentUser.user_id matches currentRecipe.user_id
+  const deleteButton = /* true || */ false && (session.user.id === currentRecipe.id); // TODO: change to check that the currentUser.user_id matches currentRecipe.user_id
   const msg = !deleteButton ? "Recipes can only be deleted by the publishing user" : "";
 
   return (
@@ -76,12 +76,12 @@ export default function RecipeView({
       <CssBaseline />
       <main style={{ paddingTop: '80px' }}>
         <div>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={viewAccount} />
+          <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ viewAccount={viewAccount} />
           <title>Create Next App</title>
           <meta name="Dorm Recipes" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </div>
-        <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} status={status} currentUser={currentUser} />
+        <Recipe currentRecipe={currentRecipe} setCurrentRecipe={setCurrentRecipe} status={status} /*currentUser={currentUser}*/ />
         <Container maxWidth="lg" sx={{ marginY: 4, paddingLeft: 2 }}>
           <Box display="flex" justifyContent="flex-start" gap={2} sx={{ marginBottom: 4 }}>
             <Button variant="contained" onClick={() => { shareRecipe() }} sx={{ padding: '10px 20px', bgcolor: '#201f54' }}>
@@ -115,6 +115,6 @@ export default function RecipeView({
 RecipeView.propTypes = {
   currentRecipe: RecipeShape,
   setCurrentRecipe: PropTypes.func.isRequired,
-  currentUser: UserShape,
+  // currentUser: UserShape,
   viewAccount: PropTypes.func
 };

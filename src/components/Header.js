@@ -9,7 +9,7 @@ import UserShape from "./UserShape";
 import LoginWidget from "./LoginWidget";
 
 
-export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
+export default function Header({ setCurrentRecipe, /*currentUser,*/ viewAccount }) {
   const { data: session, status } = useSession();
   const disabled = status !== "authenticated";
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
       return;
     }
     if (viewAccount) {
-      viewAccount(currentUser.user_id);
+      viewAccount(session.user.id);
     } else {
       // eslint-disable-next-line no-console
       console.error("viewAccount function not provided");
@@ -118,6 +118,6 @@ export default function Header({ setCurrentRecipe, currentUser, viewAccount }) {
 
 Header.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
-  currentUser: UserShape,
+  // currentUser: UserShape,
   viewAccount: PropTypes.func
 };

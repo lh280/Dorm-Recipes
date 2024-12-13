@@ -66,12 +66,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     });
   }
 
-  const currentUser = { user_id: 0, email: "test@gmail.com", created_at: "21 Jan 2024 00:00:00 GMT" }
+  // const currentUser = { id: 0, email: "test@gmail.com", created_at: "21 Jan 2024 00:00:00 GMT" }
 
   const props = {
     ...pageProps,
     currentRecipe,
-    currentUser,
+    // currentUser,
     setCurrentRecipe: setCurrentRec,
     viewAccount
   };

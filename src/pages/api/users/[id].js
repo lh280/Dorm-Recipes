@@ -11,7 +11,7 @@ router
     const userID = parseInt(req.query.id, 10);
     try {
       const user = await User.query()
-        .where('user_id', userID)
+        .where('id', userID)
         .withGraphFetched('[user_recipes, pantry_items, user_reviews.[recipes(onlyTitle)]]') // Changed reviews to user_reviews
         .first()
         .throwIfNotFound();
@@ -48,9 +48,9 @@ router
   .post(async (req, res) => {
     // POST endpoint for editing a user's info
     try {
-      const { id, ...newUser } = req.body;
+      const { idn, ...newUser } = req.body;
       const newestUser = await User.query().insert({
-        user_id: id,
+        id: idn,
         ...newUser
       });
       return res.status(201).json(newestUser);

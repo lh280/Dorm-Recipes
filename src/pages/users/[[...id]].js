@@ -7,7 +7,7 @@ import { ToggleButton, ToggleButtonGroup, Box, Typography, Card, CardActionArea,
 import Grid from "@mui/material/Grid2";
 
 import UserInfoShape from "@/components/UserInfoShape";
-import UserShape from "@/components/UserShape";
+// import UserShape from "@/components/UserShape";
 import Header from "@/components/Header";
 import RecipeCard from "@/components/RecipeCard";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react";
 import theme from "../../material/theme";
 import getStarIcons from '../../lib/getStarIcons';
 
-export default function UserView({ setCurrentRecipe, currentUser, viewAccount, initialUserInfo }) {
+export default function UserView({ setCurrentRecipe, /*currentUser,*/ viewAccount, initialUserInfo }) {
     const router = useRouter();
     const { id } = router.query;
 
@@ -137,7 +137,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <main style={{ paddingTop: '115px' }}>
-                    <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} goToAccount={viewAccount} />
+                    <Header setCurrentRecipe={setCurrentRecipe} /*currentUser={currentUser}*/ goToAccount={viewAccount} />
                     <Box display="flex" alignContent="center" justifyContent="center">
                         <ToggleButtonGroup size={isMobile ? "medium" : "large"} aria-label="Tab Group" value={tab} exclusive>
                             <ToggleButton value="My Recipes" onClick={() => changeTab("My Recipes")}>My Recipes</ToggleButton>
@@ -163,7 +163,7 @@ export default function UserView({ setCurrentRecipe, currentUser, viewAccount, i
 
 UserView.propTypes = {
     setCurrentRecipe: PropTypes.func.isRequired,
-    currentUser: UserShape,
+    // currentUser: UserShape,
     viewAccount: PropTypes.func,
     initialUserInfo: UserInfoShape
 };

@@ -39,9 +39,9 @@ function parseInstructions(instructions) {
 }
 
 
-export default function Recipe({ currentRecipe, setCurrentRecipe, status, currentUser }) {
-  // const { data: session, status } = useSession();
-  const deleteButton = currentRecipe && (currentUser.id === currentRecipe.user_id);
+export default function Recipe({ currentRecipe, setCurrentRecipe, /*status, currentUser*/ }) {
+  const { data: session, status } = useSession();
+  const deleteButton = currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";
   const router = useRouter();
 
@@ -224,7 +224,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe, status, curren
           reviews && reviews.length > 0 ? (
             reviews.map((rev) => (
               <Box key={rev.review_id} sx={{ mb: 3 }}>
-                <Review review={rev} setReviews={setReviews} currentUser={currentUser} disabled={!deleteButton} />
+                <Review review={rev} setReviews={setReviews} /*currentUser={currentUser}*/ disabled={!deleteButton} />
               </Box>
             ))
           ) : (
