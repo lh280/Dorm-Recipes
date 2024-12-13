@@ -7,8 +7,13 @@ import {
   Button,
   Grid,
   Paper,
-  useTheme,
+  Divider,
+  Tooltip,
+  CircularProgress,
+  IconButton,
 } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 import RecipeShape from "./RecipeShape";
 
@@ -20,11 +25,10 @@ export default function Editor({ currentRecipe, complete }) {
     steps: Array.isArray(currentRecipe?.instructions)
       ? currentRecipe?.instructions
       : currentRecipe?.instructions?.split("\n") || [],
-    ingredients: currentRecipe?.ingredients || [], // Add ingredients
+    ingredients: currentRecipe?.ingredients || [],
   });
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
-  const theme = useTheme();
 
   useEffect(() => {
     setFormData({
@@ -34,12 +38,56 @@ export default function Editor({ currentRecipe, complete }) {
       steps: Array.isArray(currentRecipe?.instructions)
         ? currentRecipe?.instructions
         : currentRecipe?.instructions?.split("\n") || [],
-      ingredients: currentRecipe?.ingredients || [], // Initialize ingredients
+      ingredients: currentRecipe?.ingredients || [],
     });
   }, [currentRecipe]);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAddIngredient = () => {
+    setFormData((prev) => ({
+      ...prev,
+      ingredients: [...prev.ingredients, ""],
+    }));
+  };
+
+  const handleRemoveIngredient = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      ingredients: prev.ingredients.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleIngredientChange = (index, value) => {
+    setFormData((prev) => {
+      const ingredients = [...prev.ingredients];
+      ingredients[index] = value;
+      return { ...prev, ingredients };
+    });
+  };
+
+  const handleAddStep = () => {
+    setFormData((prev) => ({
+      ...prev,
+      steps: [...prev.steps, ""],
+    }));
+  };
+
+  const handleRemoveStep = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      steps: prev.steps.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleStepChange = (index, value) => {
+    setFormData((prev) => {
+      const steps = [...prev.steps];
+      steps[index] = value;
+      return { ...prev, steps };
+    });
   };
 
   const validateForm = () => {
@@ -48,7 +96,9 @@ export default function Editor({ currentRecipe, complete }) {
     if (!formData.description) newErrors.description = "Description is required";
     if (!formData.time || formData.time <= 0)
       newErrors.time = "Preparation time must be greater than 0";
-    if (!formData.steps.length || formData.steps.every((step) => step.trim() === ""))
+    if (!formData.ingredients.length || formData.ingredients.every((i) => i.trim() === ""))
+      newErrors.ingredients = "At least one ingredient is required";
+    if (!formData.steps.length || formData.steps.every((s) => s.trim() === ""))
       newErrors.steps = "At least one cooking step is required";
 
     setErrors(newErrors);
@@ -66,7 +116,7 @@ export default function Editor({ currentRecipe, complete }) {
       description: formData.description,
       time: formData.time,
       steps: formData.steps,
-      ingredients: formData.ingredients, // Include ingredients
+      ingredients: formData.ingredients,
       edited: new Date().toISOString(),
     });
     setIsSaving(false);
@@ -77,16 +127,18 @@ export default function Editor({ currentRecipe, complete }) {
       component={Paper}
       elevation={3}
       sx={{
-        padding: theme.spacing(4),
-        maxWidth: 600,
+        padding: 4,
+        maxWidth: 700,
         margin: "auto",
-        background: theme.palette.background.paper,
+        background: "#f9f9f9",
       }}
     >
       <Typography variant="h4" textAlign="center" gutterBottom>
         Add a New Recipe
       </Typography>
+      <Divider sx={{ marginBottom: 3 }} />
       <Grid container spacing={2}>
+        {/* Recipe Details */}
         <Grid item xs={12}>
           <TextField
             label="Recipe Title"
@@ -117,64 +169,90 @@ export default function Editor({ currentRecipe, complete }) {
             type="number"
             fullWidth
             value={formData.time}
-            onChange={(e) => handleInputChange("time", e.target.value)}
+            onChange={(e) => handleInputChange("time", Math.max(1, e.target.value))}
             error={!!errors.time}
             helperText={errors.time}
             required
           />
         </Grid>
+
+        {/* Ingredients */}
         <Grid item xs={12}>
-          <TextField
-            label="Ingredients (one per line)"
-            fullWidth
-            multiline
-            rows={3}
-            value={formData.ingredients.join("\n")}
-            onChange={(e) =>
-              handleInputChange(
-                "ingredients",
-                e.target.value.split("\n").map((item) => item.trim())
-              )
-            }
-            placeholder="E.g., 2 Slices of Bread\n1 Jar of Peanut Butter"
-          />
+          <Typography variant="h6">Ingredients</Typography>
+          {formData.ingredients.map((ingredient, index) => (
+            <Box key={index} display="flex" alignItems="center" mb={1}>
+              <TextField
+                fullWidth
+                value={ingredient}
+                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                placeholder={`Ingredient ${index + 1}`}
+              />
+              <IconButton
+                color="error"
+                onClick={() => handleRemoveIngredient(index)}
+                sx={{ ml: 1 }}
+              >
+                <RemoveCircleOutlineIcon />
+              </IconButton>
+            </Box>
+          ))}
+          <Button
+            variant="text"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={handleAddIngredient}
+          >
+            Add Ingredient
+          </Button>
         </Grid>
+
+        {/* Cooking Steps */}
         <Grid item xs={12}>
-          <TextField
-            label="Cooking Steps"
-            fullWidth
-            multiline
-            rows={5}
-            value={formData.steps.join("\n")}
-            onChange={(e) =>
-              handleInputChange(
-                "steps",
-                e.target.value.split("\n").map((item) => item.trim())
-              )
-            }
-            error={!!errors.steps}
-            helperText={errors.steps}
-            placeholder="Step 1: Do this\nStep 2: Do that"
-            required
-          />
+          <Typography variant="h6">Cooking Steps</Typography>
+          {formData.steps.map((step, index) => (
+            <Box key={index} display="flex" alignItems="center" mb={1}>
+              <TextField
+                fullWidth
+                value={step}
+                onChange={(e) => handleStepChange(index, e.target.value)}
+                placeholder={`Step ${index + 1}`}
+              />
+              <IconButton
+                color="error"
+                onClick={() => handleRemoveStep(index)}
+                sx={{ ml: 1 }}
+              >
+                <RemoveCircleOutlineIcon />
+              </IconButton>
+            </Box>
+          ))}
+          <Button
+            variant="text"
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={handleAddStep}
+          >
+            Add Step
+          </Button>
         </Grid>
+
+        {/* Buttons */}
         <Grid item xs={12} textAlign="center">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSave}
-            disabled={isSaving}
-            sx={{ marginRight: 2 }}
-          >
-            {isSaving ? "Saving..." : "Save"}
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => complete()}
-          >
-            Cancel
-          </Button>
+          <Tooltip title="Save your recipe">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              disabled={isSaving}
+              startIcon={isSaving && <CircularProgress size={20} />}
+              sx={{ marginRight: 2 }}
+            >
+              {isSaving ? "Saving..." : "Save"}
+            </Button>
+          </Tooltip>
+          <Tooltip title="Cancel and return">
+            <Button variant="outlined" color="secondary" onClick={() => complete()}>
+              Cancel
+            </Button>
+          </Tooltip>
         </Grid>
       </Grid>
     </Box>
