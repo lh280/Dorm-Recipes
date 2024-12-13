@@ -52,11 +52,13 @@ export default function Editor({ currentRecipe, complete }) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  
+
   const handleAddIngredient = () => {
     setFormData((prev) => ({
       ...prev,
       ingredients: [...prev.ingredients, ""],
-    }));
+    })); 
   };
 
   const handleRemoveIngredient = (index) => {
@@ -104,8 +106,12 @@ export default function Editor({ currentRecipe, complete }) {
       newErrors.time = "Preparation time must be greater than 0";
     if (!formData.servings || formData.servings <= 0)
       newErrors.servings = "Servings must be greater than 0";
-    if (!formData.ingredients.length || formData.ingredients.every((i) => i.trim() === ""))
+    if (
+      !formData.ingredients.length ||
+      formData.ingredients.every((ingredient) => ingredient.trim() === "")
+    ) {
       newErrors.ingredients = "At least one ingredient is required";
+    }
     if (!formData.steps.length || formData.steps.every((s) => s.trim() === ""))
       newErrors.steps = "At least one cooking step is required";
 
@@ -204,18 +210,18 @@ export default function Editor({ currentRecipe, complete }) {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
-              label="Recipe Title"
+              label="Recipe Title*"
               fullWidth
               variant="outlined"
               value={formData.title}
               onChange={(e) => handleInputChange("title", e.target.value)}
               error={!!errors.title}
-              helperText={errors.title}
+              helperText={errors.title || "Enter a descriptive title for your recipe."}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="Description"
+              label="Description*"
               fullWidth
               multiline
               rows={4}
@@ -223,7 +229,7 @@ export default function Editor({ currentRecipe, complete }) {
               value={formData.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
               error={!!errors.description}
-              helperText={errors.description}
+              helperText={errors.description || "Provide a detailed description."}
             />
           </Grid>
         <Grid item xs={6}>
@@ -294,17 +300,18 @@ export default function Editor({ currentRecipe, complete }) {
 
         {/* Ingredients */}
         <Grid item xs={12}>
-          <Typography variant="h6">Ingredients</Typography>
+          <Typography variant="h6">
+            Ingredients <Typography component="span" color="error">*</Typography>
+          </Typography>
           {formData.ingredients.map((ingredient, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-          <Box key={index} display="flex" alignItems="center" mb={1}>
-
-
+            <Box key={index} display="flex" alignItems="center" mb={1}>
               <TextField
                 fullWidth
                 value={ingredient}
                 onChange={(e) => handleIngredientChange(index, e.target.value)}
                 placeholder={`Ingredient ${index + 1}`}
+                error={!!errors.ingredients && ingredient.trim() === ""}
+                helperText={!!errors.ingredients && ingredient.trim() === "" && "Ingredient cannot be empty"}
               />
               <IconButton
                 color="error"
@@ -315,6 +322,11 @@ export default function Editor({ currentRecipe, complete }) {
               </IconButton>
             </Box>
           ))}
+          {errors.ingredients && (
+            <Typography color="error" variant="caption">
+              {errors.ingredients}
+            </Typography>
+          )}
           <Button
             variant="text"
             startIcon={<AddCircleOutlineIcon />}
@@ -324,18 +336,21 @@ export default function Editor({ currentRecipe, complete }) {
           </Button>
         </Grid>
 
+
         {/* Cooking Steps */}
         <Grid item xs={12}>
-          <Typography variant="h6">Cooking Steps</Typography>
-            {formData.steps.map((step, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Box key={index} display="flex" alignItems="center" mb={1}>
-
+          <Typography variant="h6">
+            Cooking Steps <Typography component="span" color="error">*</Typography>
+          </Typography>
+          {formData.steps.map((step, index) => (
+            <Box key={index} display="flex" alignItems="center" mb={1}>
               <TextField
                 fullWidth
                 value={step}
                 onChange={(e) => handleStepChange(index, e.target.value)}
                 placeholder={`Step ${index + 1}`}
+                error={!!errors.steps && step.trim() === ""}
+                helperText={!!errors.steps && step.trim() === "" && "Step cannot be empty"}
               />
               <IconButton
                 color="error"
@@ -346,6 +361,11 @@ export default function Editor({ currentRecipe, complete }) {
               </IconButton>
             </Box>
           ))}
+          {errors.steps && (
+            <Typography color="error" variant="caption">
+              {errors.steps}
+            </Typography>
+          )}
           <Button
             variant="text"
             startIcon={<AddCircleOutlineIcon />}
@@ -354,6 +374,7 @@ export default function Editor({ currentRecipe, complete }) {
             Add Step
           </Button>
         </Grid>
+
 
         {/* Buttons */}
         <Grid item xs={12} textAlign="center">
