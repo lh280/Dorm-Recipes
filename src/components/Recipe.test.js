@@ -1,5 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import { useSession} from "next-auth/react";
 import Recipe from "./Recipe";
+
+jest.mock("next-auth/react")
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
@@ -9,7 +12,8 @@ describe("Recipe: Recipe tests", () => {
   let currentRecipe;
   let recipeIngredients;
   let ingredients;
-  let reviews;
+  // NEVER USED?
+  // let reviews
 
   beforeEach(() => {
     // Mock data for ingredients (from the Ingredient model)
@@ -90,9 +94,19 @@ describe("Recipe: Recipe tests", () => {
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     };
-
-    reviews = [...currentRecipe.recipe_reviews];
+    // NEVER USED?
+    // reviews = [...currentRecipe.recipe_reviews];
   });
+
+  useSession.mockReturnValue({
+        data: {
+          user: { id: 1, email:["Gdwade@middlbury.edu"] },
+          expires: new Date(Date.now() + 2 * 86400).toISOString(),
+          
+        },
+        status: "authenticated",
+        });
+  
 
   test("Recipe renders the correct Ingredients and Steps", () => {
     render(<Recipe currentRecipe={currentRecipe} setCurrentRecipe={() => {}} setReviews/>);

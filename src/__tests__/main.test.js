@@ -1,6 +1,9 @@
 import { render } from "@testing-library/react";
 import Home from "@/pages/index";
 import { useRouter } from "next/router";
+import { useSession, SessionProvider } from "next-auth/react";
+
+jest.mock("next-auth/react");
 
 // Mock useRouter from Next.js
 jest.mock("next/router", () => ({
@@ -21,7 +24,14 @@ describe("End-to-end testing", () => {
   });
 
   test("Render index.js component", () => {
-    render(<Home setCurrentRecipe={()=>{}} currentUser={currentUser}/>);
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+      });
+    render(<SessionProvider><Home setCurrentRecipe={()=>{}} currentUser={currentUser}/></SessionProvider>);
   });
 });
 

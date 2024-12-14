@@ -8,16 +8,16 @@ const router = createRouter();
 
 router
     .post(async (req, res) => {
-        const { recipe_id, user_id, content, rating } = req.body;
+        const { recipe_id, id, content, rating } = req.body;
 
-        if (recipe_id === null || user_id === null || !content || !rating) {
+        if (recipe_id === null || id === null || !content || !rating) {
             return res.status(400).json({ error: "Missing required fields" });
         }
         
         try {
             const newReview = await Review.query().insert({
               recipe_id,
-              user_id,
+              id,
               content,
               rating,
               created_at: new Date().toISOString(),

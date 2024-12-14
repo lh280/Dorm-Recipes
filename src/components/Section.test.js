@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import Section from "./Section";
 
+
+jest.mock("next-auth/react");
+
+
 describe("Section: Testing sections", () => {
   let recipes;
   const handler = jest.fn();

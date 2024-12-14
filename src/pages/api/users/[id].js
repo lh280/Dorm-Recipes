@@ -9,21 +9,18 @@ const router = createRouter();
 router
   .get(async (req, res) => {
     const userID = parseInt(req.query.id, 10);
-    try{
-    const user = await User.query()
-      .where('user_id', userID)
-      .withGraphFetched("user_recipes")
-      .withGraphFetched("user_reviews")
-      .withGraphFetched("pantry_items")
-      .first()
-      .throwIfNotFound();
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    
-    res.status(200).json(user);
+    try {
+      const user = await User.query()
+        .where('id', userID)
+        .withGraphFetched('[user_recipes, pantry_items, user_reviews.[recipes(onlyTitle)]]') // Changed reviews to user_reviews
+        .first()
+        .throwIfNotFound();
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.status(200).json(user);
 
-    } catch (error){
+    } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error fetching user:", error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -46,6 +43,21 @@ router
       // eslint-disable-next-line no-console
       console.error(error);
       res.status(500).json({ error: "Failed to update user" });
+    }
+  })
+  .post(async (req, res) => {
+    // POST endpoint for editing a user's info
+    try {
+      const { idn, ...newUser } = req.body;
+      const newestUser = await User.query().insert({
+        id: idn,
+        ...newUser
+      });
+      return res.status(201).json(newestUser);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(500).json({ error: "Failed to create review" });
     }
   });
 

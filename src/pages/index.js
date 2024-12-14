@@ -2,21 +2,24 @@ import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Typography, Box, Button, Container, Card, CardActionArea, CardContent} from "@mui/material";
+import { useSession } from "next-auth/react";
+import { Typography, Box, Button, Container, Card, CardActionArea, CardContent, useTheme, useMediaQuery, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
-
 import Section from "@/components/Section";
 import Header from "@/components/Header";
-import UserShape from "@/components/UserShape";
 
-export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
+export default function Home({ setCurrentRecipe, viewAccount }) {
+  const { data: session, status } = useSession(); // eslint-disable-line no-unused-vars
+  const disabled = status !== "authenticated";
   const router = useRouter();
 
-  const [fetchedRecipes,setFetchedRecipes] = useState([])
+  const [fetchedRecipes, setFetchedRecipes] = useState([]);
+
+  const mTheme = useTheme();
+  const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
 
   useEffect(() => {
     (async () => {
@@ -28,29 +31,31 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
         }
         const data = await res.json();
         setFetchedRecipes(data)
-        
+
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log("Error retrieving recipes")
       };
     })()
-  },[]);
+  }, []);
 
-  let sections = <div>LOADING...</div>
-  
-  // tempSections does not represent the actual composition of a section object
-  if (fetchedRecipes){
-    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes}];
+  let sections = <div>Loading...</div>
+
+  if (fetchedRecipes) {
+    let demoSections = [{ title: "All Recipes", recipes: fetchedRecipes }];
     if (fetchedRecipes.length > 4) {
-      const newRecipes = fetchedRecipes.slice(0,4)
-      const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length-4,fetchedRecipes.length);
-      demoSections = [{ title: "Newest Recipes", recipes:newRecipes}, {title: "Oldest Recipes", recipes:oldRecipes}];
+      const newRecipes = fetchedRecipes.slice(0, 4)
+      const oldRecipes = fetchedRecipes.slice(fetchedRecipes.length - 4, fetchedRecipes.length);
+      demoSections = [{ title: "Newest Recipes", recipes: newRecipes }, { title: "Oldest Recipes", recipes: oldRecipes }];
     }
-    sections = demoSections.map(({ title, recipes }) => (<Section key = {title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
+    sections = demoSections.map(({ title, recipes }) => (<Section key={title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
-  
-   // Using current Recipe as a place holder
 
+
+  // Using current Recipe as a place holder - TODO: is this still true?
+  const msg = disabled ? "Sign in to post a new recipe" : "";
+
+  // Using current Recipe as a place holder
   return (
     <div>
       <Head>
@@ -61,39 +66,56 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} currentUser={currentUser} viewAccount={() => { viewAccount(0) }} /> {/* TODO: fix to match current user with auth */}
+          <Header setCurrentRecipe={setCurrentRecipe} viewAccount={() => { viewAccount(session.user.id) }} /> {/* TODO: fix to match current user with auth */}
           <Container sx={{ paddingY: 0 }}>
-            <Box display="flex" justifyContent="center" marginTop={4}>
-              <Button
-                variant="contained"
-                onClick={() => router.push("/add-recipe")}
-                sx={{ padding: '10px 20px' }}
-              >
-                Add Recipe
-              </Button>
+            <Box display="flex" justifyContent="center" marginTop={4} >
+              <Tooltip title={msg} slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [160, -49],
+                      },
+                    },
+                  ],
+                },
+              }}>
+                <span>
+                  <Button
+                    variant="contained"
+                    onClick={() => router.push("/add-recipe")}
+                    sx={{ padding: '10px 20px', bgcolor: '#201f54' }}
+                    disabled={disabled}
+                  >
+                    Add Recipe
+                  </Button>
+                </span>
+              </Tooltip>
             </Box>
           </Container>
-          <Container sx={{ paddingY: 0 }}>
-            <Typography variant="h3" gutterBottom>
+          <Container sx={{ paddingY: 1 }}>
+            <Typography variant={isMobile ? "h4" : "h3"} gutterBottom>
               Featured Recipe
             </Typography>
             <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
               <Card
-                onClick={() => { setCurrentRecipe(0); }}
+                onClick={() => { setCurrentRecipe(0); }} // TODO: change how this recipe is rendered to be dynamic
                 variant="outlined"
-                sx={{ 
-                  maxWidth: 300, 
-                  width: "100%", 
+                sx={{
+                  maxWidth: 300,
+                  width: "100%",
                   margin: "0 auto",
                   "&:hover": {
-                      backgroundColor: "action.hover", 
-                      boxShadow: 3, 
-                  } }}
+                    backgroundColor: "action.hover",
+                    boxShadow: 3,
+                  }
+                }}
               >
                 <CardActionArea>
                   <CardContent>
                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                      <Image src="/pbj.jpg" height={200} width={200} alt="Picture of the recipe" />
+                      <Image src="/pbj1.jpg" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }} />
                     </Box>
                     <Typography textAlign="center"
                       variant="h6"
@@ -125,6 +147,5 @@ export default function Home({ setCurrentRecipe, currentUser, viewAccount }) {
 
 Home.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
-  currentUser: UserShape,
   viewAccount: PropTypes.func
 };

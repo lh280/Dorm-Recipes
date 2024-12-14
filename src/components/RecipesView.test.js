@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen} from "@testing-library/react";
 import RecipesView from "./RecipesView";
 
 describe("RecipesView: Recipes View tests (Part of search bar?)", () => {

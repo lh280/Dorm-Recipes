@@ -1,258 +1,258 @@
 [
     {
-        "user_id": 0,
+        "id": 0,
         "ingredient_id": 0,
         "quantity": 12,
         "unit": "Slices"
     },
     {
-        "user_id": 0,
+        "id": 0,
         "ingredient_id": 2,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 0,
+        "id": 0,
         "ingredient_id": 3,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 0,
+        "id": 0,
         "ingredient_id": 4,
         "quantity": 10,
         "unit": "Slices"
     },
     {
-        "user_id": 0,
+        "id": 0,
         "ingredient_id": 5,
         "quantity": 25,
         "unit": "Slices"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 8,
         "quantity": 5,
         "unit": "Lbs"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 9,
         "quantity": 1,
         "unit": "Cup"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 10,
         "quantity": 1,
         "unit": "Bottle"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 11,
         "quantity": 5,
         "unit": ""
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 12,
         "quantity": 32,
         "unit": "Oz"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 14,
         "quantity": 1,
         "unit": "Lb"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 15,
         "quantity": 1,
         "unit": "Container"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 16,
         "quantity": 8,
         "unit": "Cloves"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 17,
         "quantity": 16,
         "unit": "Oz"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 18,
         "quantity": 1,
         "unit": "Cup"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 0,
         "quantity": 10,
         "unit": "Slices"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 19,
         "quantity": 1,
         "unit": "Lb"
     },
     {
-        "user_id": 1,
+        "id": 1,
         "ingredient_id": 20,
         "quantity": 8,
         "unit": "Oz"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 0,
         "quantity": 10,
         "unit": "Slices"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 2,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 21,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 1,
         "quantity": 10,
         "unit": "Slices"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 10,
         "quantity": 1,
         "unit": "Bottle"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 24,
         "quantity": 1,
         "unit": ""
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 26,
         "quantity": 1,
         "unit": "Bottle"
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 27,
         "quantity": 6,
         "unit": ""
     },
     {
-        "user_id": 2,
+        "id": 2,
         "ingredient_id": 17,
         "quantity": 16,
         "unit": "oz"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 28,
         "quantity": 4,
         "unit": "Cups"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 8,
         "quantity": 5,
         "unit": "Lb"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 14,
         "quantity": 1,
         "unit": "Lb"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 15,
         "quantity": 8,
         "unit": "Oz"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 29,
         "quantity": 1,
         "unit": "Lb"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 40,
         "quantity": 4,
         "unit": "Sticks"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 30,
         "quantity": 1,
         "unit": "Pint"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 35,
         "quantity": 1,
         "unit": "Bag"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 36,
         "quantity": 1,
         "unit": "Head"
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 37,
         "quantity": 1,
         "unit": ""
     },
     {
-        "user_id": 3,
+        "id": 3,
         "ingredient_id": 38,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 4,
+        "id": 4,
         "ingredient_id": 0,
         "quantity": 10,
         "unit": "Slices"
     },
     {
-        "user_id": 4,
+        "id": 4,
         "ingredient_id": 2,
         "quantity": 1,
         "unit": "Jar"
     },
     {
-        "user_id": 4,
+        "id": 4,
         "ingredient_id": 39,
         "quantity": 1,
         "unit": ""
     },
     {
-        "user_id": 4,
+        "id": 4,
         "ingredient_id": 41,
         "quantity": 15,
         "unit": "Slices"
     },
     {
-        "user_id": 4,
+        "id": 4,
         "ingredient_id": 40,
         "quantity": 2,
         "unit": "Sticks"

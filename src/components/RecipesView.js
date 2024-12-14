@@ -10,8 +10,8 @@
 */
 import PropTypes from "prop-types";
 
+import { useTheme, useMediaQuery } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-
 import RecipeShape from "./RecipeShape";
 import RecipeCard from './RecipeCard';
 
@@ -23,22 +23,26 @@ import RecipeCard from './RecipeCard';
     and "Warning: Received `true` for a non-boolean attribute `item`."
 */
 
-export default function RecipesView({ recipes, setCurrentRecipe }) { 
+export default function RecipesView({ recipes, setCurrentRecipe }) {
+
+  const mTheme = useTheme();
+  const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
+
   if (!recipes) {
-      return (
-        <p>Loading...</p>
+    return (
+      <p>Loading...</p>
     );
   }
-  
+
   // map the sorted titles to html elements 
   const recCards = [...recipes].map((rec) => (
-    <Grid item xs={12} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
-      <RecipeCard recipe={rec} setCurrentRecipe={setCurrentRecipe}/>
+    <Grid item xs={6} sm={6} md={3} key={rec.id} sx={{ display: "flex", justifyContent: "center" }}>
+      <RecipeCard recipe={rec} setCurrentRecipe={setCurrentRecipe} size={isMobile ? 125 : 200} />
     </Grid>
   ));
   return (
     <div id="image list">
-      <Grid container spacing={2}> 
+      <Grid container spacing={2}>
         {recCards}
       </Grid>
     </div>
@@ -47,5 +51,5 @@ export default function RecipesView({ recipes, setCurrentRecipe }) {
 
 RecipesView.propTypes = {
   recipes: PropTypes.arrayOf(RecipeShape).isRequired,
-  setCurrentRecipe: PropTypes.func.isRequired    
+  setCurrentRecipe: PropTypes.func
 }

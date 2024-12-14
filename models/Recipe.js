@@ -7,6 +7,14 @@ export default class Recipe extends BaseModel {
     return "Recipes";
   }
 
+  static get modifiers() {
+    return {
+      onlyTitle(query) {
+        query.select('recipe_id', 'title');
+      }
+    };
+  }
+
   static get relationMappings() {
     const Ingredient = require("./Ingredient").default; //eslint-disable-line
     const Review = require("./Review").default; //eslint-disable-line
@@ -57,10 +65,10 @@ export default class Recipe extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["title", "user_id"],
+      required: ["title", "id"],
       properties: {
         recipe_id: { type: "integer" },
-        user_id: { type: "integer" },
+        id: { type: "integer" },
         title: { type: "string", minLength: 1, maxLength: 100 },
         description: { type: "string" },
         instructions: { type: "string" },

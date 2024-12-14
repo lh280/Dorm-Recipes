@@ -6,55 +6,68 @@
   props:
     currentRecipe - The recipe to render
 */
-
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
-
+/* eslint-disable react/prop-types */ // TODO: delete - TEMPORARY for CurrentUser
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import { Box, Typography, Button } from "@mui/material"
+import { useSession } from "next-auth/react";
+import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material"
 import Image from "next/image";
-
 import RecipeShape from "./RecipeShape";
 import ReviewEditor from "./ReviewEditor";
 import Review from "./Review";
+
+import getStarIcons from '../lib/getStarIcons';
 
 function parseInstructions(instructions) {
   const sentenceRegex = /([.])\s*/;
 
   // Split the paragraph by sentence-ending punctuation (., !, or ?) and retain the punctuation mark.
   const sentences = instructions.split(sentenceRegex)
-          .filter(Boolean)  // Remove any empty strings that may appear
-          .map((sentence, index, array) => {
-            // Combine the sentence with its punctuation if it's not the last part
-            if (index % 2 === 0) {
-              return sentence.trim() + (array[index + 1] || '');
-            }
-            return null;
-          })
-          .filter(Boolean); // Filter out nulls
+    .filter(Boolean)  // Remove any empty strings that may appear
+    .map((sentence, index, array) => {
+      // Combine the sentence with its punctuation if it's not the last part
+      if (index % 2 === 0) {
+        return sentence.trim() + (array[index + 1] || '');
+      }
+      return null;
+    })
+    .filter(Boolean); // Filter out nulls
   return sentences;
 }
 
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
-  //console.log(currentRecipe)
+  const { data: session, status } = useSession();
+  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
+  const disabled = status !== "authenticated";
   const router = useRouter();
-  if (!currentRecipe) {
-    return (
-      <Box sx={{ padding: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Loading...
-        </Typography>
-      </Box>
-    );
-  }
-  const [reviews, setReviews] = useState(currentRecipe.recipe_reviews || []);
-  const [userReview, setUserReview] = useState(
-    currentRecipe.recipe_reviews.find(review => review.user_id === currentRecipe.user_id) || null
-  );
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [reviews, setReviews] = useState([]);
+  const [userReview, setUserReview] = useState(null);
+  const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
+
+  useEffect(() => {
+    if (currentRecipe) {
+      setReviews(currentRecipe.recipe_reviews || []);
+      const totalReviews = currentRecipe.recipe_reviews.length;
+      const totalScore = currentRecipe.recipe_reviews.reduce((sum, review) => sum + review.rating, 0);
+      const averageRating = totalScore / totalReviews;
+      setRatingData({
+        averageRating: averageRating.toFixed(1),
+        reviewCount: totalReviews,
+      });
+      const userRev = currentRecipe.recipe_reviews.find(
+        (review) => review.user_id === currentRecipe.user_id
+      );
+      setUserReview(userRev || null);
+    }
+  }, [currentRecipe]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
@@ -69,7 +82,23 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
     window.location.reload();
   };
 
-  const editDate = new Date(currentRecipe.updated_at).toLocaleString();
+  const handleReturn = () => {
+    router.back();
+  };
+
+  if (!currentRecipe) {
+    return (
+      <Box sx={{ padding: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Loading...
+        </Typography>
+      </Box>
+    );
+  }
+
+  const editDate = currentRecipe
+    ? new Date(currentRecipe.updated_at).toLocaleString()
+    : "";
 
   const steps = parseInstructions(currentRecipe.instructions).map((stp) => (
     <Typography key={stp} variant="body1" component="li" sx={{ marginBottom: 1 }}>
@@ -77,39 +106,89 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
     </Typography>
   ));
 
-  const combinedIngredients = currentRecipe.ingredients_used.map((ingredient) => {
-    const recipeDetails = currentRecipe.recipe_ingredient.find((recIng) => recIng.ingredient_id === ingredient.ingredient_id);
+  const combinedIngredients =
+    currentRecipe &&
+    currentRecipe.ingredients_used.map((ingredient) => {
+      const recipeDetails = currentRecipe.recipe_ingredient.find(
+        (recIng) => recIng.ingredient_id === ingredient.ingredient_id
+      );
 
-    return {
-      ingredient_name: ingredient.ingredient_name,
-      ingredient_id: ingredient.ingredient_id,
-      quantity: recipeDetails.quantity,
-      unit: recipeDetails.unit,
-    };
-  });
+      return {
+        ingredient_name: ingredient.ingredient_name,
+        ingredient_id: ingredient.ingredient_id,
+        quantity: recipeDetails.quantity,
+        unit: recipeDetails.unit,
+      };
+    });
 
-  const handleReturn = (() => {
-    router.back();
-  })
+  const back = "\u2B05 Back";
 
-  return ( 
+  return (
     <Box sx={{ padding: 4 }}>
-      <Button variant="outlined" onClick={handleReturn} sx={{ marginBottom: 2 }}>
-        🔙 Back
-      </Button>
+      <Box displayPrint="none">
+        <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
+          {back}
+        </Button>
+      </Box>
 
-      <Typography variant="h3" component="h1" gutterBottom>
-        {currentRecipe.title}
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+          marginBottom: 2,
+        }}>
+        <Typography variant={isMobile ? "h4" : "h3"}
+          component="h1"
+          gutterBottom
+          sx={{
+            textAlign: isMobile ? "center" : "left",
+            marginBottom: isMobile ? 1 : 0
+          }}>
+          {currentRecipe.title}
+        </Typography>
+
+        {ratingData.averageRating > 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: isMobile ? "center" : "flex-start",
+              marginLeft: isMobile ? 0 : 2
+            }}
+            displayPrint="none"
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {getStarIcons(ratingData.averageRating, isMobile ? "1.5rem" : "2rem")}
+            </Box>
+            <Typography variant="body2" sx={{ marginLeft: 1 }}>
+              ({ratingData.reviewCount})
+            </Typography>
+          </Box>
+        ) : (
+          <Box displayPrint="none">
+            <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
+            No reviews yet
+            </Typography>
+          </Box>
+          
+        )}
+      </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
-        <Image
-          src={currentRecipe.img ? currentRecipe.img : "/food.jpg"}
-          width={400}
-          height={400}
-          alt="Picture of the recipe"
-          style={{ borderRadius: "8px", marginBottom: "16px" }}
-        />
+        <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
+          <Image
+            src={currentRecipe.img ? currentRecipe.img : "/food1.jpg"}
+            width={isMobile ? 300 : 400}
+            height={isMobile ? 300 : 400}
+            alt="Picture of the recipe"
+            style={{ objectFit: "cover", borderRadius: "8px", marginBottom: "16px" }}
+          />
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
+          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54'}} >Print</Button>
+        </Box>
 
         <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
           {currentRecipe.description}
@@ -133,7 +212,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
             component="li"
             sx={{ marginBottom: 1 }}
           >
-            {ing.quantity} {ing.unit} of {ing.ingredient_name}
+            {Math.trunc(ing.quantity)} {ing.unit} of {ing.ingredient_name}
           </Typography>
         ))}
       </ul>
@@ -147,30 +226,36 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         Last edited: {editDate}
       </Typography>
 
-      <Box sx={{ marginTop: 6 }}>
+      <Box sx={{ marginTop: 6 }} displayPrint="none">
         <Typography variant="h5" gutterBottom>
           Reviews
         </Typography>
-        {currentRecipe.recipe_reviews && currentRecipe.recipe_reviews.length > 0 ?(
-          currentRecipe.recipe_reviews.map((rev) => (
-            <Review key={rev.review_id} review={rev} setReviews={setReviews}/>
-          ))
-        ) : (
-          <Typography variant="body1" color="textSecondary">
-            No reviews for this recipe—be the first to leave a rating!
-          </Typography>
-        )}
-      </Box>
+        {
+          reviews && reviews.length > 0 ? (
+            reviews.map((rev) => (
+              <Box key={rev.review_id} sx={{ mb: 3 }}>
+                <Review review={rev} setReviews={setReviews} disabled={!deleteButton} />
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body1" color="textSecondary">
+              No reviews for this recipe—be the first to leave a rating!
+            </Typography>
+          )
+        }
+
+      </Box >
       <ReviewEditor
         currentRecipe={currentRecipe}
         existingReview={userReview}
         onReviewSubmitted={handleReviewSubmitted}
+        disabled={disabled}
       />
-    </Box>
+    </Box >
   );
 }
 
 Recipe.propTypes = {
   currentRecipe: RecipeShape,
-  setCurrentRecipe: PropTypes.func.isRequired
+  setCurrentRecipe: PropTypes.func.isRequired,
 };

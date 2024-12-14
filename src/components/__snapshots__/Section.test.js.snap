@@ -20,7 +20,7 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
           class="MuiBox-root css-1v0nlel"
         >
           <div
-            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1pngqm2-MuiPaper-root-MuiCard-root"
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1nol6xz-MuiPaper-root-MuiCard-root"
             data-testid="recipe"
           >
             <button
@@ -29,7 +29,7 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
               type="button"
             >
               <div
-                class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
+                class="MuiCardContent-root css-gft20x-MuiCardContent-root"
               >
                 <div
                   class="MuiBox-root css-1n2mv2k"
@@ -42,15 +42,29 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
                     loading="lazy"
                     src="/_next/image?url=%2Fpbj.jpg&w=640&q=75"
                     srcset="/_next/image?url=%2Fpbj.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj.jpg&w=640&q=75 2x"
-                    style="color: transparent;"
+                    style="color: transparent; object-fit: cover;"
                     width="200"
                   />
                 </div>
                 <h6
-                  class="MuiTypography-root MuiTypography-h6 css-yxblcp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h6 css-1xi0wmd-MuiTypography-root"
                 >
                   PB & J Sandwich
                 </h6>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-1xab1fm-MuiTypography-root"
+                >
+                  This is a description.
+                </p>
+                <div
+                  class="MuiBox-root css-1grvyzh"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-18dhfmy-MuiTypography-root"
+                  >
+                    No reviews yet
+                  </p>
+                </div>
               </div>
               <span
                 class="MuiCardActionArea-focusHighlight css-1h5un5t-MuiCardActionArea-focusHighlight"
@@ -62,7 +76,7 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
           class="MuiBox-root css-1v0nlel"
         >
           <div
-            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1pngqm2-MuiPaper-root-MuiCard-root"
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1nol6xz-MuiPaper-root-MuiCard-root"
             data-testid="recipe"
           >
             <button
@@ -71,7 +85,7 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
               type="button"
             >
               <div
-                class="MuiCardContent-root css-1lt5qva-MuiCardContent-root"
+                class="MuiCardContent-root css-gft20x-MuiCardContent-root"
               >
                 <div
                   class="MuiBox-root css-1n2mv2k"
@@ -84,15 +98,29 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
                     loading="lazy"
                     src="/_next/image?url=%2Fpbj2.jpg&w=640&q=75"
                     srcset="/_next/image?url=%2Fpbj2.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj2.jpg&w=640&q=75 2x"
-                    style="color: transparent;"
+                    style="color: transparent; object-fit: cover;"
                     width="200"
                   />
                 </div>
                 <h6
-                  class="MuiTypography-root MuiTypography-h6 css-yxblcp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h6 css-1xi0wmd-MuiTypography-root"
                 >
                   PB & J Sandwich 2
                 </h6>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-1xab1fm-MuiTypography-root"
+                >
+                  A variation of the classic PB & J.
+                </p>
+                <div
+                  class="MuiBox-root css-1grvyzh"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-18dhfmy-MuiTypography-root"
+                  >
+                    No reviews yet
+                  </p>
+                </div>
               </div>
               <span
                 class="MuiCardActionArea-focusHighlight css-1h5un5t-MuiCardActionArea-focusHighlight"

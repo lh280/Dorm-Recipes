@@ -4,7 +4,7 @@
 
 ### Deployed application
 
-https://lincoln.csci312.dev
+https://lincoln.csci312.dev, available through [go/dormrecipes/](https://go.middlebury.edu/dormrecipes/)
 
 ### Description
 
@@ -15,22 +15,25 @@ This is an application to help connect students who want to cook around campus t
 - login
 - home page
   - search bar
-  - recommendations
-  - things to make now (time of day)
-- profile
-- recipe view
+  - recipe recommendations by section
+- search page
+- recipe page
+  - edit recipe
+  - delete recipe
 - add recipe page
+- profile page
 
 #### Users will be able to:
 
-- upload their own recipes with photo, description, price range, difficulty, prep & cook time, ingredients & tools, and steps
+- upload their own recipes with title, photo, description, prep & cook time, ingredients, and steps
   - view and edit their own recipes
-  - make them public or private
   - view the ratings others have given them
 - see the reviews they have left on other recipes
 - keep a personal pantry of their own ingredients
-- see other users' public recipes (title, author, other ratings, etc.) and rate them
-- search for recipes by name, ingredients, time, rating, or price
+- see other users' recipes (title, author, other ratings, etc.) 
+  - rate the recipes 
+  - share & print them out
+- search for recipes by name, description, or ingredients
 
 ## Creation
 

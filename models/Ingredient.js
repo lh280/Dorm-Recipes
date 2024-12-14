@@ -26,7 +26,7 @@ export default class Ingredient extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["ingredient_name", "ingredient_id"],
+      required: ["ingredient_name"],
       properties: {
         ingredient_id: { type: "integer" },
         ingredient_name: { type: "string" },
