@@ -60,7 +60,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       );
       setUserReview(userRev || null);
     }
-  }, [currentRecipe, session.user.id]);
+  }, [currentRecipe, session?.user.id]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
