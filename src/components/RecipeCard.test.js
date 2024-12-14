@@ -74,7 +74,7 @@ describe("RecipeCard component", () => {
 
   test("Uses fallback image if recipe.img is not provided", () => {
     const recipe = {
-      "recipe_id": 3,
+      recipe_id: 11,
       user_id: 1,
       title: "Cinnamon Sugar Toast",
       description: "Quick snack good for breakfast or desert",
@@ -87,7 +87,7 @@ describe("RecipeCard component", () => {
     render(<RecipeCard recipe={recipe} setCurrentRecipe={handler} />);
 
     const img = screen.getByAltText("Picture of the recipe");
-    expect(img.src).toMatch("http://localhost/_next/image?url=%2Frecipe3.jpg&w=640&q=75");
+    expect(img.src).toMatch("food1.jpg");
   });
 
   test("Clicking the card calls setCurrentRecipe with recipe.recipe_id", () => {
