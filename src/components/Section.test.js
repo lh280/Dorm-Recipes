@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import Section from "./Section";
 
+
+jest.mock("next-auth/react");
+
+
 describe("Section: Testing sections", () => {
     let recipes;
     const handler = jest.fn();
@@ -46,7 +50,7 @@ describe("Section: Testing sections", () => {
     });
 
     test("All Recipes in the section render with correct title", ()=>{
-        render(<Section title="Test Section" recipes = {recipes} openRecipe={handler}/>)
+        render(<Section title="Test Section" recipes = {recipes} openRecipe={handler}/>);
         recipes.forEach((rec) => {
             expect(screen.queryByRole("heading", {name : rec.title})).toBeInTheDocument()
         })

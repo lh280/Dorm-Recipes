@@ -71,9 +71,7 @@ export default function Header({ setCurrentRecipe, viewAccount }) {
               marginRight: 1,
               marginLeft: 2
             }}
-          >
-            Dorm Recipes
-          </Typography>
+          >Dorm Recipes</Typography>
         </Box>
       )}
       
