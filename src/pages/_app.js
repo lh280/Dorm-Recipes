@@ -26,7 +26,6 @@ const theme = createTheme({
 
 // eslint-disable-next-line react/prop-types
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
-  // const { Component, pageProps } = appProps;
   const router = useRouter();
   const [currentRecipe, setCurrentRecipe] = useState(null);
 
