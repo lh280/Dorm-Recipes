@@ -9,5 +9,7 @@ exports.seed = function (knex) {
     // Deletes ALL existing entries
     return knex("Ingredients")
         .del()
-        .then(() => knex.batchInsert("Ingredients", data));
+        .then(() => knex.batchInsert("Ingredients", data))
+        .then(() => knex.raw("SELECT setval(pg_get_serial_sequence('\"Ingredients\"', 'ingredient_id'), (SELECT max(\"ingredient_id\") FROM \"Ingredients\") + 1);"));
+        
 };

@@ -1,6 +1,8 @@
 import { createRouter } from "next-connect";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import Recipe from "../../../../models/Recipe";
-import onError from "../../../lib/middleware";
+import { onError, authenticated }  from "../../../lib/middleware";
 
 const router = createRouter();
 
@@ -51,25 +53,42 @@ router
       return res.status(500).json({ error: "Failed to fetch recipes." });
     }
   })
-  .post(async (req, res) => {
-  try {
-    // eslint-disable-next-line 
-    const { title, description, prep_time, instructions } = req.body;
+  .post(authenticated, async (req, res) => {
+    try{
+    const session = await getServerSession(req, res, authOptions);
+  
+    if (!session) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { id } = session.user; // Retrieve user ID from session
+    // eslint-disable-next-line no-console
+    console.log("User ID from session:", id);
+    const { title, description, prep_time, servings, instructions } = req.body;
 
     // Validate the required fields
     // eslint-disable-next-line
-    if (!title || !description || !prep_time || !instructions) {
+    if (!title || !description || !prep_time || !instructions ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Save the recipe to the database
-    const newRecipe = await Recipe.query().insertAndFetch({
+    // Get the current max recipe_id and increment
+    const maxRecipe = await Recipe.query().max("recipe_id as max_id").first();
+    const newRecipeId = (maxRecipe?.max_id || 0) + 1;
+
+    // Insert the new recipe
+    const newRecipe = await Recipe.query().insert({
+      recipe_id: newRecipeId,
       title,
       description,
-      // eslint-disable-next-line 
       prep_time,
       instructions,
+      servings,
+      id, // Use ID from the session 
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     });
+
     
     // eslint-disable-next-line no-console
     console.log("Recipe successfully saved:", newRecipe); // Log the saved recipe

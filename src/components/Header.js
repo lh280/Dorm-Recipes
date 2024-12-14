@@ -57,11 +57,11 @@ export default function Header({ setCurrentRecipe, viewAccount }) {
     }}>
 
       {isMobile ? (
-        <Box onClick={goHome} sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }}>
+        <Box onClick={goHome} sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }} displayPrint="none">
           <Image src="/favicon.ico" alt="Dorm Recipes Logo" width={32} height={32} />
         </Box>
       ) : (
-        <Box onClick={goHome} sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }}>
+        <Box onClick={goHome} sx={{ display: "flex", flexDirection: "row", alignItems: "center", cursor: "pointer", mr: 1 }} displayPrint="none">
           <Image src="/favicon.ico" alt="Dorm Recipes Logo" width={32} height={32} />
           <Typography
             variant="h5"

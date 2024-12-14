@@ -12,13 +12,17 @@ router
             return res.status(400).json({ error: "Missing required fields" });
         }
         try {
-            let newIngredient = await Ingredient.query().findOne({
-                ingredient_name: name
+            const existingIngredient = await Ingredient.query().findOne({
+                ingredient_name: name,
+              });
+            
+            if (existingIngredient) {
+            return res.status(200).json(existingIngredient);
+            }
+
+            const newIngredient = await Ingredient.query().insert({
+                ingredient_name: name,
             });
-            if (!newIngredient) {
-                newIngredient = await Ingredient.query().insert({
-                ingredient_name: name
-            })};
             if (!newIngredient) {
                 return res.status(500).json({ error: "Ingredient Not Created" });
             }
