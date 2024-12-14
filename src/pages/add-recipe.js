@@ -33,45 +33,57 @@ export default function AddRecipe() {
         
         // Step 2: Save each ingredient and link it to the recipe
         try {
-          // Map over the ingredients to create the required promises
           const ingredientPromises = recipe.ingredients.map(async (ingredient) => {
-            // Save the ingredient to the Ingredients table
-            const ingredientResponse = await fetch("/api/ingredients", {
-              method: "POST",
-              body: JSON.stringify({
-                name: ingredient.name,
-              }),
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            });
+            try {
+              const ingredientResponse = await fetch("/api/ingredient", {
+                method: "POST",
+                body: JSON.stringify({
+                  name: ingredient.name, // Save the ingredient name
+                }),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+              if (!ingredientResponse.ok) {
+                const errorText = await ingredientResponse.text();
+                // eslint-disable-next-line no-console
+                console.error("Ingredient API error:", errorText);
+                throw new Error("Failed to save ingredient");
+              }
+              // eslint-disable-next-line no-console
+              const ingredientData = await ingredientResponse.json();
         
-            if (!ingredientResponse.ok) throw new Error("Failed to save ingredient");
-            const ingredientData = await ingredientResponse.json();
-        
-            // Link the ingredient to the recipe in Recipe_Ingredients table
-            const recipeIngredientResponse = await fetch("/api/recipe_ingredients", {
-              method: "POST",
-              body: JSON.stringify({
-                recipe_id: recipeData.recipe_id,
-                ingredient_id: ingredientData.ingredient_id,
-                quantity: ingredient.quantity,
-                unit: ingredient.unit,
-              }),
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            });
-        
-            if (!recipeIngredientResponse.ok)
-              throw new Error("Failed to save recipe ingredient");
+              const recipeIngredientResponse = await fetch("/api/recipe_ingredients", {
+                method: "POST",
+                body: JSON.stringify({
+                  recipe_id: recipeData.recipe_id, // From the saved recipe
+                  ingredient_id: ingredientData.ingredient_id, // From saved ingredient
+                  quantity: Number(ingredient.quantity), // Optional - must be a number
+                  unit: ingredient.unit, // Optional
+                }),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+              if (!recipeIngredientResponse.ok) {
+                const errorText = await recipeIngredientResponse.text();
+                // eslint-disable-next-line no-console
+                console.error("Recipe Ingredient API error:", errorText);
+                throw new Error("Failed to save recipe ingredient");
+              }
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error("Error with ingredient:", ingredient.name, error);
+              throw error;
+            }
           });
         
-          // Use Promise.all to wait for all promises to resolve
           await Promise.all(ingredientPromises);
         } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error("Ingredient linking failed:", error);
           throw new Error("Error saving ingredients or linking them to the recipe.");
         }
       

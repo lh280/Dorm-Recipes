@@ -12,13 +12,22 @@ router
             return res.status(400).json({ error: "Missing required fields" });
         }
         try {
-            let newIngredient = await Ingredient.query().findOne({
-                ingredient_name: name
+            const existingIngredient = await Ingredient.query().findOne({
+                ingredient_name: name,
+              });
+            
+            if (existingIngredient) {
+            return res.status(200).json(existingIngredient);
+            }
+
+            // Get the current max ingredient_id and increment
+            const maxIngredient = await Ingredient.query().max("ingredient_id as max_id").first();
+            const newIngredientId = (maxIngredient?.max_id || 0) + 1;
+
+            const newIngredient = await Ingredient.query().insert({
+            ingredient_id: newIngredientId,
+            ingredient_name: name,
             });
-            if (!newIngredient) {
-                newIngredient = await Ingredient.query().insert({
-                ingredient_name: name
-            })};
             if (!newIngredient) {
                 return res.status(500).json({ error: "Ingredient Not Created" });
             }

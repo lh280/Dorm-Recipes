@@ -1,22 +1,26 @@
 import { createRouter } from "next-connect";
-import onError from "@/lib/middleware";
-import RecipeIngredient from "../../../../models/Recipe_Ingredient";
+import { onError, authenticated } from "@/lib/middleware";
+import RecipeIngredient from "../../../../models/Recipe_Ingredients";
 
 /* eslint-disable consistent-return */
 const router = createRouter();
 
 router
-  .post(async (req, res) => {
+  .post(authenticated, async (req, res) => {
     const { recipe_id, ingredient_id, quantity, unit } = req.body;
 
     if (!recipe_id || !ingredient_id || !quantity || !unit) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
+    // Get the current max ingredient_id and increment
+    const maxIngredient = await RecipeIngredient.query().max("ingredient_id as max_id").first();
+    const newIngredientId = (maxIngredient?.max_id || 0) + 1;
+
     try {
       const newRecipeIngredient = await RecipeIngredient.query().insertAndFetch({
         recipe_id,
-        ingredient_id,
+        ingredient_id: newIngredientId,
         quantity,
         unit,
       });

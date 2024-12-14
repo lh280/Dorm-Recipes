@@ -1,7 +1,8 @@
 import { createRouter } from "next-connect";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import Recipe from "../../../../models/Recipe";
-import onError from "../../../lib/middleware";
-import { getSession } from "next-auth/react";
+import { onError, authenticated }  from "../../../lib/middleware";
 
 const router = createRouter();
 
@@ -52,15 +53,9 @@ router
       return res.status(500).json({ error: "Failed to fetch recipes." });
     }
   })
-  .post(async (req, res) => {
-  try {
-    // eslint-disable-next-line
-    const session = await getSession({ req });
-    // eslint-disable-next-line no-console
-    console.log("Session Debug:", session);
-    // eslint-disable-next-line no-console
-    console.log("Session in /api/recipes:", session);
-
+  .post(authenticated, async (req, res) => {
+    try{
+    const session = await getServerSession(req, res, authOptions);
   
     if (!session) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -88,7 +83,7 @@ router
       description,
       prep_time,
       instructions,
-      user_id: id, // Use ID from the session
+      id, // Use ID from the session 
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     });
