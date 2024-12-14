@@ -21,9 +21,11 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   });
 
   useEffect(() => {
-    setReviewContent(existingReview?.content || '');
-    setReviewRating(existingReview?.rating || 0);
-  }, [existingReview]);
+    if((session.user.id === existingReview?.id)){
+      setReviewContent(existingReview?.content || '');
+      setReviewRating(existingReview?.rating || 0);
+    }
+  }, [existingReview, session.user.id]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
@@ -64,7 +66,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
     const reviewData = {
       recipe_id: currentRecipe.recipe_id,
-      id: currentRecipe.id,
+      id: session.user.id,
       content: reviewContent,
       rating: normalizedRating,
     };
