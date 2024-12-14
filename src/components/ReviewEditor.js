@@ -14,7 +14,8 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
-  const [reviewRating, setReviewRating] = useState(existingReview?.rating || 0);
+  // eslint-disable-next-line no-unsafe-optional-chaining
+  const [reviewRating, setReviewRating] = useState((isMobile ? existingReview?.rating : (existingReview?.rating)/2) || 0);
   const [fieldErrors, setFieldErrors] = useState({
     content: false,
     rating: false,
@@ -23,9 +24,10 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   useEffect(() => {
     if((session?.user.id === existingReview?.id)){
       setReviewContent(existingReview?.content || '');
-      setReviewRating(existingReview?.rating || 0);
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      setReviewRating((isMobile ? existingReview?.rating : (existingReview?.rating)/2) || 0);
     }
-  }, [existingReview, session?.user.id]);
+  }, [isMobile, existingReview, session?.user.id]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
