@@ -20,12 +20,7 @@ router
             return res.status(200).json(existingIngredient);
             }
 
-            // Get the current max ingredient_id and increment
-            const maxIngredient = await Ingredient.query().max("ingredient_id as max_id").first();
-            const newIngredientId = (maxIngredient?.max_id || 0) + 1;
-
             const newIngredient = await Ingredient.query().insert({
-                ingredient_id: newIngredientId,
                 ingredient_name: name,
             });
             if (!newIngredient) {
