@@ -94,7 +94,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
                 console.log("Error creating Pantry item")
             }
             
-            const {user_id} = userInfo;
+            const user_id = session?.user.id;
             const body = JSON.stringify({user_id, ingredient_id, name, quantity, unit});
             try {
                 const response = await fetch(
@@ -121,7 +121,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
 
         const editItem = async () => {
             try {
-                const {user_id} = userInfo;
+                const user_id = session?.user.id;
                 const body = {user_id, selectedIng, newQuantity, newUnit}
                 const response = await fetch(
                     "/api/pantry",
@@ -148,7 +148,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
 
         const deleteItem = async () => {
             try {
-                const {user_id} = userInfo;
+                const user_id = session?.user.id;
                 const response = await fetch(
                     "/api/pantry",
                     {
@@ -164,7 +164,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
 
             }catch (error) {
                 // eslint-disable-next-line no-console
-                console.error("Error creating Pantry item")
+                console.error("Error Deleting Pantry item")
             }
             setSelectedIng("");
         }
@@ -319,7 +319,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
             }
             setCurrentContent(content);
         }
-    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router, isMobile, pantryState, name, quantity, unit, selectedIng, newQuantity, newUnit]);
+    }, [initialUserInfo, userInfo, tab, setCurrentRecipe, router, isMobile, pantryState, name, quantity, unit, selectedIng, newQuantity, newUnit, session?.user.id]);
 
     return (
         <div>
