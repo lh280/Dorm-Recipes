@@ -62,7 +62,7 @@ export default function Editor({ currentRecipe, complete }) {
   const handleAddIngredient = () => {
     setFormData((prev) => ({
       ...prev,
-      ingredients: [...prev.ingredients, ""],
+      ingredients: [...prev.ingredients, { name: "", quantity: "", unit: ""}],
     })); 
   };
 
@@ -73,19 +73,23 @@ export default function Editor({ currentRecipe, complete }) {
     }));
   };
 
-  const handleIngredientChange = (index, value) => {
+  const handleIngredientChange = (index, field, value) => {
     setFormData((prev) => {
       const ingredients = [...prev.ingredients];
-      ingredients[index] = value;
+      ingredients[index] = { ...ingredients[index], [field]: value };
       return { ...prev, ingredients };
     });
     // Clear error if valid input is provided
-    if (errors.ingredients && value.trim() !== "") {
+    if (
+      errors.ingredients &&
+      formData.ingredients.every(
+        (ingredient) =>
+          ingredient.name.trim() !== "" && ingredient.quantity && ingredient.unit
+      )
+    ) {
       setErrors((prevErrors) => {
         const newErrors = { ...prevErrors };
-        if (formData.ingredients.every((ingredient) => ingredient.trim() !== "")) {
-          delete newErrors.ingredients;
-        }
+        delete newErrors.ingredients;
         return newErrors;
       });
     }
@@ -131,11 +135,15 @@ export default function Editor({ currentRecipe, complete }) {
       newErrors.time = "Preparation time must be greater than 0";
     if (!formData.servings || formData.servings <= 0)
       newErrors.servings = "Servings must be greater than 0";
+
+    // Validate Ingredients
     if (
       !formData.ingredients.length ||
-      formData.ingredients.every((ingredient) => ingredient.trim() === "")
+      formData.ingredients.some(
+        (ingredient) => !ingredient.name.trim() || !ingredient.quantity || !ingredient.unit
+      )
     ) {
-      newErrors.ingredients = "At least one ingredient is required";
+      newErrors.ingredients = "Each ingredient must have a name, quantity, and unit.";
     }
     if (!formData.steps.length || formData.steps.every((s) => s.trim() === ""))
       newErrors.steps = "At least one cooking step is required";
@@ -330,14 +338,43 @@ export default function Editor({ currentRecipe, complete }) {
           </Typography>
           {formData.ingredients.map((ingredient, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <Box key={index} display="flex" alignItems="center" mb={1}>
+            <Box key={index} display="flex" alignItems="flex-start" gap={2} mb={1} sx={{ flexWrap: "wrap"}}>
               <TextField
-                fullWidth
-                value={ingredient}
-                onChange={(e) => handleIngredientChange(index, e.target.value)}
+                label="Ingredient Name"
+                value={ingredient.name}
+                onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
                 placeholder={`Ingredient ${index + 1}`}
-                error={!!errors.ingredients && ingredient.trim() === ""}
-                helperText={!!errors.ingredients && ingredient.trim() === "" && "Ingredient cannot be empty"}
+                error={!!errors.ingredients && !ingredient.name.trim()}
+                helperText={
+                  !!errors.ingredients &&
+                  !ingredient.name.trim() &&
+                  "Name is required"
+                }
+              />
+              <TextField
+                label="Quantity"
+                type="number"
+                value={ingredient.quantity}
+                onChange={(e) =>
+                  handleIngredientChange(index, "quantity", e.target.value)
+                }
+                placeholder="Quantity"
+                error={!!errors.ingredients && !ingredient.quantity}
+                helperText={
+                  !!errors.ingredients &&
+                  !ingredient.quantity &&
+                  "Quantity is required"
+                }
+              />
+              <TextField
+                label="Unit"
+                value={ingredient.unit}
+                onChange={(e) => handleIngredientChange(index, "unit", e.target.value)}
+                placeholder="Unit"
+                error={!!errors.ingredients && !ingredient.unit.trim()}
+                helperText={
+                  !!errors.ingredients && !ingredient.unit.trim() && "Unit is required"
+                }
               />
               <IconButton
                 color="error"
