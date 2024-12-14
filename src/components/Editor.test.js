@@ -30,7 +30,7 @@ describe("Editor: Editor tests", () => {
     handler.mockReset();
   });
 
-  test.skip("Editor: editor is populated by the recipe data", () => {
+  test("Editor: editor is populated by the recipe data", () => {
     render(<Editor currentRecipe={{ ...recipe }} complete={handler} />);
     expect(screen.getByDisplayValue(recipe.title)).toBeVisible();
     expect(screen.getByDisplayValue(recipe.description)).toBeVisible();
