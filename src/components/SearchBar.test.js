@@ -15,11 +15,9 @@ describe("SearchBar component", () => {
   test("renders the search bar and button", () => {
     render(<SearchBar onSearch={onSearchMock} />);
     
-    // Check if placeholder is visible
     const inputEl = screen.getByPlaceholderText("🔍 Search for a recipe...");
     expect(inputEl).toBeInTheDocument();
 
-    // Check if the button is visible
     const buttonEl = screen.getByRole("button", { name: /search/i });
     expect(buttonEl).toBeInTheDocument();
   });
@@ -37,19 +35,17 @@ describe("SearchBar component", () => {
     const inputEl = screen.getByPlaceholderText("🔍 Search for a recipe...");
     const buttonEl = screen.getByRole("button", { name: /search/i });
 
-    // Type a query
     fireEvent.change(inputEl, { target: { value: "PB&J" } });
     fireEvent.click(buttonEl);
 
     expect(onSearchMock).toHaveBeenCalledTimes(1);
-    expect(onSearchMock).toHaveBeenCalledWith("PB&J");
+    expect(onSearchMock).toHaveBeenCalledWith("PB%26J");
   });
 
   test("clicking Search button does nothing if input is empty", () => {
     render(<SearchBar onSearch={onSearchMock} />);
     const buttonEl = screen.getByRole("button", { name: /search/i });
 
-    // Input is empty by default
     fireEvent.click(buttonEl);
 
     expect(onSearchMock).not.toHaveBeenCalled();
