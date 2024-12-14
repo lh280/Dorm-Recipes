@@ -22,20 +22,11 @@ import Review from "./Review";
 import getStarIcons from '../lib/getStarIcons';
 
 function parseInstructions(instructions) {
-  const sentenceRegex = /([.])\s*/;
-
-  // Split the paragraph by sentence-ending punctuation (., !, or ?) and retain the punctuation mark.
-  const sentences = instructions.split(sentenceRegex)
-    .filter(Boolean)  // Remove any empty strings that may appear
-    .map((sentence, index, array) => {
-      // Combine the sentence with its punctuation if it's not the last part
-      if (index % 2 === 0) {
-        return sentence.trim() + (array[index + 1] || '');
-      }
-      return null;
-    })
-    .filter(Boolean); // Filter out nulls
-  return sentences;
+  // Split the paragraph by newlines and trim each resulting string
+  return instructions
+    .split('\n')
+    .map(sentence => sentence.trim()) // Remove leading and trailing spaces from each line
+    .filter(Boolean); // Remove empty strings from the result
 }
 
 

@@ -356,7 +356,7 @@ export default function Editor({ currentRecipe, complete }) {
                 type="number"
                 value={ingredient.quantity}
                 onChange={(e) =>
-                  handleIngredientChange(index, "quantity", e.target.value)
+                  handleIngredientChange(index, "quantity", Math.max(1, e.target.value))
                 }
                 placeholder="Quantity"
                 error={!!errors.ingredients && !ingredient.quantity}

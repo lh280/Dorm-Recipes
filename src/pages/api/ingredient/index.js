@@ -25,8 +25,8 @@ router
             const newIngredientId = (maxIngredient?.max_id || 0) + 1;
 
             const newIngredient = await Ingredient.query().insert({
-            ingredient_id: newIngredientId,
-            ingredient_name: name,
+                ingredient_id: newIngredientId,
+                ingredient_name: name,
             });
             if (!newIngredient) {
                 return res.status(500).json({ error: "Ingredient Not Created" });
