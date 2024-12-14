@@ -1,53 +1,61 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Editor from "./Editor";
 
-describe.skip("Editor: Editor tests", () => { // NOTE: Skipping the Editor test for now because this needs to be updated to work with DB content
-    let recipe;
-    const handler = jest.fn();
-  
-    beforeEach(() => {
-      recipe = {
-        id: 42,
-        authorId: 2,
-        title: "Title of sample recipe",
-        description: "Sample recipe for testing",
-        time: 2,
-        ingredients: ["egg", "milk", "flour", "baking soda", "sugar"],
-        steps: ["Step one of sample recipe", "step two of sample recipe", "all done!"],
-        edited: new Date("2020-06-10T14:54:40Z").toISOString(),
-      };
-  
-      handler.mockReset();
-    });
+describe("Editor: Editor tests", () => {
+  let recipe;
+  const handler = jest.fn();
 
-    test("Editor: editor is populated by article", () => {
-        render(<Editor currentRecipe={ {...recipe} } complete={handler} />);
-        expect(screen.getByDisplayValue(recipe.title)).toBeVisible();
-        expect(screen.getByDisplayValue(recipe.description)).toBeVisible();
-        expect(screen.getByDisplayValue(String(recipe.time))).toBeVisible();
-        expect(screen.getByDisplayValue(recipe.ingredients.join(", "))).toBeVisible();
-        
-        const stepsTextarea = screen.getByPlaceholderText("Enter cooking steps (one per line)");
-        expect(stepsTextarea.value.trim()).toBe(recipe.steps.join("\n").trim());
-      });
+  beforeEach(() => {
+    recipe = {
+      recipe_id: 0,
+      img: "/pbj.jpg",
+      title: "PB & J Sandwich",
+      author: "Noah Price",
+      time: 15,
+      servings: 1,
+      user_id: 0,
+      description: "This is a description.",
+      recipe_ingredient: [
+        { ingredient_id: 1, quantity: 2, unit: "slices", ingredient_name: "Bread" },
+        { ingredient_id: 2, quantity: 1, unit: "jar", ingredient_name: "Peanut Butter" },
+        { ingredient_id: 3, quantity: 1, unit: "jar", ingredient_name: "Jelly" },
+      ],
+      recipe_reviews: [],
+      // Editor uses "instructions" as an array or newline-delimited string
+      instructions: "Apply the peanut butter... Close the sandwich.",
+      updated_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    };
 
-      test("Editor: Props are not mutated", () => {
-        const testRecipe = { ...recipe };
-        const { container } = render(
-          <Editor complete={handler} currentRecipe={testRecipe} />,
-        );
-        const newTitle = "New title";
-        const newBody = "New content";
-    
-        const titleInput = container.querySelector("input[type=text]");
-        const descriptionInput = container.querySelector("textarea");
-        const saveButton = screen.getByRole("button", { name: "Save" });
-    
-        fireEvent.change(titleInput, { target: { value: newTitle } });
-        fireEvent.change(descriptionInput, { target: { value: newBody } });
-    
-        fireEvent.click(saveButton);
-    
-        expect(testRecipe).toEqual(recipe);
-      });
-})
+    handler.mockReset();
+  });
+
+  test("Editor: editor is populated by the recipe data", () => {
+    render(<Editor currentRecipe={{ ...recipe }} complete={handler} />);
+    expect(screen.getByDisplayValue(recipe.title)).toBeVisible();
+    expect(screen.getByDisplayValue(recipe.description)).toBeVisible();
+    expect(screen.getByDisplayValue(String(recipe.time))).toBeVisible();
+    const stepsTextarea = screen.getByPlaceholderText("Enter cooking steps (one per line)");
+    const expectedInstructions = Array.isArray(recipe.instructions)
+      ? recipe.instructions.join("\n")
+      : recipe.instructions;
+    expect(stepsTextarea.value.trim()).toBe(expectedInstructions.trim());
+  });
+
+  test("Editor: Props are not mutated", () => {
+    const testRecipe = { ...recipe };
+    const { container } = render(<Editor complete={handler} currentRecipe={testRecipe} />);
+    const titleInput = container.querySelector("input[type=text]");
+    const descriptionInput = container.querySelector("textarea");
+    const saveButton = screen.getByRole("button", { name: "Save" });
+
+    const newTitle = "New title";
+    const newDescription = "New content";
+
+    fireEvent.change(titleInput, { target: { value: newTitle } });
+    fireEvent.change(descriptionInput, { target: { value: newDescription } });
+    fireEvent.click(saveButton);
+
+    expect(testRecipe).toEqual(recipe);
+  });
+});

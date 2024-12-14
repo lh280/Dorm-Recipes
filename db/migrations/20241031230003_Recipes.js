@@ -10,7 +10,7 @@ exports.up = function Create(knex) {
     table.text("instructions");
     table.integer("prep_time");
     table.integer("servings");
-    table.integer("user_id").references("user_id").inTable("Users");
+    table.integer("id").references("id").inTable("Users");
     table.timestamps(true, true);
   });
 };

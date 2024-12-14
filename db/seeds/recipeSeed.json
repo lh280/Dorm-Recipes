@@ -1,7 +1,7 @@
 [
     {
         "recipe_id": 0,
-        "user_id": 0,
+        "id": 0,
         "title": "PB & J",
         "description": "Peanut butter and Jelly sandwich",
         "instructions": "Take two equal sized pieces of bread.\nSpread Jelly on one piece of bread.\nSpread Peanut butter on the other piece of bread.\nStack the two pieces of bread so the the Peanut butter and jelly touch.\n",
@@ -12,7 +12,7 @@
     },
     {
         "recipe_id": 1,
-        "user_id": 0,
+        "id": 0,
         "title": "Dorm Monsieur",
         "description": "Dormified version of the classic french Croque Monsieur",
         "instructions": "Take two equal sized pieces of bread, preferably french baguette.\nIf possible, heat the bread in an oven or toaster.\nFirst, place gruyere Cheese on top of the warm bread.\nPlace slightly rolled slices of deli ham on top of the cheese to add texture and height to the sandwich.\nOptionally spread mustard on the second piece of bread.\nPlace second piece of bread on top to close the sandwich and serve.\n",
@@ -23,7 +23,7 @@
     },
     {
         "recipe_id": 2,
-        "user_id": 1,
+        "id": 1,
         "title": "Easy Vegetable Pasta",
         "description": "Quick and healthy pasta for 5",
         "instructions": "Bring a large pot of generously salted water to a boil.\nCook pasta (any shape works) according to the directions on the package.\nHeat a medium pan over medium high heat.\nOptionally, toast pine nuts in the pan. Set aside the pine nuts when they are a deep golder brown.\nHeat a tablespoon of olive oil in the same pan.\nAdd zucchini and mushrooms to the pan and saute until lightly browned then set aside.\nAdd salt and pepper to taste.\nAdd half a tablespoon of olive oil to the pan.\nAdd finely minced garlic, and cook until golden and fragrant.\nAdd tomatoes to the pan.\nReduce heat to medium heat, and cook until the tomatoes burst and a loose sauce starts to come together.\nIn a large bowl, combine the cooked pasta, vegetables, and sauce.\nSalt to taste, optionally stir in toasted pine nuts and parmesan cheese\n",
@@ -34,7 +34,7 @@
     },
     {
         "recipe_id": 3,
-        "user_id": 1,
+        "id": 1,
         "title": "Cinnamon Sugar Toast",
         "description": "Quick snack good for breakfast or desert",
         "instructions": "In a small bowl, combine two tablespoons of sugar and one tablespoon of cinnamon.\nToast a piece of bread. While it's still hot, spread with salted butter and sprinkle with the Cinnamon sugar mixture\n",
@@ -45,7 +45,7 @@
     },
     {
         "recipe_id": 4,
-        "user_id": 2,
+        "id": 2,
         "title": "PB & H",
         "description": "Peanut butter and Honey sandwich",
         "instructions": "Take two equal sized pieces of bread.\nSpread Honey on one piece of bread. Spread Peanut butter on the other piece of bread.\nStack the two pieces of bread so the the Peanut butter and honey touch.\nOptionally fry in a pan with butter till golden brown on both sides.\n",
@@ -56,7 +56,7 @@
     },
     {
         "recipe_id": 5,
-        "user_id": 2,
+        "id": 2,
         "title": "Avocado Toast",
         "description": "A simple and healthy breakfast",
         "instructions": "In a small bowl, gently combine cherry tomatoes (quartered), finely dice shallot, a drizzle of olive oil, lemon juice, and a few drops of chili oil if you have it.\nSet aside briefly to mellow the shallot.\nMeanwhile, cut avocado into slices.\nToast a Piece of bread (preferably sourdough or whole grain).\nFan the avocado slices across the top of the toast.\nSpoon the tomato mixture onto the avocado slices.\nTop with pinch salt and pepper before serving.\nFor a heartier breakfast, add a poached or soft boiled egg.\n",
@@ -67,7 +67,7 @@
     },
     {
         "recipe_id": 6,
-        "user_id": 3,
+        "id": 3,
         "title": "Stove top Mac and Cheese",
         "description": "Quick and Easy Cheesy Goodness",
         "instructions": "Cook pasta according to to package directions, drain when cooked.\nIn a medium pot, melt butter over medium heat.\nStir in flour and cook for 3-4 minutes.\n Add salt and pepper.\nSlowly add milk, stiring after each addition until combined. Cook another 3-4 minutes or until bubbling, stirring constantly. Stir small handfulls of grated cheese until it is all incorporated. Stir drained pasta into the sauce and serve.\n",
@@ -78,7 +78,7 @@
     },
     {
         "recipe_id": 7,
-        "user_id": 3,
+        "id": 3,
         "title": "Dorm nachos",
         "description": "Perfect for late night cravings",
         "instructions": "Arrange tortilla chips on a microwave safe plate.\nCover generously with grated cheese.\nMicrowave until the cheese is melted, about 30-45 seconds. Top with lettuce, tomatoes and onions.\n Optionally serve with salsa of choice\n",
@@ -89,7 +89,7 @@
     },
     {
         "recipe_id": 8,
-        "user_id": 4,
+        "id": 4,
         "title": "PB and B",
         "description": "Peanut Butter and Banana sandwich",
         "instructions": "Spread Peanut butter on one of the pieces of bread.\nCut banana on an angle and spread the slices across slice of bread.\nComplete the sandwich with another piece of bread and serve.\n",
@@ -100,7 +100,7 @@
     },
     {
         "recipe_id": 9,
-        "user_id": 4,
+        "id": 4,
         "title": "Grilled Cheese",
         "description": "Classic grilled cheese sandwich",
         "instructions": "Preheat pan over medium high heat.\nSpread softened butter on one side of both pieces of bread.\n Sandwich two peices of cheese between the bread and place in the pan.\n Cook until golden brown and flip. Continue to cook until the second side is also golden brown and the cheese is melted.",
