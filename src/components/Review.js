@@ -85,5 +85,5 @@ export default function Review({ review, setReviews, disabled }) {
 
 Review.propTypes = {
   review: ReviewShape,
-  setReviews: PropTypes.func.isRequired
+  setReviews: PropTypes.func,
 };
