@@ -1,8 +1,11 @@
 // ReviewEditor.test.js
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { useSession} from "next-auth/react";
 import ReviewEditor from "./ReviewEditor";
 
+
 global.fetch = jest.fn();
+jest.mock("next-auth/react")
 
 describe("ReviewEditor Component", () => {
   const mockOnReviewSubmitted = jest.fn();
@@ -18,7 +21,15 @@ describe("ReviewEditor Component", () => {
 
   // We'll define a no-op setReviews to satisfy the `.isRequired` prop
   const mockSetReviews = jest.fn();
-
+  useSession.mockReturnValue({
+      data: {
+        user: { id: 1, email:["Gdwade@middlbury.edu"] },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+        
+      },
+      status: "authenticated",
+      });
+      
   beforeEach(() => {
     jest.clearAllMocks();
   });
