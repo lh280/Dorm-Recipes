@@ -40,8 +40,8 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
                     decoding="async"
                     height="200"
                     loading="lazy"
-                    src="/_next/image?url=%2Frecipe0.jpg&w=640&q=75"
-                    srcset="/_next/image?url=%2Frecipe0.jpg&w=256&q=75 1x, /_next/image?url=%2Frecipe0.jpg&w=640&q=75 2x"
+                    src="/_next/image?url=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0&w=640&q=75"
+                    srcset="/_next/image?url=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0&w=256&q=75 1x, /_next/image?url=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0&w=640&q=75 2x"
                     style="color: transparent; object-fit: cover;"
                     width="200"
                   />
@@ -96,8 +96,8 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
                     decoding="async"
                     height="200"
                     loading="lazy"
-                    src="/_next/image?url=%2Frecipe1.jpg&w=640&q=75"
-                    srcset="/_next/image?url=%2Frecipe1.jpg&w=256&q=75 1x, /_next/image?url=%2Frecipe1.jpg&w=640&q=75 2x"
+                    src="/_next/image?url=https%3A%2F%2Fencrypted-tbn2.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9&w=640&q=75"
+                    srcset="/_next/image?url=https%3A%2F%2Fencrypted-tbn2.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9&w=256&q=75 1x, /_next/image?url=https%3A%2F%2Fencrypted-tbn2.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9&w=640&q=75 2x"
                     style="color: transparent; object-fit: cover;"
                     width="200"
                   />
