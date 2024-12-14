@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import Recipe from "./Recipe";
-import getStarIcons from "@/lib/getStarIcons";
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),

@@ -82,8 +82,8 @@ exports[`Section: Testing sections Matches snapshot 1`] = `
                     decoding="async"
                     height="200"
                     loading="lazy"
-                    src="/_next/image?url=%2Fpbj.jpg&w=640&q=75"
-                    srcset="/_next/image?url=%2Fpbj.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj.jpg&w=640&q=75 2x"
+                    src="/_next/image?url=%2Fpbj2.jpg&w=640&q=75"
+                    srcset="/_next/image?url=%2Fpbj2.jpg&w=256&q=75 1x, /_next/image?url=%2Fpbj2.jpg&w=640&q=75 2x"
                     style="color: transparent;"
                     width="200"
                   />
