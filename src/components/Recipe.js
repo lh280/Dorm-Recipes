@@ -43,6 +43,8 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const [userReview, setUserReview] = useState(null);
   const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
 
+  const img = (currentRecipe && currentRecipe.recipe_id <= 9) ? `/recipe${currentRecipe.recipe_id}.jpg` : "/food1.jpg";
+
   useEffect(() => {
     if (currentRecipe) {
       setReviews(currentRecipe.recipe_reviews || []);
@@ -158,17 +160,17 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         ) : (
           <Box displayPrint="none">
             <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
-            No reviews yet
+              No reviews yet
             </Typography>
           </Box>
-          
+
         )}
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
-            src={currentRecipe.img ? currentRecipe.img : "/food1.jpg"}
+            src={img} // CHANGE IF IMG HANDLING IS UPDATED
             width={isMobile ? 300 : 400}
             height={isMobile ? 300 : 400}
             alt="Picture of the recipe"
@@ -177,7 +179,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
-          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54'}} >Print</Button>
+          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54' }} >Print</Button>
         </Box>
 
         <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>

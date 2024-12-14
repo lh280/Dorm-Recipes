@@ -71,7 +71,7 @@ describe("Section: Testing sections", () => {
 
   test("Each card displays the correct image alt text", () => {
     render(<Section title="Test Section" recipes={recipes} openRecipe={handler} />);
-    
+
     // If your code uses alt="Picture of the recipe", test that directly:
     const images = screen.getAllByAltText("Picture of the recipe");
     // Expect one image per recipe

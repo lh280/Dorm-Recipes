@@ -26,12 +26,12 @@ export default function AddRecipe() {
           },
         })
 
-  
+
         if (!recipeResponse.ok) throw new Error("Failed to save recipe");
         const recipeData = await recipeResponse.json();
 
 
-        
+
         // Step 2: Save each ingredient and link it to the recipe
         try {
           const ingredientPromises = recipe.ingredients.map(async (ingredient) => {
@@ -54,7 +54,7 @@ export default function AddRecipe() {
               }
               // eslint-disable-next-line no-console
               const ingredientData = await ingredientResponse.json();
-        
+
               const recipeIngredientResponse = await fetch("/api/recipe_ingredients", {
                 method: "POST",
                 body: JSON.stringify({
@@ -80,14 +80,14 @@ export default function AddRecipe() {
               throw error;
             }
           });
-        
+
           await Promise.all(ingredientPromises);
         } catch (error) {
           // eslint-disable-next-line no-console
           console.error("Ingredient linking failed:", error);
           throw new Error("Error saving ingredients or linking them to the recipe.");
         }
-      
+
 
         // Success message
         // eslint-disable-next-line no-alert
@@ -98,7 +98,7 @@ export default function AddRecipe() {
         console.error("Error saving recipe:", error);
         // eslint-disable-next-line no-alert
         alert("Failed to save the recipe. Please try again.");
-        }
+      }
     } else {
       router.back(); // Navigate back if the user cancels
     }

@@ -8,7 +8,7 @@ describe.skip("Editor: Editor tests", () => {
   beforeEach(() => {
     recipe = {
       recipe_id: 0,
-      img: "/pbj.jpg",
+      img: "/recipe0.jpg",
       title: "PB & J Sandwich",
       author: "Noah Price",
       time: 15,
