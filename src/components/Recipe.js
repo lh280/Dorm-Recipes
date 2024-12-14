@@ -68,7 +68,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         reviewCount: totalReviews,
       });
       const userRev = currentRecipe.recipe_reviews.find(
-        (review) => review.id === session.user.id
+        (review) => review.id === session?.user.id
       );
       setUserReview(userRev || null);
     }
