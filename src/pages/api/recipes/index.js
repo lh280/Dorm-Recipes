@@ -54,22 +54,25 @@ router
   .post(async (req, res) => {
   try {
     // eslint-disable-next-line 
-    const { title, description, prep_time, instructions } = req.body;
+    const { title, description, prep_time, instructions, user_id } = req.body;
 
     // Validate the required fields
     // eslint-disable-next-line
-    if (!title || !description || !prep_time || !instructions) {
+    if (!title || !description || !prep_time || !instructions || !user_id) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
     // Save the recipe to the database
-    const newRecipe = await Recipe.query().insertAndFetch({
+    const newRecipe = await Recipe.query().insert({
       title,
       description,
       // eslint-disable-next-line 
       prep_time,
       instructions,
-    });
+      user_id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }).returning('recipe_id');
     
     // eslint-disable-next-line no-console
     console.log("Recipe successfully saved:", newRecipe); // Log the saved recipe

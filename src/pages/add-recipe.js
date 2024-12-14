@@ -12,6 +12,7 @@ export default function AddRecipe() {
         description: recipe.description,
         prep_time: recipe.time,
         instructions: recipe.steps.join("\n"),
+        user_id: 1,
       };
 
       fetch("/api/recipes", {
