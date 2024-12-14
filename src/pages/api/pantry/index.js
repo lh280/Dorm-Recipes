@@ -15,7 +15,7 @@ router
         const cleanQuant = Number(quantity)
         try {
             const newPantryItem = await Pantry.query().insert({
-                user_id,
+                id:user_id,
                 ingredient_id,
                 quantity:cleanQuant,
                 unit
@@ -35,7 +35,7 @@ router
         try {
             const updatedRecord = await Pantry.query()
                 .patch({quantity:newQuantity, unit:newUnit})
-                .where("user_id", user_id)
+                .where("id", user_id)
                 .where("ingredient_id", selectedIng);
             return res.status(201).json(updatedRecord)
         } catch (error) {
@@ -52,7 +52,7 @@ router
         try {
             await Pantry.query()
                 .delete()
-                .where("user_id", user_id)
+                .where("id", user_id)
                 .where("ingredient_id", selectedIng);
             return res.status(201).json({body: "DELETED"})
         } catch (error) {
