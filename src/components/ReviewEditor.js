@@ -25,7 +25,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       setReviewContent(existingReview?.content || '');
       setReviewRating(existingReview?.rating || 0);
     }
-  }, [existingReview]);
+  }, [existingReview, session?.user.id]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
