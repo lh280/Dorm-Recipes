@@ -64,7 +64,7 @@ router
     const { id } = session.user; // Retrieve user ID from session
     // eslint-disable-next-line no-console
     console.log("User ID from session:", id);
-    const { title, description, prep_time, instructions } = req.body;
+    const { title, description, prep_time, servings, instructions } = req.body;
 
     // Validate the required fields
     // eslint-disable-next-line
@@ -83,6 +83,7 @@ router
       description,
       prep_time,
       instructions,
+      servings,
       id, // Use ID from the session 
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

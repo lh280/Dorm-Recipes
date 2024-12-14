@@ -11,6 +11,7 @@ export default function AddRecipe() {
         title: recipe.title,
         description: recipe.description,
         prep_time: recipe.time,
+        servings: recipe.servings,
         instructions: recipe.steps.join("\n"),
       };
 

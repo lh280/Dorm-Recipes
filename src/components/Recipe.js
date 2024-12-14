@@ -95,7 +95,6 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       </Box>
     );
   }
-
   const editDate = currentRecipe
     ? new Date(currentRecipe.updated_at).toLocaleString()
     : "";
