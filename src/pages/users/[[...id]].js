@@ -235,7 +235,7 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
             let content;
             switch (tab) {
                 case "My Reviews":
-                    if(!userInfo.user_reviews){
+                    if(!userInfo.user_reviews || userInfo.user_reviews.length === 0){
                         content = <p>No reviews yet—go check out some recipes!</p>;
                     }
                     else{
