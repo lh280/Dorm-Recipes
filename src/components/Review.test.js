@@ -11,7 +11,7 @@ describe("Review: Review tests", () => {
   const review = {
     review_id: 1,
     recipe_id: 0,
-    user_id: 0,
+    id: 0,
     rating: 4,
     content: "This is a test review.",
     created_at: new Date().toISOString(),
@@ -32,13 +32,17 @@ describe("Review: Review tests", () => {
     expect(screen.getByText(new Date(review.updated_at).toLocaleString())).toBeInTheDocument();
   });
 
-  test.skip("Review renders the correct number of star icons", () => {
+  test("Review renders the correct number of star icons", () => {
     render(<Review review={review} setReviews={setReviews} />);
 
     // Check if the correct number of stars is displayed
-    const starIcons = screen.getByText("Rating: ").nextSibling; // I tried to do it the same way in recipe.test.js using getAllByTestId but it didn't work
-    expect(starIcons).toBeInTheDocument();
-    expect(starIcons.childNodes.length).toBe(review.rating); // Assuming each star is rendered as a child node
+    const starsContainer = screen.getByTestId("star-icons") // I tried to do it the same way in recipe.test.js using getAllByTestId but it didn't work
+    const starCount = starsContainer.children.length;
+    const fullStars = Math.floor(review.rating / 2);
+    const hasHalfStar = review.rating % 2 !== 0;
+    const expectedStarCount = fullStars + (hasHalfStar ? 1 : 0) + (5 - fullStars - (hasHalfStar ? 1 : 0));
+    expect(starCount).toBe(expectedStarCount);
+     
   });
 
   test("Clicking delete button triggers the delete flow", () => {
