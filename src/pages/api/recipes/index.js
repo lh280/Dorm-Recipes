@@ -2,7 +2,10 @@ import { createRouter } from "next-connect";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 import Recipe from "../../../../models/Recipe";
-import { onError, authenticated }  from "../../../lib/middleware";
+// eslint-disable-next-line import/no-duplicates
+import { authenticated } from "../../../lib/middleware"; 
+// eslint-disable-next-line import/no-duplicates
+import onError from "../../../lib/middleware";
 
 const router = createRouter();
 
