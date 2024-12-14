@@ -104,4 +104,40 @@ describe("Editor component", () => {
     expect(mockComplete).toHaveBeenCalledTimes(1);
     expect(mockComplete).toHaveBeenCalledWith();
   });
+  test("calls complete with correct data on save when form is valid", () => {
+    render(<Editor currentRecipe={baseRecipe} complete={mockComplete} />);
+  
+    // Modify some fields
+    fireEvent.change(screen.getByLabelText(/Recipe Title\*/i), {
+      target: { value: "Updated Title" },
+    });
+    fireEvent.change(screen.getByLabelText(/Description\*/i), {
+      target: { value: "Updated description" },
+    });
+  
+    // For numeric fields
+    fireEvent.change(screen.getByLabelText(/Preparation Time/i), {
+      target: { value: 30 },
+    });
+    fireEvent.change(screen.getByLabelText(/Servings/i), {
+      target: { value: 4 },
+    });
+  
+    // Save the recipe
+    fireEvent.click(screen.getByRole("button", { name: /save/i }));
+  
+    expect(mockComplete).toHaveBeenCalledTimes(1);
+    const callData = mockComplete.mock.calls[0][0];
+    expect(callData).toMatchObject({
+      title: "Updated Title",
+      description: "Updated description",
+      time: 30,
+      servings: 4,
+      // etc...
+    });
+  });
+  test("Editor initial snapshot", () => {
+    const { asFragment } = render(<Editor currentRecipe={baseRecipe} complete={mockComplete} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
