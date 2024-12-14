@@ -14,11 +14,11 @@ import RecipeShape from './RecipeShape';
 import getStarIcons from '../lib/getStarIcons';
 
 
-export default function Review({ review, setReviews, currentRecipe}) {
+export default function Review({ review, setReviews, currentRecipe }) {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const disabledButton = review.id === session.user.id;
+  const disabledButton = review.id === session?.user.id;
 
   const handleDelete = (rev) => { // TODO: integrate authorization with delete handling
     // eslint-disable-next-line no-restricted-globals 
@@ -53,7 +53,7 @@ export default function Review({ review, setReviews, currentRecipe}) {
     setReviews();
   };
 
-  const msg = disabledButton ? "Reviews can only be deleted by the publishing user" : "";
+  const msg = !disabledButton ? "Reviews can only be deleted by the publishing user" : "";
 
   return (
     <div>

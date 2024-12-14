@@ -115,7 +115,7 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
                 <CardActionArea>
                   <CardContent>
                     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                      <Image src="/pbj1.jpg" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }} />
+                      <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0" height={200} width={200} alt="Picture of the recipe" style={{ objectFit: "cover" }} />
                     </Box>
                     <Typography textAlign="center"
                       variant="h6"
