@@ -12,7 +12,6 @@ export default function AddRecipe() {
         description: recipe.description,
         prep_time: recipe.time,
         instructions: recipe.steps.join("\n"),
-        user_id: 1,
       };
 
       fetch("/api/recipes", {
@@ -39,7 +38,7 @@ export default function AddRecipe() {
           alert("Failed to save the recipe. Please try again.");
         });
     } else {
-      router.back();
+      router.back(); // Navigate back if the user cancels
     }
   };
 

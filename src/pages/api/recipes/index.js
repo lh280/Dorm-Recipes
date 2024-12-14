@@ -1,6 +1,7 @@
 import { createRouter } from "next-connect";
 import Recipe from "../../../../models/Recipe";
 import onError from "../../../lib/middleware";
+import { getSession } from "next-auth/react";
 
 const router = createRouter();
 
@@ -53,26 +54,45 @@ router
   })
   .post(async (req, res) => {
   try {
-    // eslint-disable-next-line 
-    const { title, description, prep_time, instructions, user_id } = req.body;
+    // eslint-disable-next-line
+    const session = await getSession({ req });
+    // eslint-disable-next-line no-console
+    console.log("Session Debug:", session);
+    // eslint-disable-next-line no-console
+    console.log("Session in /api/recipes:", session);
+
+  
+    if (!session) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { id } = session.user; // Retrieve user ID from session
+    // eslint-disable-next-line no-console
+    console.log("User ID from session:", id);
+    const { title, description, prep_time, instructions } = req.body;
 
     // Validate the required fields
     // eslint-disable-next-line
-    if (!title || !description || !prep_time || !instructions || !user_id) {
+    if (!title || !description || !prep_time || !instructions ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Save the recipe to the database
+    // Get the current max recipe_id and increment
+    const maxRecipe = await Recipe.query().max("recipe_id as max_id").first();
+    const newRecipeId = (maxRecipe?.max_id || 0) + 1;
+
+    // Insert the new recipe
     const newRecipe = await Recipe.query().insert({
+      recipe_id: newRecipeId,
       title,
       description,
-      // eslint-disable-next-line 
       prep_time,
       instructions,
-      user_id,
+      user_id: id, // Use ID from the session
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-    }).returning('recipe_id');
+    });
+
     
     // eslint-disable-next-line no-console
     console.log("Recipe successfully saved:", newRecipe); // Log the saved recipe
