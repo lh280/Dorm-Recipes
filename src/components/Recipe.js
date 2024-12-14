@@ -56,11 +56,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         reviewCount: totalReviews,
       });
       const userRev = currentRecipe.recipe_reviews.find(
-        (review) => review.user_id === currentRecipe.user_id
+        (review) => review.id === session.user.id
       );
       setUserReview(userRev || null);
     }
-  }, [currentRecipe]);
+  }, [currentRecipe, session?.user.id]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
@@ -226,7 +226,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           reviews && reviews.length > 0 ? (
             reviews.map((rev) => (
               <Box key={rev.review_id} sx={{ mb: 3 }}>
-                <Review review={rev} setReviews={setReviews} disabled={!deleteButton} />
+                <Review review={rev} setReviews={setReviews} currentRecipe={currentRecipe} />
               </Box>
             ))
           ) : (
