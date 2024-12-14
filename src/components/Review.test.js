@@ -51,7 +51,6 @@ describe("Review: Review tests", () => {
     render(<Review review={review} setReviews={setReviews} />);
     const deleteButton = screen.getByText("Delete Review");
 
-    // Simulate clicking the delete button
     fireEvent.click(deleteButton);
 
     expect(confirmMock).toHaveBeenCalledWith("Are you sure you want to delete this review?");
@@ -73,7 +72,6 @@ describe("Review: Review tests", () => {
     render(<Review review={review} setReviews={setReviews} />);
     const deleteButton = screen.getByText("Delete Review");
 
-    // Simulate clicking the delete button and canceling
     fireEvent.click(deleteButton);
 
     expect(confirmMock).toHaveBeenCalledWith("Are you sure you want to delete this review?");
@@ -90,7 +88,6 @@ describe("Review: Review tests", () => {
     render(<Review review={review} setReviews={setReviews} />);
     const deleteButton = screen.getByText("Delete Review");
 
-    // Simulate clicking the delete button
     fireEvent.click(deleteButton);
 
     await screen.findByText("Delete Review");

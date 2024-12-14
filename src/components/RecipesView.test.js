@@ -29,7 +29,6 @@ describe("RecipesView: Recipes View tests (Part of search bar?)", () => {
       {
         recipe_id: 1,
         img: "/pbj.jpg",
-        // Use a different title so the test isn't ambiguous
         title: "PB & J Sandwich 2",
         author: "Yahya",
         time: 15,
@@ -91,7 +90,6 @@ describe("RecipesView: Recipes View tests (Part of search bar?)", () => {
   
     rerender(<RecipesView recipes={updatedRecipes} setCurrentRecipe={jest.fn()} />);
   
-    // The updated title should now be in the DOM
     expect(screen.getByText("Updated PB & J Sandwich")).toBeVisible();
   });
 });
