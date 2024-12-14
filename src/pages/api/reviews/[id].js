@@ -21,7 +21,7 @@ router
   .put(async (req, res) => {
     // PUT endpoint for editing a single review
     try {
-      const { review_id, content, rating, recipe_id, user_id } = req.body;
+      const { review_id, content, rating, recipe_id, id } = req.body;
       if (review_id !== parseInt(req.query.id, 10)) {
         res.status(400).end(`URL and review ID do not match`);
         return;
@@ -31,7 +31,7 @@ router
         {content,
         rating,
         recipe_id,
-        user_id,
+        id,
         updated_at: new Date().toISOString(),
         });
       res.status(200).json(updatedRecord);

@@ -3,8 +3,8 @@ exports.up = function (knex) {
   return knex.schema.createTable("Pantry", (table) => {
     // Made singular to be consistent
     table
-      .integer("user_id")
-      .references("user_id")
+      .integer("id")
+      .references("id")
       .inTable("Users")
       .onDelete("CASCADE")
       .notNullable();
@@ -18,7 +18,7 @@ exports.up = function (knex) {
     table.string("unit").notNullable();
 
     // Add composite primary key
-    table.primary(["user_id", "ingredient_id"]);
+    table.primary(["id", "ingredient_id"]);
   });
 };
 

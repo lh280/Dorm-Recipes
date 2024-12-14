@@ -1,19 +1,18 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-
 import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
-
-import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery } from '@mui/material';
-
+import { useSession } from "next-auth/react";
+import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery, Tooltip } from '@mui/material';
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
-export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted }) {
+export default function ReviewEditor({ currentRecipe, existingReview, onReviewSubmitted, disabled }) {
+  const { data: session } = useSession();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  
+
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
   const [reviewRating, setReviewRating] = useState(existingReview?.rating || 0);
   const [fieldErrors, setFieldErrors] = useState({
@@ -22,9 +21,11 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   });
 
   useEffect(() => {
-    setReviewContent(existingReview?.content || '');
-    setReviewRating(existingReview?.rating || 0);
-  }, [existingReview]);
+    if((session.user.id === existingReview?.id)){
+      setReviewContent(existingReview?.content || '');
+      setReviewRating(existingReview?.rating || 0);
+    }
+  }, [existingReview, session.user.id]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
@@ -65,18 +66,19 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
     const reviewData = {
       recipe_id: currentRecipe.recipe_id,
-      user_id: currentRecipe.user_id,
+      id: session.user.id,
       content: reviewContent,
       rating: normalizedRating,
     };
 
+    // TODO: fix how existing review is populated-- dependent on if (session.user.id === review.id) 
     const url = existingReview
       ? `/api/reviews/${existingReview.review_id}` // Update the existing review (PUT request)
       : `/api/reviews`; // Create a new review (POST request)
 
-    const method = existingReview ? "PUT" : "POST"; 
+    const method = existingReview ? "PUT" : "POST";
     const body = JSON.stringify({
-      ...(existingReview ? { review_id: existingReview.review_id } : {}),
+      ...((existingReview && (session.user.id === reviewData.id)) ? { review_id: existingReview.review_id } : {}),
       ...reviewData,
     });
 
@@ -104,72 +106,83 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
     }
   };
 
+  const msg = !disabled ? "" : "Sign in to post or edit a review";
   return (
     <Box display="flex" justifyContent="flex-start" p={2} displayPrint="none">
-      <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
-            {existingReview ? 'Edit Your Review' : 'Write a Review'}
-          </Typography>
-          <form onSubmit={handleReviewSubmit}>
-            <Box display="flex" flexDirection="column" gap={1.5}>
-              <Box display="flex" justifyContent={ isMobile ? "center" : "left"} sx={{ mb: 2 }}>
-                {isMobile ? (
-                <Rating
-                  value={reviewRating}
-                  onChange={handleRatingChange}
-                  precision={1}
-                  max={10}
-                  size="medium"
-                />)
-                : (
-                <Rating
-                  name="half-rating"
-                  value={reviewRating}
-                  onChange={handleRatingChange}
-                  precision={0.5}
-                  max={5}
-                  size="large"
-                />)}
-              </Box>
-                {fieldErrors.rating && (
-                  <Typography color="error" variant="body2">
-                    Please provide a rating.
-                  </Typography>
-                )}
-              <Box>
-                <TextField
-                  id="content"
-                  name="content"
-                  label="Review Content"
-                  value={reviewContent}
-                  onChange={handleReviewChange}
-                  placeholder="Write your review here..."
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                  fullWidth
-                />
-                {fieldErrors.content && (
-                  <Typography color="error" variant="body2">
-                    Please fill out the review content.
-                  </Typography>
-                )}
-              </Box>
-              <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
-                {existingReview ? 'Update Review' : 'Submit Review'}
-              </Button>
-            </Box>
-          </form>
-        </CardContent>
-      </Card>
-    </Box>
+      <Tooltip title={msg}>
+        <span>
+          <div style={{
+            pointerEvents: disabled ? "none" : "auto", // Disable all interactions
+            opacity: disabled ? 0.6 : 1, // Visual cue for disabled state
+            position: "relative",
+          }}>
+            <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  {(existingReview && (session.user.id === existingReview.id)) ? 'Edit Your Review' : 'Write a Review'}
+                </Typography>
+                <form onSubmit={handleReviewSubmit}>
+                  <Box display="flex" flexDirection="column" gap={1.5}>
+                    <Box display="flex" justifyContent={isMobile ? "center" : "left"} sx={{ mb: 2 }}>
+                      {isMobile ? (
+                        <Rating
+                          value={reviewRating}
+                          onChange={handleRatingChange}
+                          precision={1}
+                          max={10}
+                          size="medium"
+                        />)
+                        : (
+                          <Rating
+                            name="half-rating"
+                            value={reviewRating}
+                            onChange={handleRatingChange}
+                            precision={0.5}
+                            max={5}
+                            size="large"
+                          />)}
+                    </Box>
+                    {fieldErrors.rating && (
+                      <Typography color="error" variant="body2">
+                        Please provide a rating.
+                      </Typography>
+                    )}
+                    <Box>
+                      <TextField
+                        id="content"
+                        name="content"
+                        label="Review Content"
+                        value={reviewContent}
+                        onChange={handleReviewChange}
+                        placeholder="Write your review here..."
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                        fullWidth
+                      />
+                      {fieldErrors.content && (
+                        <Typography color="error" variant="body2">
+                          Please fill out the review content.
+                        </Typography>
+                      )}
+                    </Box>
+                    <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2, bgcolor: '#201f54' }}>
+                      {(existingReview && (session.user.id === existingReview.id)) ? 'Update Review' : 'Submit Review'}
+                    </Button>
+                  </Box>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </span>
+      </Tooltip >
+    </Box >
   );
 }
 
 ReviewEditor.propTypes = {
-  currentRecipe: RecipeShape, 
-  existingReview: ReviewShape, 
+  currentRecipe: RecipeShape,
+  existingReview: ReviewShape,
   onReviewSubmitted: PropTypes.func.isRequired,
   review: ReviewShape,
   setReviews: PropTypes.func.isRequired
