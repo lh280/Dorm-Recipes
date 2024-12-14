@@ -64,7 +64,7 @@ describe("Recipe: Recipe tests", () => {
         {
           review_id: 1,
           recipe_id: 0,
-          user_id: 0,
+          id: 0,
           rating: 4,
           content: "Great recipe! Easy to make.",
           created_at: new Date().toISOString(),
@@ -73,7 +73,7 @@ describe("Recipe: Recipe tests", () => {
         {
           review_id: 2,
           recipe_id: 0,
-          user_id: 1,
+          id: 1,
           rating: 3,
           content: "It was okay, a bit too sweet for me.",
           created_at: new Date().toISOString(),
@@ -82,7 +82,7 @@ describe("Recipe: Recipe tests", () => {
         {
           review_id: 3,
           recipe_id: 0,
-          user_id: 2,
+          id: 2,
           rating: 5,
           content: "Absolutely loved it!",
           created_at: new Date().toISOString(),
