@@ -57,13 +57,13 @@ export default function Editor({ currentRecipe, complete }) {
         return newErrors;
       });
     }
-  }; 
+  };
 
   const handleAddIngredient = () => {
     setFormData((prev) => ({
       ...prev,
-      ingredients: [...prev.ingredients, { name: "", quantity: "", unit: ""}],
-    })); 
+      ingredients: [...prev.ingredients, { name: "", quantity: "", unit: "" }],
+    }));
   };
 
   const handleRemoveIngredient = (index) => {
@@ -115,7 +115,7 @@ export default function Editor({ currentRecipe, complete }) {
       steps[index] = value;
       return { ...prev, steps };
     });
-      // Clear error if valid input is provided
+    // Clear error if valid input is provided
     if (errors.steps && value.trim() !== "") {
       setErrors((prevErrors) => {
         const newErrors = { ...prevErrors };
@@ -151,8 +151,8 @@ export default function Editor({ currentRecipe, complete }) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
-  const MAX_IMAGE_SIZE_MB=5;
+
+  const MAX_IMAGE_SIZE_MB = 5;
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -172,13 +172,13 @@ export default function Editor({ currentRecipe, complete }) {
 
     const reader = new FileReader();
     reader.onload = () => {
-      setFormData((prev) => ({...prev, image: reader.result }));
+      setFormData((prev) => ({ ...prev, image: reader.result }));
     };
     reader.readAsDataURL(file);
   };
 
   const handleClearImage = () => {
-    setFormData((prev) => ({...prev, image: "" }));
+    setFormData((prev) => ({ ...prev, image: "" }));
   };
 
   const handleSave = () => {
@@ -222,12 +222,12 @@ export default function Editor({ currentRecipe, complete }) {
           boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)",
         }}
       >
-    
+
         <Typography
           variant="h3"
           textAlign="center"
           gutterBottom
-          sx={{ color: "primary.main", fontWeight: 700 }}
+          sx={{ color: '#201f54', fontWeight: 700 }}
         >
           Add a New Recipe
         </Typography>
@@ -265,204 +265,205 @@ export default function Editor({ currentRecipe, complete }) {
               helperText={errors.description || "Provide a detailed description."}
             />
           </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Preparation Time (minutes)"
-            type="number"
-            fullWidth
-            value={formData.time}
-            onChange={(e) => handleInputChange("time", Math.max(1, e.target.value))}
-            error={!!errors.time}
-            helperText={errors.time}
-            required
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Servings"
-            type="number"
-            fullWidth
-            value={formData.servings}
-            onChange={(e) => handleInputChange("servings", Math.max(1, e.target.value))}
-            error={!!errors.servings}
-            helperText={errors.servings}
-            required
-          />
-        </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Preparation Time (minutes)"
+              type="number"
+              fullWidth
+              value={formData.time}
+              onChange={(e) => handleInputChange("time", Math.max(1, e.target.value))}
+              error={!!errors.time}
+              helperText={errors.time}
+              required
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Servings"
+              type="number"
+              fullWidth
+              value={formData.servings}
+              onChange={(e) => handleInputChange("servings", Math.max(1, e.target.value))}
+              error={!!errors.servings}
+              helperText={errors.servings}
+              required
+            />
+          </Grid>
 
-        {/* Image Upload */}
-        <Grid item xs={12}>
-          <Typography variant="h6">Recipe Image</Typography>
-          <Box display="flex" alignItems="center" gap={2}>
-            <Button 
-              variant="contained" 
-              component="label" 
-              startIcon={<ImageIcon />}
-            >
-              Upload Image
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleImageUpload}
-              />
-            </Button>
-      {formData.image && (
-        <>
-          <Image
-            src={formData.image}
-            alt="Uploaded Recipe"
-            width={100}
-            height={100}
-            style={{ borderRadius: "8px", objectFit: "cover" }}
-          />
-          <IconButton
-            onClick={handleClearImage}
-            sx={{ color: "red", ml: 1 }} 
-          >
-          <ClearIcon />
-        </IconButton>
-      </>
-    )}
-          </Box>
-          <Typography variant="caption" color="textSecondary">
-            Optional, but highly recommended.
-          </Typography>
-        </Grid>
-
-
-        {/* Ingredients */}
-        <Grid item xs={12}>
-          <Typography variant="h6">
-            Ingredients <Typography component="span" color="error">*</Typography>
-          </Typography>
-          {formData.ingredients.map((ingredient, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Box key={index} display="flex" alignItems="flex-start" gap={2} mb={1} sx={{ flexWrap: "wrap"}}>
-              <TextField
-                label="Ingredient Name"
-                value={ingredient.name}
-                onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
-                placeholder={`Ingredient ${index + 1}`}
-                error={!!errors.ingredients && !ingredient.name.trim()}
-                helperText={
-                  !!errors.ingredients &&
-                  !ingredient.name.trim() &&
-                  "Name is required"
-                }
-              />
-              <TextField
-                label="Quantity"
-                type="number"
-                value={ingredient.quantity}
-                onChange={(e) =>
-                  handleIngredientChange(index, "quantity", Math.max(1, e.target.value))
-                }
-                placeholder="Quantity"
-                error={!!errors.ingredients && !ingredient.quantity}
-                helperText={
-                  !!errors.ingredients &&
-                  !ingredient.quantity &&
-                  "Quantity is required"
-                }
-              />
-              <TextField
-                label="Unit"
-                value={ingredient.unit}
-                onChange={(e) => handleIngredientChange(index, "unit", e.target.value)}
-                placeholder="Unit"
-                error={!!errors.ingredients && !ingredient.unit.trim()}
-                helperText={
-                  !!errors.ingredients && !ingredient.unit.trim() && "Unit is required"
-                }
-              />
-              <IconButton
-                color="error"
-                onClick={() => handleRemoveIngredient(index)}
-                sx={{ ml: 1 }}
+          {/* Image Upload */}
+          <Grid item xs={12}>
+            <Typography variant="h6">Recipe Image</Typography>
+            <Box display="flex" alignItems="center" gap={2}>
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<ImageIcon />}
+                sx={{ bgcolor: '#201f54' }}
               >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
+                Upload Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleImageUpload}
+                />
+              </Button>
+              {formData.image && (
+                <>
+                  <Image
+                    src={formData.image}
+                    alt="Uploaded Recipe"
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: "8px", objectFit: "cover" }}
+                  />
+                  <IconButton
+                    onClick={handleClearImage}
+                    sx={{ color: "red", ml: 1 }}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </>
+              )}
             </Box>
-          ))}
-          {errors.ingredients && (
-            <Typography color="error" variant="caption">
-              {errors.ingredients}
+            <Typography variant="caption" color="textSecondary">
+              Optional, but highly recommended.
             </Typography>
-          )}
-          <Button
-            variant="text"
-            startIcon={<AddCircleOutlineIcon />}
-            onClick={handleAddIngredient}
-          >
-            Add Ingredient
-          </Button>
-        </Grid>
+          </Grid>
 
-
-        {/* Cooking Steps */}
-        <Grid item xs={12}>
-          <Typography variant="h6">
-            Cooking Steps <Typography component="span" color="error">*</Typography>
-          </Typography>
-          {formData.steps.map((step, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Box key={index} display="flex" alignItems="center" mb={1}>
-              <TextField
-                fullWidth
-                value={step}
-                onChange={(e) => handleStepChange(index, e.target.value)}
-                placeholder={`Step ${index + 1}`}
-                error={!!errors.steps && step.trim() === ""}
-                helperText={!!errors.steps && step.trim() === "" && "Step cannot be empty"}
-              />
-              <IconButton
-                color="error"
-                onClick={() => handleRemoveStep(index)}
-                sx={{ ml: 1 }}
-              >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
-            </Box>
-          ))}
-          {errors.steps && (
-            <Typography color="error" variant="caption">
-              {errors.steps}
+          {/* Ingredients */}
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              Ingredients <Typography component="span" color="error">*</Typography>
             </Typography>
-          )}
-          <Button
-            variant="text"
-            startIcon={<AddCircleOutlineIcon />}
-            onClick={handleAddStep}
-          >
-            Add Step
-          </Button>
-        </Grid>
-
-
-        {/* Buttons */}
-        <Grid item xs={12} textAlign="center">
-          <Tooltip title="Save your recipe">
+            {formData.ingredients.map((ingredient, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Box key={index} display="flex" alignItems="flex-start" gap={2} mb={1} sx={{ flexWrap: "wrap" }}>
+                <TextField
+                  label="Ingredient Name"
+                  value={ingredient.name}
+                  onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+                  placeholder={`Ingredient ${index + 1}`}
+                  error={!!errors.ingredients && !ingredient.name.trim()}
+                  helperText={
+                    !!errors.ingredients &&
+                    !ingredient.name.trim() &&
+                    "Name is required"
+                  }
+                />
+                <TextField
+                  label="Quantity"
+                  type="number"
+                  value={ingredient.quantity}
+                  onChange={(e) =>
+                    handleIngredientChange(index, "quantity", e.target.value)
+                  }
+                  placeholder="Quantity"
+                  error={!!errors.ingredients && !ingredient.quantity}
+                  helperText={
+                    !!errors.ingredients &&
+                    !ingredient.quantity &&
+                    "Quantity is required"
+                  }
+                />
+                <TextField
+                  label="Unit"
+                  value={ingredient.unit}
+                  onChange={(e) => handleIngredientChange(index, "unit", e.target.value)}
+                  placeholder="Unit"
+                  error={!!errors.ingredients && !ingredient.unit.trim()}
+                  helperText={
+                    !!errors.ingredients && !ingredient.unit.trim() && "Unit is required"
+                  }
+                />
+                <IconButton
+                  color="error"
+                  onClick={() => handleRemoveIngredient(index)}
+                  sx={{ ml: 1 }}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+              </Box>
+            ))}
+            {errors.ingredients && (
+              <Typography color="error" variant="caption">
+                {errors.ingredients}
+              </Typography>
+            )}
             <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSave}
-              disabled={isSaving}
-              startIcon={isSaving && <CircularProgress size={20} />}
-              sx={{ marginRight: 2 }}
+              variant="text"
+              startIcon={<AddCircleOutlineIcon />}
+              onClick={handleAddIngredient}
+              sx={{ color: '#201f54' }}
             >
-              {isSaving ? "Saving..." : "Save"}
+              Add Ingredient
             </Button>
-          </Tooltip>
-          <Tooltip title="Cancel and return">
-            <Button variant="outlined" color="secondary" onClick={() => complete()}>
-              Cancel
+          </Grid>
+
+
+          {/* Cooking Steps */}
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              Cooking Steps <Typography component="span" color="error">*</Typography>
+            </Typography>
+            {formData.steps.map((step, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Box key={index} display="flex" alignItems="center" mb={1}>
+                <TextField
+                  fullWidth
+                  value={step}
+                  onChange={(e) => handleStepChange(index, e.target.value)}
+                  placeholder={`Step ${index + 1}`}
+                  error={!!errors.steps && step.trim() === ""}
+                  helperText={!!errors.steps && step.trim() === "" && "Step cannot be empty"}
+                />
+                <IconButton
+                  color="error"
+                  onClick={() => handleRemoveStep(index)}
+                  sx={{ ml: 1 }}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+              </Box>
+            ))}
+            {errors.steps && (
+              <Typography color="error" variant="caption">
+                {errors.steps}
+              </Typography>
+            )}
+            <Button
+              variant="text"
+              startIcon={<AddCircleOutlineIcon />}
+              onClick={handleAddStep}
+              sx={{ color: '#201f54' }}
+            >
+              Add Step
             </Button>
-          </Tooltip>
+          </Grid>
+
+
+          {/* Buttons */}
+          <Grid item xs={12} textAlign="center">
+            <Tooltip title="Save your recipe">
+              <Button
+                variant="contained"
+                onClick={handleSave}
+                disabled={isSaving}
+                startIcon={isSaving && <CircularProgress size={20} />}
+                sx={{ marginRight: 2, bgcolor: '#201f54' }}
+              >
+                {isSaving ? "Saving..." : "Save"}
+              </Button>
+            </Tooltip>
+            <Tooltip title="Cancel and return">
+              <Button variant="outlined" sx={{ borderColor: '#201f54', color: '#201f54' }} onClick={() => complete()}>
+                Cancel
+              </Button>
+            </Tooltip>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
-    </Box>
+      </Box>
+    </Box >
   );
 }
 
