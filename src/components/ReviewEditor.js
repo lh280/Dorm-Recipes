@@ -21,11 +21,11 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
   });
 
   useEffect(() => {
-    if((session.user.id === existingReview?.id)){
+    if((session?.user.id === existingReview?.id)){
       setReviewContent(existingReview?.content || '');
       setReviewRating(existingReview?.rating || 0);
     }
-  }, [existingReview, session.user.id]);
+  }, [existingReview]);
 
   const handleReviewChange = (e) => {
     const { value } = e.target;
@@ -119,7 +119,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
             <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
-                  {(existingReview && (session.user.id === existingReview.id)) ? 'Edit Your Review' : 'Write a Review'}
+                  {(existingReview && (session?.user.id === existingReview.id)) ? 'Edit Your Review' : 'Write a Review'}
                 </Typography>
                 <form onSubmit={handleReviewSubmit}>
                   <Box display="flex" flexDirection="column" gap={1.5}>
@@ -167,7 +167,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
                       )}
                     </Box>
                     <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2, bgcolor: '#201f54' }}>
-                      {(existingReview && (session.user.id === existingReview.id)) ? 'Update Review' : 'Submit Review'}
+                      {(existingReview && (session?.user.id === existingReview.id)) ? 'Update Review' : 'Submit Review'}
                     </Button>
                   </Box>
                 </form>
