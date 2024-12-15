@@ -1,6 +1,9 @@
 import { createRouter } from "next-connect";
 import Recipe from "../../../../models/Recipe";
+// eslint-disable-next-line import/no-duplicates
 import onError from "../../../lib/middleware";
+// eslint-disable-next-line import/no-duplicates
+import { authenticated } from "../../../lib/middleware";
 
 const router = createRouter();
 
@@ -19,7 +22,7 @@ router
     }
   })
 
-  .put(async (req, res) => {
+  .put(authenticated, async (req, res) => {
     // PUT endpoint for editing a single recipe
     try {
       const { id, ...updatedRecipe } = req.body;
@@ -39,7 +42,7 @@ router
     }
   })
 
-  .delete(async (req, res) => {
+  .delete(authenticated, async (req, res) => {
     const recipeID = parseInt(req.query.id, 10);
     try {
       // check if recipe exists before deletion
