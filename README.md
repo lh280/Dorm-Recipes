@@ -6,7 +6,7 @@
 
 https://lincoln.csci312.dev, available through [go/dormrecipes/](https://go.middlebury.edu/dormrecipes/)
 
-Dorm Recipes: Making dorm cooking simple and enjoyable.
+Dorm Recipes: Making dorm cooking simple and enjoyable. 🧑‍🍳
 
 ### Description
 
