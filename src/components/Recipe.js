@@ -31,6 +31,16 @@ function parseInstructions(instructions) {
 
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    // Check if the 'reloaded' query parameter exists
+    if (!url.searchParams.has("reloaded")) {
+      url.searchParams.set("reloaded", "true");
+      window.location.replace(url.toString());
+    }
+  }, []);
+
   const { data: session, status } = useSession();
   const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";

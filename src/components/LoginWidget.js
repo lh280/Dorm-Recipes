@@ -14,6 +14,7 @@ export default function LoginWidget() { // TODO: route back to home page on sign
                     color: "white",
                     fontSize: isMobile ? "0.7rem" : "1rem",
                     minWidth: "80px",
+                    maxHeight: "30px",
                     "&:hover": {
                         backgroundColor: "#3f3d89",
                     }
@@ -29,6 +30,7 @@ export default function LoginWidget() { // TODO: route back to home page on sign
                 color: "white",
                 fontSize: isMobile ? "0.7rem" : "1rem",
                 minWidth: "80px",
+                maxHeight: "30px",
                 "&:hover": {
                     backgroundColor: "#3f3d89",
                 }

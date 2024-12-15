@@ -23,6 +23,7 @@ exports.up = function (knex) {
       .notNullable()
       .checkIn([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     table.text("content");
+    table.string("user");
     table.timestamps(true, true);
   });
 };

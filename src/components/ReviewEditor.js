@@ -15,17 +15,17 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
   const [reviewContent, setReviewContent] = useState(existingReview?.content || '');
   // eslint-disable-next-line no-unsafe-optional-chaining
-  const [reviewRating, setReviewRating] = useState((isMobile ? existingReview?.rating : (existingReview?.rating)/2) || 0);
+  const [reviewRating, setReviewRating] = useState((isMobile ? existingReview?.rating : (existingReview?.rating) / 2) || 0);
   const [fieldErrors, setFieldErrors] = useState({
     content: false,
     rating: false,
   });
 
   useEffect(() => {
-    if((session?.user.id === existingReview?.id)){
+    if ((session?.user.id === existingReview?.id)) {
       setReviewContent(existingReview?.content || '');
       // eslint-disable-next-line no-unsafe-optional-chaining
-      setReviewRating((isMobile ? existingReview?.rating : (existingReview?.rating)/2) || 0);
+      setReviewRating((isMobile ? existingReview?.rating : (existingReview?.rating) / 2) || 0);
     }
   }, [isMobile, existingReview, session?.user.id]);
 
@@ -70,6 +70,7 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
       recipe_id: currentRecipe.recipe_id,
       id: session.user.id,
       content: reviewContent,
+      user: session?.user.email,
       rating: normalizedRating,
     };
 

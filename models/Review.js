@@ -40,6 +40,7 @@ export default class Review extends BaseModel {
         id: { type: "integer" },
         rating: { type: "integer", minimum: 1, maximum: 10 },
         content: { type: "string" },
+        user: { type: "string" },
         created_at: { type: "string", format: "date-time" },
         updated_at: { type: "string", format: "date-time" },
       },
