@@ -25,8 +25,8 @@ router
     // PUT endpoint for editing a single review
     try {
       const { review_id, content, rating, recipe_id, id, user } = req.body;
-      if (review_id !== parseInt(req.query.id, 10)) {
-        res.status(400).end(`URL and review ID do not match`);
+      if (review_id !== parseInt(req.query.review_id, 10)) {
+        res.status(400).json({error: "URL and id do not match."})
         return;
       }
       const updatedRecord = await Review.query().updateAndFetchById(
