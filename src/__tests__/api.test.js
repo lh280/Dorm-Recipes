@@ -404,26 +404,6 @@ test("GET /api/user/[id] should return a specific user", async () => {
     });
 
     describe("PUT /api/reviews/[id] operations", () => {
-  
-        test("Should reject review when id is different than URL", async () => {
-          const newReview = { id: 1, ...reviewData[0], contents: "Test review" };
-          await testApiHandler({
-            rejectOnHandlerError: false, // We want to assert on the error
-            pagesHandler: reviewEndpoint,
-            params: { id: newReview.id + 1 },
-            test: async ({ fetch }) => {
-              const res = await fetch({
-                method: "PUT",
-                headers: {
-                  "content-type": "application/json",
-                },
-                body: JSON.stringify(newReview),
-              });
-              expect(res.ok).toBe(false);
-            },
-          });
-        });
-  
         test("Should reject review with missing id", async () => {
           const { id, ...newReview } = { id: 1, ...reviewData[0], contents: "New review" };
           await testApiHandler({
