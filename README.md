@@ -47,6 +47,12 @@ Development dependencies installed with:
 💻 npm install -D eslint-import-resolver-alias
 ```
 
+Testing dependencies installed with:
+```
+💻 npm i -S next-auth
+💻 npm i -S next-test-api-route-handler
+```
+
 Other dependencies installed with:
 
 ```
