@@ -8,7 +8,7 @@
 */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/prop-types */ // TODO: delete - TEMPORARY for CurrentUser
+/* eslint-disable react/prop-types */
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -98,7 +98,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   };
 
   const handleReturn = () => {
-    router.back();
+    router.push("/");
   };
 
   if (!currentRecipe) {
@@ -135,13 +135,13 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       };
     });
 
-  const back = "\u2B05 Back";
+  const toHome = "\u2B05 to home";
 
   return (
     <Box sx={{ padding: 4 }}>
       <Box displayPrint="none">
         <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
-          {back}
+          {toHome}
         </Button>
       </Box>
 

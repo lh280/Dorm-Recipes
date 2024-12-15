@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import User from "../../../../models/User";
-// import { signOut } from "next-auth/react";
-// import { useRouter } from "next/router";
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -43,10 +41,6 @@ export const authOptions = {
             session.user.id = token.id;
             return session;
         },
-        // async signOut() {
-        //     const router = useRouter();
-        //     router.push("/");
-        // }
     }
 }
 

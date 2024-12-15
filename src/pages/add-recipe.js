@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 import Editor from "@/components/Editor";
 
 export default function AddRecipe() {
   const router = useRouter();
+  const { data: session } = useSession({ required: true }); // eslint-disable-line no-unused-vars
 
   const handleComplete = async (recipe) => {
     if (recipe) {
@@ -100,7 +102,7 @@ export default function AddRecipe() {
         alert("Failed to save the recipe. Please try again.");
       }
     } else {
-      router.back(); // Navigate back if the user cancels
+      router.push("/"); // Navigate to home if the user cancels
     }
   };
 
