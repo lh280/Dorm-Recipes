@@ -6,6 +6,8 @@
 
 https://lincoln.csci312.dev, available through [go/dormrecipes/](https://go.middlebury.edu/dormrecipes/)
 
+Dorm Recipes: Making dorm cooking simple and enjoyable. 🧑‍🍳
+
 ### Description
 
 This is an application to help connect students who want to cook around campus through recipes.
@@ -18,16 +20,16 @@ This is an application to help connect students who want to cook around campus t
   - recipe recommendations by section
 - search page
 - recipe page
-  - edit recipe
   - delete recipe
+  - add, edit, delete review
 - add recipe page
 - profile page
 
 #### Users will be able to:
 
-- upload their own recipes with title, photo, description, prep & cook time, ingredients, and steps
-  - view and edit their own recipes
-  - view the ratings others have given them
+- upload their own recipes with title, description, prep & cook time, ingredients, and steps
+  - view and delete their own recipes
+  - view the ratings and reviews others have given them
 - see the reviews they have left on other recipes
 - keep a personal pantry of their own ingredients
 - see other users' recipes (title, author, other ratings, etc.) 
@@ -37,34 +39,25 @@ This is an application to help connect students who want to cook around campus t
 
 ## Creation
 
-This project skeleton has been setup similar to our assignments and practicals. It is a Next.JS application, created with create-next-app `💻 npx create-next-app@latest`, which uses Jest and Testing Library for testing, ESLint for static analysis, Prettier for styling, and is configured to use GitHub actions for testing pull requests.
+### Necessary environment files
 
-Development dependencies installed with:
+Make sure you have in .env.local:
+- DATABASE_URL
+- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_SECRET
+- NEXTAUTH_SECRET
+- NEXTAUTH_URL
 
-```
-💻 npm install -D jest jest-environment-jsdom husky lint-staged prettier eslint-config-prettier @testing-library/react @testing-library/jest-dom cross-env
-💻 npx install-peerdeps --dev eslint-config-airbnb
-💻 npm install -D eslint-import-resolver-alias
-```
-
-Other dependencies installed with:
-
-```
-💻 npm install -S prop-types
-```
-
-### Additional tools you might need
-
-#### Mocking fetch
-
-Tools for mocking fetch can be installed with
-
-```
-💻 npm install -D fetch-mock-jest node-fetch@2.6.7
-```
-
-Note we need to pin the `node-fetch` version due to breaking changes when used with Jest in newer versions.
-
+...and in .env.development.local:
+- DB_USER
+- DB_PASSWORD
+- DB_NAME
+- DB_HOST
+- DB_PORT
+- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_SECRET
+- NEXTAUTH_SECRET
+- NEXTAUTH_URL
 
 ### Build Local Server
 
@@ -74,25 +67,82 @@ Note we need to pin the `node-fetch` version due to breaking changes when used w
 💻 npm run start 
 ```
 
-### Development Server
+### Run Development Server
 
 1. Run Docker on your machine.
+2. Install dependencies:
+```
+💻 npm install 
+```
 
-2. For **Windows**:
+3. For **Windows**:
 ```
 💻 npm run predev
 💻 npm run dev-windows
 💻 npx knex migrate:latest
 💻 npx knex seed:run
 ```
-& before stopping the server:
+& **before** stopping the server:
 ```
 💻 npm run postdev
 ```
 
-2. For **Mac**:
+3. For **Mac**:
 ```
 💻 npm run dev
 💻 npx knex migrate:latest
 💻 npx knex seed:run
+```
+
+**NOTE:** if changes have been made to the database since last running, you may need to run:
+```
+💻 npx knex migrate:rollback
+```
+before you can ```migrate:latest```.
+
+### Testing
+
+**NOTE:** Docker must first be running on your machine for tests to function properly; else, will give error ```Could not find a working container runtime strategy``` and fail some tests.
+```
+💻 npm test
+💻 npm run lint
+```
+
+### Deploying
+
+1. Run:
+```
+💻 git checkout main
+💻 git pull origin main
+```
+
+**NOTE:** If **you** have never deployed **on your computer** before, run this command. You should only run this command ONCE, the first time you deploy on **your machine**:
+```
+💻 git remote add deploy <ssh-name>
+```
+**NOTE:** If your **app** has **not yet been deployed** before, run these commands. The ```secret-value```s should be retrieved from env.local. You should only run these commands **ONCE**, the **first time you deploy the app**:
+```
+💻 ssh git@csci312.dev secrets lincoln DATABASE_URL=<secret-value>
+💻 ssh git@csci312.dev secrets lincoln GOOGLE_CLIENT_ID=<secret-value>
+💻 ssh git@csci312.dev secrets lincoln GOOGLE_CLIENT_SECRET=<secret-value>
+💻 ssh git@csci312.dev secrets lincoln NEXTAUTH_SECRET=<secret-value>
+💻 ssh git@csci312.dev secrets lincoln NEXTAUTH_URL=<secret-value>
+```
+
+2. 
+For **Windows**:
+```
+💻 cross-env NODE_ENV=production npx knex migrate:latest
+💻 cross-env NODE_ENV=production npx knex seed:run
+```
+2. For **Mac**:
+```
+💻 NODE_ENV=production npx knex migrate:latest
+💻 NODE_ENV=production npx knex seed:run
+```
+
+3. Run:
+```
+💻 npm run build
+💻 git push deploy main
 ```
