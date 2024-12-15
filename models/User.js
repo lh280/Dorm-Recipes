@@ -23,7 +23,7 @@ export default class User extends BaseModel {
     const newData = { ...data, id: nextId };
 
     // Insert the new user
-    return await this.query().insertAndFetch(newData);
+    return await this.query().insertAndFetch(newData); // eslint-disable-line
   }
 
   // Use a function for relationMappings to avoid circular dependency issues
@@ -66,7 +66,7 @@ export default class User extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["username"/*, "user_id"*/], // TODO: un-comment out
+      required: ["username"],
       properties: {
         id: { type: "integer" },
         username: { type: "string", minLength: 1, maxLength: 50 },

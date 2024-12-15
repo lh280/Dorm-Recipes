@@ -5,6 +5,7 @@
         "id": 0,
         "rating": 4,
         "content": "BLAND! While this is a decent pasta recipe, it totally lacks flavor. Would make again in a pinch, but its definitely needs some doctoring.",
+        "user": "cmcdermott@middlebury.edu",
         "created_at": "1 Feb 2024 03:00:00 GMT",
         "updated_at": "3 Feb 2024 12:00:00 GMT"
     },
@@ -14,6 +15,7 @@
         "id": 1,
         "rating": 10,
         "content": "Absolutely love this recipe! Perfect weekend breakfast or bunch! I used fresh wholemade sourdough and it was to die for. If you have it, top with a little bit of shaved parmiganparmigiano reggiano",
+        "user": "John@gmail.com",
         "created_at": "6 Feb 2024 06:00:00 GMT",
         "updated_at": "7 Feb 2024 01:10:00 GMT"
     },
@@ -23,6 +25,7 @@
         "id": 2,
         "rating": 8,
         "content": "Great option for a healthy breakfast in a pinch. I like to add Honey to mine for extra Sweetness.",
+        "user": "Jill@gmail.com",
         "created_at": "4 Feb 2024 06:00:00 GMT",
         "updated_at": "4 Feb 2024 06:10:00 GMT"
     },
@@ -32,6 +35,7 @@
         "id": 3,
         "rating": 1,
         "content": "I didnt have milk so I used french vanilla coffee creamer instead. Other than that, I followed the recipe exactly. The Mac and cheese was incredibly sweet and almost inedible. Will not try again!",
+        "user": "Jeff@gmail.com",
         "created_at": "3 Feb 2024 06:00:00 GMT",
         "updated_at": "3 Feb 2024 06:01:00 GMT"
     },
@@ -41,6 +45,7 @@
         "id": 4,
         "rating": 5,
         "content": "While the sandwich is good, to compare it to a Croque Monsuir is a bit of a stretch. Its just a ham and cheese sandwich",
+        "user": "Jack@gmail.com",
         "created_at": "1 Feb 2024 03:00:00 GMT",
         "updated_at": "3 Feb 2024 12:00:00 GMT"
     }

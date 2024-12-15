@@ -59,6 +59,9 @@ export default function Review({ review, setReviews, currentRecipe }) {
     <div>
       <Box key={review.review_id} sx={{ marginBottom: 3 }}>
         <Typography variant="body1">
+          <Typography color="grey">
+            {review.user}
+          </Typography>
           <strong>Rating:</strong> {getStarIcons(review.rating)}
           <p>{review.content}</p>
           <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
