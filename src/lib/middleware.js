@@ -4,9 +4,6 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import User from "../../models/User";
 
-// A very simple error handler. In a production setting you would
-// not want to send information about the inner workings of your
-// application or database to the client.
 export default function onError(error, request, response, next) {
   if (response.headersSent) {
     next(error);

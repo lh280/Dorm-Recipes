@@ -8,7 +8,9 @@
 import { useRouter } from "next/router";
 import { useSession } from 'next-auth/react';
 import PropTypes from "prop-types";
+
 import { Box, Typography, Button, Tooltip } from "@mui/material"
+
 import ReviewShape from './ReviewShape';
 import RecipeShape from './RecipeShape';
 import getStarIcons from '../lib/getStarIcons';
@@ -20,7 +22,7 @@ export default function Review({ review, setReviews, currentRecipe }) {
 
   const disabledButton = review.id === session?.user.id;
 
-  const handleDelete = (rev) => { // TODO: integrate authorization with delete handling
+  const handleDelete = (rev) => { 
     // eslint-disable-next-line no-restricted-globals 
     const result = confirm("Are you sure you want to delete this review?"); // eslint-disable-line no-alert
     if (!result) {

@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button, useTheme, useMediaQuery } from "@mui/material";
 
-export default function LoginWidget() { // TODO: route back to home page on sign out
+export default function LoginWidget() { 
     const { data: session } = useSession();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
