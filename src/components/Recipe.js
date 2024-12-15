@@ -98,7 +98,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   };
 
   const handleReturn = () => {
-    router.back();
+    router.push("/");
   };
 
   if (!currentRecipe) {
@@ -135,13 +135,13 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       };
     });
 
-  const back = "\u2B05 Back";
+  const toHome = "\u2B05 to home";
 
   return (
     <Box sx={{ padding: 4 }}>
       <Box displayPrint="none">
         <Button variant="contained" onClick={handleReturn} sx={{ marginBottom: 2, bgcolor: '#201f54' }}>
-          {back}
+          {toHome}
         </Button>
       </Box>
 

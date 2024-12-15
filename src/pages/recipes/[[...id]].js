@@ -51,7 +51,7 @@ export default function RecipeView({
         .then(() => {
           // eslint-disable-next-line no-alert
           alert("Recipe deleted successfully");
-          router.back();
+          router.push("/");
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -61,11 +61,11 @@ export default function RecipeView({
     else if (!id) {
       // eslint-disable-next-line no-alert
       alert("No such recipe found: returning to homepage");
-      router.back(); // Go back if no id found
+      router.push("/"); // Go back if no id found
     }
   };
   const title = `Dorm Recipes | ${(currentRecipe?.title || "Recipe")}`
-  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id); 
+  const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const msg = !deleteButton ? "Recipes can only be deleted by the publishing user" : "";
 
   return (
