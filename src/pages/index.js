@@ -1,15 +1,18 @@
-import Image from "next/image";
 import PropTypes from "prop-types";
 import Head from "next/head";
+
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { Typography, Box, Button, Container, Card, CardActionArea, CardContent, useTheme, useMediaQuery, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
+
+import { Typography, Box, Button, Container, useTheme, useMediaQuery, Tooltip } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/material/theme";
+
 import Section from "@/components/Section";
 import Header from "@/components/Header";
+import RecipeCard from "@/components/RecipeCard";
 
 export default function Home({ setCurrentRecipe, viewAccount }) {
   const { data: session, status } = useSession(); // eslint-disable-line no-unused-vars
@@ -17,6 +20,7 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
   const router = useRouter();
 
   const [fetchedRecipes, setFetchedRecipes] = useState([]);
+  const [featuredRecipe, setFeaturedRecipe] = useState(null);
 
   const mTheme = useTheme();
   const isMobile = useMediaQuery(mTheme.breakpoints.down("sm"));
@@ -31,6 +35,9 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
         }
         const data = await res.json();
         setFetchedRecipes(data)
+
+        const featured = data.find(recipe => recipe.recipe_id === 0);
+        setFeaturedRecipe(featured);
 
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -51,11 +58,8 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
     sections = demoSections.map(({ title, recipes }) => (<Section key={title} title={title} recipes={recipes} openRecipe={setCurrentRecipe} />));
   }
 
-
-  // Using current Recipe as a place holder - TODO: is this still true?
   const msg = disabled ? "Sign in to post a new recipe" : "";
 
-  // Using current Recipe as a place holder
   return (
     <div>
       <Head>
@@ -66,7 +70,7 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main style={{ paddingTop: '80px' }}>
-          <Header setCurrentRecipe={setCurrentRecipe} viewAccount={() => { viewAccount(session.user.id) }} /> {/* TODO: fix to match current user with auth */}
+          <Header setCurrentRecipe={setCurrentRecipe} viewAccount={() => { viewAccount(session.user.id) }} />
           <Container sx={{ paddingY: 0 }}>
             <Box display="flex" justifyContent="center" marginTop={4} >
               <Tooltip title={msg} slotProps={{
@@ -98,42 +102,17 @@ export default function Home({ setCurrentRecipe, viewAccount }) {
             <Typography variant={isMobile ? "h4" : "h3"} gutterBottom>
               Featured Recipe
             </Typography>
-            <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
-              <Card
-                onClick={() => { setCurrentRecipe(0); }} // TODO: change how this recipe is rendered to be dynamic
-                variant="outlined"
-                sx={{
-                  maxWidth: 300,
-                  width: "100%",
-                  margin: "0 auto",
-                  "&:hover": {
-                    backgroundColor: "action.hover",
-                    boxShadow: 3,
-                  }
-                }}
-              >
-                <CardActionArea>
-                  <CardContent>
-                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mb: 2 }}>
-                      <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0" height={225} width={225} alt="Picture of the recipe" style={{ objectFit: "cover" }} />
-                    </Box>
-                    <Typography textAlign="center"
-                      variant="h6"
-                      sx={{
-                        maxWidth: 200,
-                        whiteSpace: "normal", // allows wrapping
-                        overflowWrap: "break-word", // break long words to fit in card
-                        wordBreak: "break-word",
-                        margin: "0 auto" // center-align in container
-                      }}>
-                      PB & J
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" textAlign="center">
-                      The timeless classic!
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+            <Box 
+              display="flex" 
+              justifyContent="center" 
+              alignItems="center" 
+              sx={{ height: "auto", textAlign: "center" }} 
+            >
+              {featuredRecipe ? (
+                <RecipeCard recipe={featuredRecipe} setCurrentRecipe={setCurrentRecipe} size={275} />
+              ) : (
+                <Typography>Loading featured recipe...</Typography>
+              )}
             </Box>
           </Container>
           <Container sx={{ paddingY: 4 }}>

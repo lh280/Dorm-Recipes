@@ -12,16 +12,9 @@ import PropTypes from "prop-types";
 
 import { useTheme, useMediaQuery } from "@mui/material";
 import Grid from '@mui/material/Grid2';
+
 import RecipeShape from "./RecipeShape";
 import RecipeCard from './RecipeCard';
-
-/* 
-  TODO: 
-  fix 
-    "Failed prop type: The prop `recipes[0].recipe_id` is marked as required in `RecipesView`, but its value is `undefined`."" 
-    and "Warning: Failed prop type: The prop `setCurrentRecipe` is marked as required in `RecipesView`, but its value is `undefined`."
-    and "Warning: Received `true` for a non-boolean attribute `item`."
-*/
 
 export default function RecipesView({ recipes, setCurrentRecipe }) {
 

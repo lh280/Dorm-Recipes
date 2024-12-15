@@ -6,7 +6,6 @@
  */
 
 import { useSession, signIn } from "next-auth/react";
-// import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Toolbar, Typography } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";

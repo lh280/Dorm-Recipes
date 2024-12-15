@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Image from "next/image"
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  Paper,
-  Divider,
-  Tooltip,
-  CircularProgress,
-  IconButton,
-} from "@mui/material";
+import {  Box, Typography, TextField, Button, Grid, Paper, Divider, Tooltip, CircularProgress, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ImageIcon from "@mui/icons-material/Image";

@@ -15,6 +15,7 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
 
     const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
 
+    // images for seed recipes
     const imgLinks = ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0",
         "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCGdEfcCk4xBvTacxKVJHJRqSkwsADTwkHq4ZqOapMj_04493f",
@@ -30,7 +31,7 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
     const img = (recipe && recipe.recipe_id <= 9) ? imgLinks[recipe.recipe_id] : "/food1.jpg";
 
     useEffect(() => {
-        if (recipe && recipe.recipe_id) {
+        if (recipe && recipe.recipe_id !== null && recipe.recipe_id !== undefined) {
             fetch(`/api/recipes/${recipe.recipe_id}`)
                 .then(res => res.json())
                 .then(data => {
@@ -139,7 +140,7 @@ export default function RecipeCard({ recipe, setCurrentRecipe, size }) {
                             <Typography variant="body2" fontSize={isMobile ? ".7rem" : "1rem"}>No reviews yet</Typography>
                         )}
                     </Box>
-                    {/* TODO?: add: prep_time, servings, updated_at? */}
+                    {/* POSSIBLE TODO?: add: prep_time, servings, updated_at */}
                 </CardContent>
             </CardActionArea>
         </Card>

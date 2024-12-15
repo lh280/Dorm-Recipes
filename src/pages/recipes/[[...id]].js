@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { Button, Box, Container, Tooltip } from "@mui/material";
 import RecipeShape from "@/components/RecipeShape";
 import Recipe from "@/components/Recipe";

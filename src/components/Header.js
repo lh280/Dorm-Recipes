@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import PropTypes from "prop-types";
+
 import { Toolbar, Typography, Avatar, Box, Tooltip, useTheme, useMediaQuery } from "@mui/material";
-import Image from "next/image";
 import { blue } from "@mui/material/colors";
+import Image from "next/image";
+
 import SearchBar from "@/components/SearchBar";
 import LoginWidget from "./LoginWidget";
 
@@ -18,6 +20,7 @@ export default function Header({ setCurrentRecipe, viewAccount }) {
       return;
     }
     if (viewAccount) {
+      localStorage.removeItem("hasReloaded");
       viewAccount(session.user.id);
     } else {
       // eslint-disable-next-line no-console
@@ -25,19 +28,21 @@ export default function Header({ setCurrentRecipe, viewAccount }) {
     }
   };
   const goHome = () => {
+    localStorage.removeItem("hasReloaded");
     setCurrentRecipe();
   };
   const handleSearch = (q) => {
+    localStorage.removeItem("hasReloaded");
     router.push(`/search?q=${q}`);
   };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const avatarSymbol = (
-    <Image src="/avatar-icon.svg" width={40} height={40} />
+    <Image src="/avatar-icon.svg" width={40} height={40} alt="User icon"/>
   );
 
-  const avatarRender = status !== "authenticated" ? avatarSymbol : session.user.email[0];
+  const avatarRender = status !== "authenticated" ? avatarSymbol : session?.user?.email?.[0] || avatarSymbol;
   const msg = status !== "authenticated" ? "Sign in to view user page" : "";
 
   return (
@@ -118,6 +123,5 @@ export default function Header({ setCurrentRecipe, viewAccount }) {
 
 Header.propTypes = {
   setCurrentRecipe: PropTypes.func.isRequired,
-  // currentUser: UserShape,
   viewAccount: PropTypes.func
 };

@@ -6,15 +6,18 @@
   props:
     currentRecipe - The recipe to render
 */
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useSession } from "next-auth/react";
+import PropTypes from "prop-types";
+
 import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material"
 import Image from "next/image";
+
 import RecipeShape from "./RecipeShape";
 import ReviewEditor from "./ReviewEditor";
 import Review from "./Review";
@@ -31,16 +34,6 @@ function parseInstructions(instructions) {
 
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
-  useEffect(() => {
-    const url = new URL(window.location.href);
-
-    // Check if the 'reloaded' query parameter exists
-    if (!url.searchParams.has("reloaded")) {
-      url.searchParams.set("reloaded", "true");
-      window.location.replace(url.toString());
-    }
-  }, []);
-
   const { data: session, status } = useSession();
   const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";
@@ -52,7 +45,22 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const [reviews, setReviews] = useState([]);
   const [userReview, setUserReview] = useState(null);
   const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
+  const [reloaded, setReloaded] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasReloaded = localStorage.getItem("hasReloaded");
+
+      if (!hasReloaded) {
+        localStorage.setItem("hasReloaded", "true");
+        window.location.reload();
+      } else if (!reloaded) {
+        setReloaded(true);
+      }
+    }
+  }, [reloaded]);
+
+  // images for seed recipes
   const imgLinks = ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0",
     "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCGdEfcCk4xBvTacxKVJHJRqSkwsADTwkHq4ZqOapMj_04493f",
@@ -98,6 +106,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   };
 
   const handleReturn = () => {
+    localStorage.removeItem("hasReloaded");
     router.push("/");
   };
 
@@ -135,7 +144,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
       };
     });
 
-  const toHome = "\u2B05 to home";
+  const toHome = "\u2B05 To Home";
 
   return (
     <Box sx={{ padding: 4 }}>

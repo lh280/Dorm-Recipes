@@ -2,9 +2,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
 import { useState, useEffect } from 'react';
-import PropTypes from "prop-types";
 import { useSession } from "next-auth/react";
+import PropTypes from "prop-types";
+
 import { TextField, Button, Typography, Box, Rating, Card, CardContent, useTheme, useMediaQuery, Tooltip } from '@mui/material';
+
 import RecipeShape from './RecipeShape';
 import ReviewShape from './ReviewShape';
 
@@ -111,15 +113,23 @@ export default function ReviewEditor({ currentRecipe, existingReview, onReviewSu
 
   const msg = !disabled ? "" : "Sign in to post or edit a review";
   return (
-    <Box display="flex" justifyContent="flex-start" p={2} displayPrint="none">
+    <Box display="flex" justifyContent= {isMobile ? "center": "flex-start"} p={2} displayPrint="none">    
       <Tooltip title={msg}>
         <span>
           <div style={{
-            pointerEvents: disabled ? "none" : "auto", // Disable all interactions
-            opacity: disabled ? 0.6 : 1, // Visual cue for disabled state
+            pointerEvents: disabled ? "none" : "auto", // disable all interactions
+            opacity: disabled ? 0.6 : 1, // visual cue for disabled state
             position: "relative",
           }}>
-            <Card sx={{ width: 400, boxShadow: 3, padding: 1 }}>
+            <Card
+              sx={{
+                width: isMobile ? '100%' : 400, 
+                maxWidth: '100%', 
+                boxShadow: 3,
+                padding: isMobile ? 2 : 1, 
+                margin: '0 auto', // center the card horizontally
+              }}
+            >
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                   {(existingReview && (session?.user.id === existingReview.id)) ? 'Edit Your Review' : 'Write a Review'}

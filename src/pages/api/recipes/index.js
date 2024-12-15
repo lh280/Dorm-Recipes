@@ -12,7 +12,7 @@ const router = createRouter();
 router
   .get(async (req, res) => {
     try {
-      const { q } = req.query; // TODO (maybe): parse query by: spaces, symbols
+      const { q } = req.query; 
 
       if (!q) {
         return res.status(400).json({ message: "Search parameter is required." });

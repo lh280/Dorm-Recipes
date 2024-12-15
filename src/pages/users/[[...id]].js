@@ -29,7 +29,6 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
         }
     }, [goHome, status]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // TODO: fix routing on user page (url shows "/users/0", but api is fetching "/recipes/0")
     const [userInfo, setUserInfo] = useState(initialUserInfo);
     const [tab, setTab] = useState("My Recipes");
     const [currentContent, setCurrentContent] = useState(<div>Loading...</div>);
@@ -245,7 +244,21 @@ export default function UserView({ setCurrentRecipe, viewAccount, initialUserInf
                                     <CardActionArea>
                                         <CardContent>
                                             <Typography variant="h5"><strong>Recipe:</strong> {review.recipes.title}</Typography>
-                                            <Typography variant="h6"><strong>Rating:</strong> {getStarIcons(review.rating)}</Typography>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: isMobile ? "column" : "row",
+                                                    alignItems: isMobile ? "flex-start" : "center",
+                                                    gap: 1, 
+                                                }}
+                                                >
+                                                <Typography variant="h6">
+                                                    <strong>Rating:</strong>
+                                                </Typography>
+                                                <Box>
+                                                    {getStarIcons(review.rating)}
+                                                </Box>
+                                            </Box>
                                             <Typography variant="h6"><strong>Review:</strong></Typography>
                                             <Typography>{review.content}</Typography>
                                         </CardContent>

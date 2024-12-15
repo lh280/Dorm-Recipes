@@ -15,7 +15,6 @@ import RecipesView from "@/components/RecipesView";
 
 export default function Search({ setCurrentRecipe, viewAccount }) {
   const router = useRouter();
-  // initialize states
   const [recipes, setRecipes] = useState([]);
   const [query, setQuery] = useState("");
 

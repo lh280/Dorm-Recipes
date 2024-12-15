@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
 import Home from "@/pages/index";
+import { render } from "@testing-library/react";
 import { useRouter } from "next/router";
 import { useSession, SessionProvider } from "next-auth/react";
 

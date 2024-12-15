@@ -15,7 +15,6 @@ import { TextField, Box, Button, useTheme, useMediaQuery } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar({ onSearch }) {
-  // initialize states
   const [search, setSearch] = useState("");
 
   const handleButton = () => {
