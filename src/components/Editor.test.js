@@ -11,7 +11,7 @@ describe("Editor component", () => {
 
   const baseRecipe = {
     recipe_id: 123,
-    authorId: 999,
+    author: "Yahya",
     title: "Example Recipe",
     description: "This is an example description",
     time: 15,
