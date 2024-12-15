@@ -1,5 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useSession } from "next-auth/react";
 import Review from "./Review";
+
+jest.mock("next-auth/react")
+
+jest.mock("next/router", () => ({
+  useRouter: jest.fn(),
+}));
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn().mockReturnValue({
@@ -23,6 +30,15 @@ describe("Review: Review tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
+  useSession.mockReturnValue({
+    data: {
+      user: { id: 0, email:["Gdwade@middlbury.edu"] },
+      expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      
+    },
+    status: "authenticated",
+    });
 
   test("Review shows the contents of the review", () => {
     render(<Review review={review} setReviews={setReviews} />);

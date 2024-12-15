@@ -21,18 +21,20 @@ router
   .put(async (req, res) => {
     // PUT endpoint for editing a single review
     try {
-      const { review_id, content, rating, recipe_id, id } = req.body;
+      const { review_id, content, rating, recipe_id, id, user } = req.body;
       if (review_id !== parseInt(req.query.id, 10)) {
         res.status(400).end(`URL and review ID do not match`);
         return;
       }
       const updatedRecord = await Review.query().updateAndFetchById(
         review_id,
-        {content,
-        rating,
-        recipe_id,
-        id,
-        updated_at: new Date().toISOString(),
+        {
+          content,
+          rating,
+          recipe_id,
+          id,
+          user,
+          updated_at: new Date().toISOString(),
         });
       res.status(200).json(updatedRecord);
     } catch (error) {
@@ -50,10 +52,10 @@ router
         .where('review_id', reviewID)
         .first()
         .throwIfNotFound();
-        res.status(200).json(review);
-      } catch (error) {
-        res.status(404).json({ error: "Review not found" });
-      }
+      res.status(200).json(review);
+    } catch (error) {
+      res.status(404).json({ error: "Review not found" });
+    }
 
     try {
       // delete the recipe

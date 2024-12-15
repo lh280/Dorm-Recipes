@@ -31,6 +31,16 @@ function parseInstructions(instructions) {
 
 
 export default function Recipe({ currentRecipe, setCurrentRecipe }) {
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    // Check if the 'reloaded' query parameter exists
+    if (!url.searchParams.has("reloaded")) {
+      url.searchParams.set("reloaded", "true");
+      window.location.replace(url.toString());
+    }
+  }, []);
+
   const { data: session, status } = useSession();
   const deleteButton = session && currentRecipe && (session.user.id === currentRecipe.id);
   const disabled = status !== "authenticated";
@@ -43,6 +53,20 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
   const [userReview, setUserReview] = useState(null);
   const [ratingData, setRatingData] = useState({ averageRating: 0, reviewCount: 0 });
 
+  const imgLinks = ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDR5k6f14Em_mZ20WnXBTkryMTyBNUgmKGHEvWfEnzYCy8C-h0",
+    "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRRffb4EBMFI__Cgw0YvIb1oB9tyVO5uJstECGV2ShVKydx9Kb9",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCGdEfcCk4xBvTacxKVJHJRqSkwsADTwkHq4ZqOapMj_04493f",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkagiJeupK0d9jhY-a4TJ9ckbGuQn82ZrQVhDvJXuqTN_T4bCD",
+    "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRQh6dIfgq31_P4KDXZfWbptrcntsSUyc7PO1vj0xV6UAl-vFYz",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-Dcf5qwbC2uBdw3DUgPcLwfhBIZWrwxZYcDPtwKpEB-xWLlpn",
+    "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTstHVxU0vWrplZ-QT1IgORpzQvapdNtROhkHox4gQzjalFk1ga",
+    "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQubA6CQT1eYhlR556vsLodlBo2vmwvTGkzZxNAo3sGCG57xels",
+    "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTLiN0v53zGtD0QB9UbctOINB6zHJtmAi85-2liN_XzAQSMYu-s",
+    "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRXeoC2VrGfaW7x6Jw4I09q93zaxkjmV4K05-Fwt_RoFqfbdRzD"
+  ];
+
+  const img = (currentRecipe && currentRecipe.recipe_id <= 9) ? imgLinks[currentRecipe.recipe_id] : "/food1.jpg";
+
   useEffect(() => {
     if (currentRecipe) {
       setReviews(currentRecipe.recipe_reviews || []);
@@ -54,11 +78,11 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         reviewCount: totalReviews,
       });
       const userRev = currentRecipe.recipe_reviews.find(
-        (review) => review.user_id === currentRecipe.user_id
+        (review) => review.id === session?.user.id
       );
       setUserReview(userRev || null);
     }
-  }, [currentRecipe]);
+  }, [currentRecipe, session?.user.id]);
 
   const handleReviewSubmitted = (newReview) => {
     setReviews((prevReviews) => {
@@ -158,17 +182,17 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         ) : (
           <Box displayPrint="none">
             <Typography variant="body2" sx={{ marginLeft: isMobile ? 0 : 4, textAlign: isMobile ? "center" : "left" }}>
-            No reviews yet
+              No reviews yet
             </Typography>
           </Box>
-          
+
         )}
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }}>
         <Box sx={{ marginBottom: 4, marginLeft: isMobile ? 0 : 3 }}>
           <Image
-            src={currentRecipe.img ? currentRecipe.img : "/food1.jpg"}
+            src={img} // CHANGE IF IMG HANDLING IS UPDATED
             width={isMobile ? 300 : 400}
             height={isMobile ? 300 : 400}
             alt="Picture of the recipe"
@@ -177,7 +201,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: 4 }} displayPrint="none">
-          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54'}} >Print</Button>
+          <Button variant="contained" onClick={() => { window.print() }} sx={{ bgcolor: '#201f54' }} >Print</Button>
         </Box>
 
         <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
@@ -224,7 +248,7 @@ export default function Recipe({ currentRecipe, setCurrentRecipe }) {
           reviews && reviews.length > 0 ? (
             reviews.map((rev) => (
               <Box key={rev.review_id} sx={{ mb: 3 }}>
-                <Review review={rev} setReviews={setReviews} disabled={!deleteButton} />
+                <Review review={rev} setReviews={setReviews} currentRecipe={currentRecipe} />
               </Box>
             ))
           ) : (

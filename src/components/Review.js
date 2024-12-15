@@ -6,18 +6,26 @@
 
 /* eslint-disable react/prop-types */
 import { useRouter } from "next/router";
+import { useSession } from 'next-auth/react';
 import PropTypes from "prop-types";
 import { Box, Typography, Button, Tooltip } from "@mui/material"
 import ReviewShape from './ReviewShape';
+import RecipeShape from './RecipeShape';
 import getStarIcons from '../lib/getStarIcons';
 
 
-export default function Review({ review, setReviews, disabled }) {
+export default function Review({ review, setReviews, currentRecipe }) {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  const disabledButton = review.id === session?.user.id;
 
   const handleDelete = (rev) => { // TODO: integrate authorization with delete handling
     // eslint-disable-next-line no-restricted-globals 
     const result = confirm("Are you sure you want to delete this review?"); // eslint-disable-line no-alert
+    if (!result) {
+      setReviews(currentRecipe?.recipe_reviews);
+    }
     const id = rev.review_id;
     if (result && id) {
       fetch(`/api/reviews/${id}`, {
@@ -45,12 +53,15 @@ export default function Review({ review, setReviews, disabled }) {
     setReviews();
   };
 
-  const msg = disabled ? "Reviews can only be deleted by the publishing user" : "";
+  const msg = !disabledButton ? "Reviews can only be deleted by the publishing user" : "";
 
   return (
     <div>
       <Box key={review.review_id} sx={{ marginBottom: 3 }}>
         <Typography variant="body1">
+          <Typography color="grey">
+            {review.user}
+          </Typography>
           <strong>Rating:</strong> {getStarIcons(review.rating)}
           <p>{review.content}</p>
           <p><small>{new Date(review.updated_at).toLocaleString()}</small></p>
@@ -73,7 +84,7 @@ export default function Review({ review, setReviews, disabled }) {
             variant="contained"
             onClick={() => handleDelete(review)}
             sx={{ padding: '5px 10px', fontSize: '0.75rem', bgcolor: '#201f54' }}
-            disabled={disabled}
+            disabled={!disabledButton}
           >
             Delete Review
           </Button>
@@ -86,4 +97,5 @@ export default function Review({ review, setReviews, disabled }) {
 Review.propTypes = {
   review: ReviewShape,
   setReviews: PropTypes.func,
+  currentRecipe: RecipeShape,
 };
