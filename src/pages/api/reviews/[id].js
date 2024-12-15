@@ -1,6 +1,9 @@
 import { createRouter } from "next-connect";
 import Review from "../../../../models/Review";
+// eslint-disable-next-line import/no-duplicates
 import onError from "../../../lib/middleware";
+// eslint-disable-next-line import/no-duplicates
+import { authenticated } from "../../../lib/middleware";
 
 const router = createRouter();
 
@@ -18,12 +21,12 @@ router
     }
   })
 
-  .put(async (req, res) => {
+  .put(authenticated,async (req, res) => {
     // PUT endpoint for editing a single review
     try {
       const { review_id, content, rating, recipe_id, id, user } = req.body;
       if (review_id !== parseInt(req.query.id, 10)) {
-        res.status(400).end(`URL and review ID do not match`);
+        res.status(400).json({error: "URL and ID do not match."})
         return;
       }
       const updatedRecord = await Review.query().updateAndFetchById(
