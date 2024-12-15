@@ -102,6 +102,7 @@ before you can ```migrate:latest```.
 
 ### Testing
 
+**NOTE:** Docker must first be running on your machine for tests to function properly; else, will give error ```Could not find a working container runtime strategy``` and fail some tests.
 ```
 💻 npm test
 💻 npm run lint
