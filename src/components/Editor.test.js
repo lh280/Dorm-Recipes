@@ -2,6 +2,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Editor from "./Editor";
 
+const mockComplete = jest.fn();
 
 describe("Editor component", () => {
   afterEach(() => {
