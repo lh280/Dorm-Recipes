@@ -82,7 +82,7 @@ Make sure you have in .env.local:
 💻 npx knex migrate:latest
 💻 npx knex seed:run
 ```
-& **before** stopping the server:
+and **before** stopping the server:
 ```
 💻 npm run postdev
 ```
@@ -129,8 +129,7 @@ before you can ```migrate:latest```.
 💻 ssh git@csci312.dev secrets lincoln NEXTAUTH_URL=<secret-value>
 ```
 
-2. 
-For **Windows**:
+2. For **Windows**:
 ```
 💻 cross-env NODE_ENV=production npx knex migrate:latest
 💻 cross-env NODE_ENV=production npx knex seed:run
