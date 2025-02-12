@@ -8,6 +8,16 @@ https://lincoln.csci312.dev, available through [go/dormrecipes/](https://go.midd
 
 Dorm Recipes: Making dorm cooking simple and enjoyable. 🧑‍🍳
 
+Created by the following Middlebury students:
+- Lauren Clarke
+- Col McDermott
+- Noah Price
+- Grayson Wade
+- Elise Scott
+- Hannah Mendbayar
+- Yahya Rahhawi
+- Julian Grijalva
+
 ### Description
 
 This is an application to help connect students who want to cook around campus through recipes.
